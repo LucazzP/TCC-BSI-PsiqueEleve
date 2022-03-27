@@ -17,5 +17,5 @@ Future<void> main() async {
     ),
     flavorValues: kFlavorProd,
     flavor: Flavor.production,
-  );
+  ).initialize();
 }

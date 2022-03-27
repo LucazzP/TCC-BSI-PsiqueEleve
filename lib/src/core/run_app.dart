@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'flavor/flavor_config.model.dart';
 import 'flavor/flavor_values.model.dart';
@@ -14,12 +15,16 @@ class RunApp {
     this.errorReporter,
     required this.flavorValues,
     this.flavor = Flavor.production,
-  }) {
+  });
+
+  Future<void> initialize() async {
     FlavorConfig(
       flavor: flavor,
       color: flavor == Flavor.dev ? Colors.green : Colors.deepPurpleAccent,
       values: flavorValues,
     );
+
+    await Supabase.initialize(url: flavorValues.baseUrl, anonKey: flavorValues.publicAnonKey);
 
     runApp(rootWidget);
   }
