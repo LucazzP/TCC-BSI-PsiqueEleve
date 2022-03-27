@@ -4,6 +4,9 @@ FASTLANE=$(LANG_VAR) $(BUNDLE) exec fastlane
 
 .PHONY: build
 
+locale:
+	flutter gen-l10n
+
 build:
 	flutter gen-l10n
 	flutter pub run build_runner build

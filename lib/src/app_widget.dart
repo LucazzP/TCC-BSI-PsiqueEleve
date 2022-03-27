@@ -16,7 +16,7 @@ class AppWidget extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter app',
       theme: ThemeData(),
       darkTheme: ThemeData.dark(),
@@ -42,6 +42,8 @@ class AppWidget extends StatelessWidget {
           child: child ?? const SizedBox(),
         );
       },
-    ).modular();
+      routerDelegate: Modular.routerDelegate,
+      routeInformationParser: Modular.routeInformationParser,
+    );
   }
 }

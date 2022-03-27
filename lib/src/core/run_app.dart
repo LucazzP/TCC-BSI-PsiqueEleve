@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'flavor/flavor_config.model.dart';
 import 'flavor/flavor_values.model.dart';
 
