@@ -2,20 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
+import 'package:psique_eleve/src/presentation/routes.dart';
 
 import 'home_controller.dart';
 
 class HomePage extends StatefulWidget {
-  final String title;
-  final String route;
+  static Future<void> navigateTo() => Modular.to.pushNamed(kHomeScreenRoute);
+  static Future<void> replaceTo() => Modular.to.pushReplacementNamed(kHomeScreenRoute);
 
-  Future<void> navigateTo() => Modular.to.pushNamed(route);
-
-  const HomePage({
-    Key? key,
-    this.title = "Home",
-    required this.route,
-  }) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();

@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
-
 import 'package:psique_eleve/src/modules/auth/domain/entities/address_entity.dart';
 
 class UserEntity extends Equatable {

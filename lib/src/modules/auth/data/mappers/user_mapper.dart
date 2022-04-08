@@ -14,7 +14,8 @@ extension UserMapper on UserEntity {
     };
   }
 
-  static UserEntity fromMap(Map map) {
+  static UserEntity? fromMap(Map map) {
+    if (map.isEmpty) return null;
     return UserEntity(
       id: map['id'] ?? '',
       fullName: map['fullName'] ?? '',

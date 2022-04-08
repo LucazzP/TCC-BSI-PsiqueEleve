@@ -22,7 +22,8 @@ class AuthModule extends Module {
   final List<ModularRoute> routes = [
     ChildRoute(
       kAuthLoginScreenRoute.finalPath,
-      child: (_, args) => const LoginPage(route: kAuthLoginScreenRoute),
+      child: (_, args) => const LoginPage(),
+      transition: TransitionType.noTransition,
     ),
   ];
 }

@@ -12,8 +12,8 @@ class AuthRepositoryImpl implements AuthRepository {
   const AuthRepositoryImpl(this._dataSource);
 
   @override
-  Future<Either<Failure, UserEntity>> getUserLogged() {
-    return callEither<UserEntity, Map>(
+  Future<Either<Failure, UserEntity?>> getUserLogged() {
+    return callEither<UserEntity?, Map>(
       _dataSource.getUserLogged,
       processResponse: (res) async => Right(UserMapper.fromMap(res)),
     );
