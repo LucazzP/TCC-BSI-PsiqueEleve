@@ -1,6 +1,6 @@
 {
-    "name": "foo",
-    "short_name": "foo",
+    "name": "psique_eleve",
+    "short_name": "psique_eleve",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

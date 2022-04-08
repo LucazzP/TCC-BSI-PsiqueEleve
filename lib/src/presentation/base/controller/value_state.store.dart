@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dartz/dartz.dart';
 import 'package:mobx/mobx.dart';
-import 'package:foo/src/core/failures.dart';
+import 'package:psique_eleve/src/core/failures.dart';
 
 part 'value_state.store.g.dart';
 

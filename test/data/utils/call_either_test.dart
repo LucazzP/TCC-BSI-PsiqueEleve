@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:foo/src/core/exceptions.dart';
-import 'package:foo/src/core/failures.dart';
-import 'package:foo/src/data/utils/call_either.dart';
-import 'package:foo/src/extensions/call_either.ext.dart';
+import 'package:psique_eleve/src/core/exceptions.dart';
+import 'package:psique_eleve/src/core/failures.dart';
+import 'package:psique_eleve/src/data/utils/call_either.dart';
+import 'package:psique_eleve/src/extensions/call_either.ext.dart';
 
 Future<void> main() async {
   void testAsFuncAndAsExt<Result, Response>(

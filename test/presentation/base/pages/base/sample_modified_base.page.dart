@@ -18,7 +18,7 @@ class _SampleModifiedBasePageState
   final Color bgColor = const Color(0x12345678);
 
   @override
-  final defaultPadding = const EdgeInsets.all(30);
+  final padding = const EdgeInsets.all(30);
 
   @override
   PreferredSizeWidget appBar(BuildContext ctx) => _appBar;

@@ -3,8 +3,8 @@
     "scope": "dart",
     "prefix": "usecase",
     "body": [
-      "import 'package:foo/src/core/failures.dart';",
-      "import 'package:foo/src/core/use_case.abstract.dart';",
+      "import 'package:psique_eleve/src/core/failures.dart';",
+      "import 'package:psique_eleve/src/core/use_case.abstract.dart';",
       "",
       "class ${1:${TM_FILENAME_BASE/(^((?!.usecase).)*)(.*)/${1:/pascalcase}/g}}UseCase implements BaseUseCase<${2:Data}, ${3:Param}> {",
       "  final ${4:Repository} _repo;",
@@ -26,8 +26,8 @@
     "body": [
       "import 'package:flutter_test/flutter_test.dart';",
       "import 'package:mocktail/mocktail.dart';",
-      "import 'package:foo/src/core/failures.dart';",
-      "import 'package:foo/src/modules/usecases.dart';",
+      "import 'package:psique_eleve/src/core/failures.dart';",
+      "import 'package:psique_eleve/src/modules/usecases.dart';",
       "",
       "import '../../../../mocks/repository.mocks.dart';",
       "",

@@ -1,6 +1,6 @@
 import 'package:mobx/mobx.dart';
-import 'package:foo/src/presentation/base/controller/base.store.dart';
-import 'package:foo/src/presentation/base/controller/value_state.store.dart';
+import 'package:psique_eleve/src/presentation/base/controller/base.store.dart';
+import 'package:psique_eleve/src/presentation/base/controller/value_state.store.dart';
 import 'package:mocktail/mocktail.dart';
 
 part 'controller.mocks.g.dart';

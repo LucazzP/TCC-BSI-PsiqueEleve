@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:foo/src/presentation/base/controller/value_state.store.dart';
+import 'package:psique_eleve/src/presentation/base/controller/value_state.store.dart';
 import 'package:mobx/mobx.dart';
-import 'package:foo/src/core/failures.dart';
+import 'package:psique_eleve/src/core/failures.dart';
 
 import '../../utils/expects.dart';
 

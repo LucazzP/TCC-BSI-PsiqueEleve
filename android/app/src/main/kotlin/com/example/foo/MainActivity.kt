@@ -1,4 +1,4 @@
-package com.example.foo
+package com.example.psique_eleve
 
 import io.flutter.embedding.android.FlutterActivity
 

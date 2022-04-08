@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:foo/src/core/constants.dart';
+import 'package:psique_eleve/src/core/constants.dart';
 
 import 'api_response.dart';
 import 'interceptors/auth_interceptor.dart';

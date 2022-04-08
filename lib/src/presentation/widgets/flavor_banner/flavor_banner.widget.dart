@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foo/src/core/flavor/flavor_config.model.dart';
+import 'package:psique_eleve/src/core/flavor/flavor_config.model.dart';
 
 class FlavorBannerWidget extends StatelessWidget {
   final Widget child;

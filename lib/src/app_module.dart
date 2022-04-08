@@ -1,11 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:foo/src/core/flavor/flavor_config.model.dart';
-import 'package:foo/src/data/remote/interceptors/auth_interceptor.dart';
-import 'package:foo/src/modules/logger/log.module.dart';
+import 'package:psique_eleve/src/core/flavor/flavor_config.model.dart';
+import 'package:psique_eleve/src/data/remote/interceptors/auth_interceptor.dart';
+import 'package:psique_eleve/src/modules/logger/log.module.dart';
+import 'package:psique_eleve/src/presentation/routes.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'data/remote/dio_client.dart';
+import 'modules/auth/auth_module.dart';
 import 'modules/home/home_module.dart';
+import 'modules/splash/splash_module.dart';
 
 class AppModule extends Module {
   final Flavor flavor;
@@ -14,18 +18,21 @@ class AppModule extends Module {
   @override
   final List<Module> imports = [
     LogModule(),
+    AuthModule(),
   ];
 
   @override
   final List<Bind> binds = [
     Bind.lazySingleton((i) => Dio()),
-    // TODO Add token
     Bind.lazySingleton((i) => AuthInterceptor(i(), () async => '', () async => '')),
     Bind.lazySingleton((i) => DioClient(i(), i())),
+    Bind.lazySingleton<SupabaseClient>((i) => Supabase.instance.client),
   ];
 
   @override
   final List<ModularRoute> routes = [
-    ModuleRoute(Modular.initialRoute, module: HomeModule()),
+    ModuleRoute(kSplashScreenRoute.finalPath, module: SplashModule()),
+    ModuleRoute(kHomeScreenRoute.finalPath, module: HomeModule()),
+    ModuleRoute(kAuthModuleRoute.finalPath, module: AuthModule()),
   ];
 }

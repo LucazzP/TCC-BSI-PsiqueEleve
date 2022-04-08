@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -24,6 +25,7 @@ class RunApp {
       values: flavorValues,
     );
 
+    EquatableConfig.stringify = true;
     await Supabase.initialize(url: flavorValues.baseUrl, anonKey: flavorValues.publicAnonKey);
 
     runApp(rootWidget);

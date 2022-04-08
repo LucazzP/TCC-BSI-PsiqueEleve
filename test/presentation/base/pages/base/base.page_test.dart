@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:foo/src/core/failures.dart';
-import 'package:foo/src/extensions/context.ext.dart';
-import 'package:foo/src/presentation/base/pages/base.page.dart';
-import 'package:foo/src/presentation/base/pages/reaction.dart' as react;
-import 'package:foo/src/presentation/styles/app_color_scheme.dart';
+import 'package:psique_eleve/src/core/failures.dart';
+import 'package:psique_eleve/src/extensions/context.ext.dart';
+import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
+import 'package:psique_eleve/src/presentation/base/pages/reaction.dart' as react;
+import 'package:psique_eleve/src/presentation/styles/app_color_scheme.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:modular_test/modular_test.dart';
@@ -82,14 +82,14 @@ Future<void> main() async {
         testWidgets('with support scrolling true', (tester) async {
           final page = await buildPage(tester, asSmallDevice: true);
 
-          expect(page.defaultPadding, equals(expectedPadding));
+          expect(page.padding, equals(expectedPadding));
           final padding = tester.firstWidget<Padding>(find.byKey(BaseState.basePagePaddingKey));
           expect(padding.padding, equals(expectedPadding));
         });
         testWidgets('with support scrolling false', (tester) async {
           final page = await buildPage(tester, asSmallDevice: false);
 
-          expect(page.defaultPadding, equals(expectedPadding));
+          expect(page.padding, equals(expectedPadding));
           final padding = tester.firstWidget<Padding>(find.byKey(BaseState.basePagePaddingKey));
           expect(padding.padding, equals(expectedPadding));
         });
@@ -160,7 +160,7 @@ Future<void> main() async {
         final page = await buildModifiedPage(tester);
 
         final padding = tester.firstWidget<Padding>(find.byKey(BaseState.basePagePaddingKey));
-        expect(padding.padding, equals(page.defaultPadding));
+        expect(padding.padding, equals(page.padding));
       });
 
       testWidgets('scaffold appBar should be the same of appBar param', (tester) async {

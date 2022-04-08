@@ -14,7 +14,7 @@
     "scope": "dart",
     "prefix": "dataSourceImpl",
     "body": [
-      "import 'package:foo/src/api/api.abstract.dart';",
+      "import 'package:psique_eleve/src/api/api.abstract.dart';",
       "import '${TM_FILENAME_BASE/(^((?!_impl).)*)(.*)/$1/g}.datasource.dart';",
       "",
       "class ${1:${TM_FILENAME_BASE/(^((?!_impl).)*)(.*)/${1:/pascalcase}/g}}DataSourceImpl implements $1DataSource {",
@@ -32,10 +32,10 @@
     "prefix": "datasourceTest",
     "body": [
       "import 'package:flutter_test/flutter_test.dart';",
-      "import 'package:foo/src/api/api.abstract.dart';",
-      "import 'package:foo/src/api/exceptions.dart';",
-      "import 'package:foo/src/modules/${9:${TM_FILENAME_BASE/(^((?!.datasource_test).)*)(.*)/${1:/snakecase}/g}}/data/datasource/$9_impl.datasource.dart';",
-      "import 'package:foo/src/modules/$9/data/datasource/$9.datasource.dart';",
+      "import 'package:psique_eleve/src/api/api.abstract.dart';",
+      "import 'package:psique_eleve/src/api/exceptions.dart';",
+      "import 'package:psique_eleve/src/modules/${9:${TM_FILENAME_BASE/(^((?!.datasource_test).)*)(.*)/${1:/snakecase}/g}}/data/datasource/$9_impl.datasource.dart';",
+      "import 'package:psique_eleve/src/modules/$9/data/datasource/$9.datasource.dart';",
       "",
       "import '../../../../mocks/api_mock_utils.dart';",
       "import '../../../../mocks/mocks.dart';",

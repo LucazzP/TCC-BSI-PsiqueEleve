@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:foo/src/modules/logger/domain/log.usecase.dart';
-import 'package:foo/src/presentation/base/controller/value_state.store.dart';
+import 'package:psique_eleve/src/modules/logger/domain/log.usecase.dart';
+import 'package:psique_eleve/src/presentation/base/controller/value_state.store.dart';
 import 'package:mobx/mobx.dart';
-import 'package:foo/src/core/failures.dart';
+import 'package:psique_eleve/src/core/failures.dart';
 
 part 'base.store.g.dart';
 

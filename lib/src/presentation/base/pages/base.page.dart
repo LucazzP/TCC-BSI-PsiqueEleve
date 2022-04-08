@@ -3,13 +3,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide ErrorWidget;
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:foo/src/presentation/base/controller/base.store.dart';
-import 'package:foo/src/presentation/base/pages/reaction.dart';
-import 'package:foo/src/presentation/styles/app_color_scheme.dart';
-import 'package:foo/src/presentation/widgets/error/error.widget.dart';
-import 'package:foo/src/presentation/widgets/overlay/overlay.widget.dart';
+import 'package:psique_eleve/src/presentation/base/controller/base.store.dart';
+import 'package:psique_eleve/src/presentation/base/pages/reaction.dart';
+import 'package:psique_eleve/src/presentation/styles/app_color_scheme.dart';
+import 'package:psique_eleve/src/presentation/widgets/error/error.widget.dart';
+import 'package:psique_eleve/src/presentation/widgets/overlay/overlay.widget.dart';
 import 'package:mobx/mobx.dart' as mobx;
-import 'package:foo/src/extensions/context.ext.dart';
+import 'package:psique_eleve/src/extensions/context.ext.dart';
 
 abstract class BaseState<T extends StatefulWidget, S extends BaseStore> extends ModularState<T, S> {
   static const errorKey = Key('ErrorWidgetKey');
@@ -18,7 +18,7 @@ abstract class BaseState<T extends StatefulWidget, S extends BaseStore> extends 
   bool get shouldRemoveAppbarHeight => false;
   bool get showLoadingOverlay => true;
   bool get showErrorOverlay => true;
-  EdgeInsets get defaultPadding => const EdgeInsets.symmetric(vertical: 16, horizontal: 16);
+  EdgeInsets get padding => const EdgeInsets.symmetric(vertical: 16, horizontal: 16);
 
   @visibleForTesting
   @nonVirtual
@@ -45,11 +45,11 @@ abstract class BaseState<T extends StatefulWidget, S extends BaseStore> extends 
   @visibleForTesting
   static const basePagePaddingKey = Key('basePagePadding');
 
-  PreferredSizeWidget appBar(BuildContext ctx);
+  PreferredSizeWidget? appBar(BuildContext ctx);
 
   PreferredSizeWidget _buildAppBar(BuildContext ctx) {
     final _appBar = appBar(ctx);
-    return _appBar;
+    return _appBar ?? const PreferredSize(child: SizedBox.shrink(), preferredSize: Size.zero);
   }
 
   bool get hasAppBar => scaffoldKey.currentState?.hasAppBar ?? false;
@@ -102,7 +102,7 @@ abstract class BaseState<T extends StatefulWidget, S extends BaseStore> extends 
               builder: (_, BoxConstraints constrains) {
                 final layoutWithPadding = Padding(
                   key: basePagePaddingKey,
-                  padding: defaultPadding,
+                  padding: padding,
                   child: child(context, constrains),
                 );
 
@@ -123,7 +123,7 @@ abstract class BaseState<T extends StatefulWidget, S extends BaseStore> extends 
           Observer(builder: (_) {
             return controller.hasFailure
                 ? ErrorWidget(
-                  key: errorKey,
+                    key: errorKey,
                     failure: controller.failure!,
                     clearErrorState: () {
                       controller.clearErrors();

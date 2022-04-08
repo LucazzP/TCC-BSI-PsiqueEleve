@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:foo/src/presentation/base/pages/reaction.dart';
+import 'package:psique_eleve/src/presentation/base/pages/reaction.dart';
 
 void runAutoRuns(List<void Function()> autoRun) {
   for (final func in autoRun) {

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:foo/src/extensions/string.ext.dart';
+import 'package:psique_eleve/src/extensions/string.ext.dart';
 
 main() {
   group('Capitalize string tests', () {

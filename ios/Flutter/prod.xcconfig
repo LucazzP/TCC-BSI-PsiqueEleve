@@ -12,6 +12,6 @@
 #include "Generated.xcconfig"
 
 BUNDLE_ID_SUFFIX=
-PRODUCT_BUNDLE_IDENTIFIER=com.example.foo
+PRODUCT_BUNDLE_IDENTIFIER=com.example.psique_eleve
 FLUTTER_TARGET=lib/main_production.dart
-APP_NAME=Foo
+APP_NAME=PsiqueEleve

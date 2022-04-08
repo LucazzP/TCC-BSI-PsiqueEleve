@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:foo/src/core/failures.dart';
-import 'package:foo/src/presentation/base/controller/base.store.dart';
-import 'package:foo/src/presentation/base/controller/value_state.store.dart';
+import 'package:psique_eleve/src/core/failures.dart';
+import 'package:psique_eleve/src/presentation/base/controller/base.store.dart';
+import 'package:psique_eleve/src/presentation/base/controller/value_state.store.dart';
 import 'package:mobx/mobx.dart';
 
 import '../mocks/navigation.mocks.dart';

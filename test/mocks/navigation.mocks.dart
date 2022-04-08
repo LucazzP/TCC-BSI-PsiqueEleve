@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:foo/src/presentation/navigation_args/args.dart';
+import 'package:psique_eleve/src/presentation/navigation_args/args.dart';
 import 'package:mocktail/mocktail.dart';
 
 class NavigatorObserverMock extends Mock implements NavigatorObserver {
@@ -155,7 +155,8 @@ class NavigatorStateMock extends NavigatorState {
 
   @override
   Future<T?> pushNamed<T extends Object?>(String routeName, {Object? arguments}) async {
-    pushesNamed.add(NavigatorEvent.pushNamed(routeName, arguments: arguments as NavigationArg<dynamic>?));
+    pushesNamed
+        .add(NavigatorEvent.pushNamed(routeName, arguments: arguments as NavigationArg<dynamic>?));
     return null;
   }
 

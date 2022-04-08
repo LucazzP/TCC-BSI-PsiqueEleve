@@ -1,4 +1,4 @@
-import 'package:foo/src/presentation/navigation_args/navigation_arg.model.dart';
+import 'package:psique_eleve/src/presentation/navigation_args/navigation_arg.model.dart';
 
 class SingleArg<T> extends NavigationArg<SingleArg<T>> {
   final T data;

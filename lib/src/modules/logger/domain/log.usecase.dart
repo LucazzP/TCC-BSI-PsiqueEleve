@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
-import 'package:foo/src/core/failures.dart';
-import 'package:foo/src/core/use_case.abstract.dart';
+import 'package:psique_eleve/src/core/failures.dart';
+import 'package:psique_eleve/src/core/use_case.abstract.dart';
 
 class LogUseCase implements BaseUseCase<void, String> {
   const LogUseCase();

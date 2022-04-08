@@ -1,4 +1,4 @@
-name: foo
+name: psique_eleve
 description: A new Flutter project.
 publish_to: "none"
 version: 1.0.0+1
@@ -36,5 +36,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
-  # assets:
-  #   - assets/images/
+  assets:
+    - assets/images/
+    - assets/images/png/

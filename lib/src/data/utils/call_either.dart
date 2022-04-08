@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:foo/src/core/exceptions.dart';
-import 'package:foo/src/core/failures.dart';
+import 'package:psique_eleve/src/core/exceptions.dart';
+import 'package:psique_eleve/src/core/failures.dart';
 
 Future<Either<Failure, Result>> callEither<Result, Response>(
   Future<Response> Function() request, {

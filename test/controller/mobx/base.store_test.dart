@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart' hide Bind;
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:foo/src/modules/logger/domain/log.usecase.dart';
-import 'package:foo/src/modules/logger/log.module.dart';
+import 'package:psique_eleve/src/modules/logger/domain/log.usecase.dart';
+import 'package:psique_eleve/src/modules/logger/log.module.dart';
 import 'package:mobx/mobx.dart' hide when;
-import 'package:foo/src/core/failures.dart';
+import 'package:psique_eleve/src/core/failures.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:modular_test/modular_test.dart';
 import '../../mocks/controller.mocks.dart';
