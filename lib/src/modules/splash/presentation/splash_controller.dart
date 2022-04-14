@@ -21,7 +21,7 @@ abstract class _SplashControllerBase extends BaseStore with Store {
   Iterable<ValueState> get getStates => [userLogged];
 
   Future<void> onInit(Future initializeLocalization) async {
-    // await userLogged.execute(_getUserLoggedUseCase);
+    await userLogged.execute(_getUserLoggedUseCase);
     await initializeLocalization;
 
     if (userLogged.value != null) {
