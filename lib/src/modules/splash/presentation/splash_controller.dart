@@ -1,10 +1,10 @@
+import 'package:mobx/mobx.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/usecases/get_user_logged_usecase.dart';
 import 'package:psique_eleve/src/modules/auth/presentation/pages/login/login_page.dart';
-import 'package:psique_eleve/src/modules/home/presentation/pages/home/home_page.dart';
+import 'package:psique_eleve/src/modules/home/presentation/pages/feed/feed_page.dart';
 import 'package:psique_eleve/src/presentation/base/controller/base.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/value_state.store.dart';
-import 'package:mobx/mobx.dart';
 
 part 'splash_controller.g.dart';
 
@@ -30,6 +30,6 @@ abstract class _SplashControllerBase extends BaseStore with Store {
     return navigateToLogin();
   }
 
-  Future<void> navigateToHome() => HomePage.replaceTo();
+  Future<void> navigateToHome() => FeedPage.replaceTo();
   Future<void> navigateToLogin() => LoginPage.replaceTo();
 }

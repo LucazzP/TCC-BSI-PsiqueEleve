@@ -1,5 +1,6 @@
 const kSplashScreenRoute = '/';
-const kHomeScreenRoute = '/home/';
+const kHomeModuleRoute = '/home/';
+const kHomeFeedScreenRoute = '${kHomeModuleRoute}feed';
 const kAuthModuleRoute = '/auth/';
 const kAuthLoginScreenRoute = '${kAuthModuleRoute}login';
 

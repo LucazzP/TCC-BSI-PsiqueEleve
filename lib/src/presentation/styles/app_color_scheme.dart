@@ -21,23 +21,22 @@ class AppColorScheme {
   ).copyWith(onPrimary: white);
 
   /// http://mcg.mbitson.com/
-  static const MaterialColor primarySwatch = MaterialColor(0xff00b1e4, <int, Color>{
+  static const MaterialColor primarySwatch = MaterialColor(0xFF009BB1, <int, Color>{
     50: primaryLightest,
-    100: Color(0xFFB3E8F7),
+    100: Color(0xFFB3E1E8),
     200: primaryLight,
-    300: Color(0xFF4DC8EC),
-    400: Color(0xFF26BDE8),
+    300: Color(0xFF4DB9C8),
+    400: Color(0xFF26AABD),
     500: primaryDefault,
     600: primaryMedium,
-    700: Color(0xFF00A1DD),
+    700: Color(0xFF0089A1),
     800: primaryDark,
-    900: Color(0xFF0088D1),
+    900: Color(0xFF006D88),
   });
 
-  static const MaterialColor accentColor = MaterialColor(0xffda609f, <int, Color>{
+  static const MaterialColor accentColor = MaterialColor(0xFF81E2FF, <int, Color>{
     100: accentLighest,
-    200: accentLight,
-    300: accentDefault,
+    200: accentDefault,
     400: primaryMedium,
     700: primaryDark,
   });
@@ -49,14 +48,13 @@ class AppColorScheme {
   static const border = Color(0xFFEBEDED);
   static const shadow = Color(0x4B000000);
   static const bodyText = Color(0xFF202124);
-  static const primaryDefault = Color(0xff009BB1);
-  static const primaryLightest = Color(0xffdef5fc);
-  static const primaryLight = Color(0xFFEAF8FA);
-  static const primaryMedium = Color(0xff66d0ef);
-  static const primaryDark = Color(0xff009cc9);
-  static const accentDefault = Color(0xffda609f);
-  static const accentLighest = Color(0xfffde9f3);
-  static const accentLight = Color(0xfff7bbd9);
+  static const primaryDefault = Color(0xFF009BB1);
+  static const primaryLightest = Color(0xFFE0F3F6);
+  static const primaryLight = Color(0xFF80CDD8);
+  static const primaryMedium = Color(0xFF4ED6FF);
+  static const primaryDark = Color(0xFF35D1FF);
+  static const accentLighest = Color(0xFFB4EEFF);
+  static const accentDefault = Color(0xFF81E2FF);
 
   static const primaryButtonBackground = Color(0xff009BB1);
   static const negativeText = Color(0xff000000);

@@ -34,7 +34,7 @@ class AppModule extends Module {
   @override
   final List<ModularRoute> routes = [
     ModuleRoute(kSplashScreenRoute.finalPath, module: SplashModule()),
-    ModuleRoute(kHomeScreenRoute.finalPath, module: HomeModule()),
+    ModuleRoute(kHomeModuleRoute.finalPath, module: HomeModule()),
     ModuleRoute(kAuthModuleRoute.finalPath, module: AuthModule()),
   ];
 }

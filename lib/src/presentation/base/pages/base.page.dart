@@ -19,6 +19,7 @@ abstract class BaseState<T extends StatefulWidget, S extends BaseStore> extends 
   bool get showLoadingOverlay => true;
   bool get showErrorOverlay => true;
   EdgeInsets get padding => const EdgeInsets.symmetric(vertical: 16, horizontal: 16);
+  Widget? get bottomNavigationBar => null;
 
   @visibleForTesting
   @nonVirtual
@@ -97,6 +98,7 @@ abstract class BaseState<T extends StatefulWidget, S extends BaseStore> extends 
           backgroundColor: bgColor,
           appBar: _appBar,
           key: scaffoldKey,
+          bottomNavigationBar: bottomNavigationBar,
           body: SafeArea(
             top: hasAppBar,
             child: LayoutBuilder(

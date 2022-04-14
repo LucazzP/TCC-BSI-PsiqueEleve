@@ -1,10 +1,10 @@
+import 'package:mobx/mobx.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/usecases/login_email_usecase.dart';
-import 'package:psique_eleve/src/modules/home/presentation/pages/home/home_page.dart';
+import 'package:psique_eleve/src/modules/home/presentation/pages/feed/feed_page.dart';
 import 'package:psique_eleve/src/presentation/base/controller/base.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/value.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/value_state.store.dart';
-import 'package:mobx/mobx.dart';
 import 'package:psique_eleve/src/presentation/models/form_model.dart';
 import 'package:psique_eleve/src/presentation/validators.dart';
 
@@ -37,7 +37,7 @@ abstract class _LoginControllerBase extends BaseStore with Store {
       )),
     );
     if (userState.value != null) {
-      HomePage.replaceTo();
+      FeedPage.replaceTo();
     }
   }
 
