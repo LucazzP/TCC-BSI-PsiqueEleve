@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:psique_eleve/src/modules/menu/model/menu_option_model.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/routes.dart';
+import 'package:psique_eleve/src/presentation/styles/app_spacing.dart';
 
 import 'menu_controller.dart';
 
@@ -21,20 +23,28 @@ class _MenuPageState extends BaseState<MenuPage, MenuController> {
   PreferredSizeWidget? appBar(BuildContext ctx) => null;
 
   @override
+  EdgeInsets get padding => EdgeInsets.zero;
+
+  @override
   Widget child(context, constrains) {
-    return Column(
-      children: [
-        const Text('Menu'),
-        Observer(builder: (_) {
-          return Text(controller.counter.value.toString());
-        }),
-        TextButton(
-          onPressed: () {
-            controller.counter.setValue(controller.counter.value + 1);
-          },
-          child: const Text('aumentar'),
-        )
-      ],
+    return ListView.builder(
+      padding: super.padding.copyWith(left: 0, right: 0),
+      itemBuilder: (context, index) {
+        final item = options[index];
+        return ListTile(
+          title: Text(item.title),
+          onTap: () => Modular.to.pushNamed(item.route),
+          contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.s20),
+        );
+      },
+      itemCount: options.length,
     );
   }
+
+  static const options = [
+    MenuOptionModel(title: 'Perfil'),
+    MenuOptionModel(title: 'Gerenciar Terapeutas', route: kTherapistsScreenRoute),
+    MenuOptionModel(title: 'Gerenciar Pacientes'),
+    MenuOptionModel(title: 'Configurações'),
+  ];
 }

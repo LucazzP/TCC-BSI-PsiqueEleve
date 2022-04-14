@@ -3,6 +3,7 @@ import 'package:psique_eleve/src/modules/appointment/appointment_module.dart';
 import 'package:psique_eleve/src/modules/home/presentation/pages/feed/feed_controller.dart';
 import 'package:psique_eleve/src/modules/menu/menu_module.dart';
 import 'package:psique_eleve/src/modules/tasks/tasks_module.dart';
+import 'package:psique_eleve/src/modules/therapists/therapists_module.dart';
 import 'package:psique_eleve/src/presentation/routes.dart';
 
 import 'presentation/pages/feed/feed_page.dart';
@@ -44,6 +45,11 @@ class HomeModule extends Module {
           transition: TransitionType.noTransition,
         ),
       ],
+    ),
+    ModuleRoute(
+      kTherapistsScreenRoute.finalPath,
+      module: TherapistsModule(),
+      // transition: TransitionType.rightToLeftWithFade,
     ),
   ];
 }

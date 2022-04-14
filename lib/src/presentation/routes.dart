@@ -6,6 +6,7 @@ const kHomeTasksScreenRoute = '${kHomeModuleRoute}tasks/';
 const kHomeMenuScreenRoute = '${kHomeModuleRoute}menu/';
 const kAuthModuleRoute = '/auth/';
 const kAuthLoginScreenRoute = '${kAuthModuleRoute}login';
+const kTherapistsScreenRoute = '${kHomeModuleRoute}therapists/';
 
 extension RouterExtension on String {
   String get finalPath {

@@ -5,5 +5,51 @@
   // Remove from file watching
   "files.watcherExclude": {
     "**/.fvm": true
-  }
+  },
+  "autoSnippet.snippets": [
+    {
+      "pattern": "**/*_impl.datasource.dart",
+      "snippet": "DataSource Impl"
+    },
+    {
+      "pattern": "**/*.datasource.dart",
+      "snippet": "DataSource"
+    },
+    {
+      "pattern": "**/*_impl.repository.dart",
+      "snippet": "Repository Impl"
+    },
+    {
+      "pattern": "**/*.repository.dart",
+      "snippet": "Repository"
+    },
+    {
+      "pattern": "**/*.usecase.dart",
+      "snippet": "UseCase"
+    },
+    {
+      "pattern": "**/*.repository_test.dart",
+      "snippet": "RepositoryTest"
+    },
+    {
+      "pattern": "**/*.datasource_test.dart",
+      "snippet": "DataSourceTest"
+    },
+    {
+      "pattern": "**/*.bloc_test.dart",
+      "snippet": "BlocTest"
+    },
+    {
+      "pattern": "**/*.usecase_test.dart",
+      "snippet": "UsecaseTest"
+    },
+    {
+      "pattern": "**/*.page_test.dart",
+      "snippet": "PageTest"
+    },
+    {
+      "pattern": "**/*_test.dart",
+      "snippet": "MainTests"
+    }
+  ]
 }

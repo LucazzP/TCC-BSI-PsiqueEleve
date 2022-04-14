@@ -33,7 +33,7 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
             BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: 'Home'),
             BottomNavigationBarItem(icon: Icon(Icons.calendar_today_rounded), label: 'Consultas'),
             BottomNavigationBarItem(icon: Icon(Icons.task_alt_rounded), label: 'Tarefas'),
-            BottomNavigationBarItem(icon: Icon(Icons.menu_rounded), label: 'Mais'),
+            BottomNavigationBarItem(icon: Icon(Icons.menu_rounded), label: 'Menu'),
           ],
           unselectedItemColor: AppColorScheme.primarySwatch[400],
           selectedItemColor: AppColorScheme.primaryDefault,
