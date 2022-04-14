@@ -35,7 +35,12 @@ class AuthRepositoryImpl implements AuthRepository {
       {required String email, required String password}) {
     return callEither<UserEntity, Map>(
       () => _remoteDataSource.loginEmail(email: email, password: password),
-      processResponse: (res) async => res.toEntityEither(UserMapper.fromMap),
+      processResponse: (res) async {
+        final user = res.toEntityEither(UserMapper.fromMap);
+        if (user.isLeft()) return user;
+        await _localDataSource.saveUserLogged(res);
+        return user;
+      },
     );
   }
 

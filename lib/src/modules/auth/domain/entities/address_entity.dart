@@ -5,6 +5,7 @@ class AddressEntity extends Equatable {
   final String street;
   final String number;
   final String complement;
+  final String district;
   final String zipCode;
   final String city;
   final String state;
@@ -19,6 +20,7 @@ class AddressEntity extends Equatable {
     this.city = '',
     this.state = '',
     this.country = '',
+    this.district = '',
   });
 
   AddressEntity copyWith({
@@ -30,6 +32,7 @@ class AddressEntity extends Equatable {
     String? city,
     String? state,
     String? country,
+    String? district,
   }) {
     return AddressEntity(
       id: id ?? this.id,
@@ -40,6 +43,7 @@ class AddressEntity extends Equatable {
       city: city ?? this.city,
       state: state ?? this.state,
       country: country ?? this.country,
+      district: district ?? this.district,
     );
   }
 
@@ -54,6 +58,7 @@ class AddressEntity extends Equatable {
       city,
       state,
       country,
+      district,
     ];
   }
 }

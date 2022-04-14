@@ -9,6 +9,6 @@
 // https://help.apple.com/xcode/#/dev745c5c974
 
 BUNDLE_ID_SUFFIX=.qa
-PRODUCT_BUNDLE_IDENTIFIER=com.example.psique_eleve.qa
+PRODUCT_BUNDLE_IDENTIFIER=dev.polazzo.psique_eleve.qa
 FLUTTER_TARGET=lib/main_qa.dart
 APP_NAME=PsiqueEleve - QA

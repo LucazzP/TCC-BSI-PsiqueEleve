@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -26,7 +27,11 @@ class RunApp {
     );
 
     EquatableConfig.stringify = true;
-    await Supabase.initialize(url: flavorValues.baseUrl, anonKey: flavorValues.publicAnonKey);
+    await Supabase.initialize(
+      url: flavorValues.baseUrl,
+      anonKey: flavorValues.publicAnonKey,
+      debug: flavor == Flavor.dev && kDebugMode,
+    );
 
     runApp(rootWidget);
   }

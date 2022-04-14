@@ -29,7 +29,9 @@ final kFlavorProd = FlavorValues(
 );
 
 const defaultLanguage = Locale('pt');
+const kLoginCallBackMobile = 'dev.polazzo.psique_eleve://login-callback/';
 const kLocalhost = 'http://localhost';
 const kLocalhostAndroid = 'http://10.0.2.2';
 const kBaseUrlSupabase = 'https://ezapyuztdbnwhdnhcwsn.supabase.co';
-const _kPublicAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV6YXB5dXp0ZGJud2hkbmhjd3NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDg3Nzc5MjMsImV4cCI6MTk2NDM1MzkyM30.lsw1S2Reiwlz5Mzryqk6au9qSJGU2NcNWla2DZnlqBw';
+const _kPublicAnonKey =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV6YXB5dXp0ZGJud2hkbmhjd3NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDg3Nzc5MjMsImV4cCI6MTk2NDM1MzkyM30.lsw1S2Reiwlz5Mzryqk6au9qSJGU2NcNWla2DZnlqBw';

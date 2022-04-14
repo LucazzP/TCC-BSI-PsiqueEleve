@@ -9,6 +9,6 @@
 // https://help.apple.com/xcode/#/dev745c5c974
 #include "Generated.xcconfig"
 BUNDLE_ID_SUFFIX=.dev
-PRODUCT_BUNDLE_IDENTIFIER=com.example.psique_eleve.dev
+PRODUCT_BUNDLE_IDENTIFIER=dev.polazzo.psique_eleve.dev
 FLUTTER_TARGET=lib/main_dev.dart
 APP_NAME=PsiqueEleve - Dev

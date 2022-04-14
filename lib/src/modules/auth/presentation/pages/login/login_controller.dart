@@ -1,4 +1,3 @@
-import 'package:psique_eleve/src/extensions/iterable.ext.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/usecases/login_email_usecase.dart';
 import 'package:psique_eleve/src/modules/home/presentation/pages/home/home_page.dart';

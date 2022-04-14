@@ -1,4 +1,4 @@
-package com.example.psique_eleve
+package dev.polazzo.psique_eleve
 
 import io.flutter.embedding.android.FlutterActivity
 

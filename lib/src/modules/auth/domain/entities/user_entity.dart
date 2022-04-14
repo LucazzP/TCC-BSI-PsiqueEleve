@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/address_entity.dart';
+import 'package:psique_eleve/src/modules/auth/domain/entities/role_entity.dart';
 
 class UserEntity extends Equatable {
   final String id;
@@ -8,6 +9,7 @@ class UserEntity extends Equatable {
   final String cpf;
   final String cellphone;
   final AddressEntity? address;
+  final List<RoleEntity> roles;
 
   const UserEntity({
     this.id = '',
@@ -16,6 +18,7 @@ class UserEntity extends Equatable {
     this.cpf = '',
     this.cellphone = '',
     required this.address,
+    required this.roles,
   });
 
   UserEntity copyWith({
@@ -25,6 +28,7 @@ class UserEntity extends Equatable {
     String? cpf,
     String? cellphone,
     AddressEntity? address,
+    List<RoleEntity>? roles,
   }) {
     return UserEntity(
       id: id ?? this.id,
@@ -33,6 +37,7 @@ class UserEntity extends Equatable {
       cpf: cpf ?? this.cpf,
       cellphone: cellphone ?? this.cellphone,
       address: address ?? this.address,
+      roles: roles ?? this.roles,
     );
   }
 
@@ -45,6 +50,7 @@ class UserEntity extends Equatable {
       cpf,
       cellphone,
       address,
+      roles,
     ];
   }
 }

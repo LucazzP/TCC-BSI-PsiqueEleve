@@ -9,7 +9,8 @@ extension AddressMapper on AddressEntity {
       'street': street,
       'number': number,
       'complement': complement,
-      'zipCode': zipCode,
+      'district': district,
+      'zip_code': zipCode,
       'city': city,
       'state': state,
       'country': country,
@@ -23,10 +24,11 @@ extension AddressMapper on AddressEntity {
       street: map['street'] ?? '',
       number: map['number'] ?? '',
       complement: map['complement'] ?? '',
-      zipCode: map['zipCode'] ?? '',
+      zipCode: map['zip_code'] ?? '',
       city: map['city'] ?? '',
       state: map['state'] ?? '',
       country: map['country'] ?? '',
+      district: map['district'] ?? '',
     );
   }
 }
