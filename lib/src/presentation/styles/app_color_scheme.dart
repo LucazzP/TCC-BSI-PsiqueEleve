@@ -51,8 +51,8 @@ class AppColorScheme {
   static const primaryDefault = Color(0xFF009BB1);
   static const primaryLightest = Color(0xFFE0F3F6);
   static const primaryLight = Color(0xFF80CDD8);
-  static const primaryMedium = Color(0xFF4ED6FF);
-  static const primaryDark = Color(0xFF35D1FF);
+  static const primaryMedium = Color(0xFF0093AA);
+  static const primaryDark = Color(0xFF007F98);
   static const accentLighest = Color(0xFFB4EEFF);
   static const accentDefault = Color(0xFF81E2FF);
 

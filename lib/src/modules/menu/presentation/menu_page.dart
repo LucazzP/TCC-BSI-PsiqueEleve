@@ -4,19 +4,19 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/routes.dart';
 
-import 'feed_controller.dart';
+import 'menu_controller.dart';
 
-class FeedPage extends StatefulWidget {
-  static Future<void> navigateTo() => Modular.to.pushNamed(kHomeFeedScreenRoute);
-  static Future<void> replaceTo() => Modular.to.pushReplacementNamed(kHomeFeedScreenRoute);
+class MenuPage extends StatefulWidget {
+  static Future<void> navigateTo() => Modular.to.pushNamed(kHomeMenuScreenRoute);
+  static Future<void> replaceTo() => Modular.to.pushReplacementNamed(kHomeMenuScreenRoute);
 
-  const FeedPage({Key? key}) : super(key: key);
+  const MenuPage({Key? key}) : super(key: key);
 
   @override
-  _FeedPageState createState() => _FeedPageState();
+  _MenuPageState createState() => _MenuPageState();
 }
 
-class _FeedPageState extends BaseState<FeedPage, FeedController> {
+class _MenuPageState extends BaseState<MenuPage, MenuController> {
   @override
   PreferredSizeWidget? appBar(BuildContext ctx) => null;
 
@@ -24,7 +24,7 @@ class _FeedPageState extends BaseState<FeedPage, FeedController> {
   Widget child(context, constrains) {
     return Column(
       children: [
-        const Text('Feed'),
+        const Text('Menu'),
         Observer(builder: (_) {
           return Text(controller.counter.value.toString());
         }),

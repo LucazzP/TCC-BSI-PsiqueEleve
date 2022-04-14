@@ -18,8 +18,8 @@ class AppWidget extends StatelessWidget {
     ]);
     return MaterialApp.router(
       title: 'Flutter app',
-      theme: ThemeData(),
-      darkTheme: ThemeData.dark(),
+      theme: AppThemeData.themeDataLight,
+      darkTheme: AppThemeData.themeDataDark,
       themeMode: ThemeMode.light,
       // Providing a restorationScopeId allows the Navigator built by the
       // MaterialApp to restore the navigation stack when a user leaves and

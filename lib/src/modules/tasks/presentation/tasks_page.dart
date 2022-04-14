@@ -4,19 +4,19 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/routes.dart';
 
-import 'feed_controller.dart';
+import 'tasks_controller.dart';
 
-class FeedPage extends StatefulWidget {
-  static Future<void> navigateTo() => Modular.to.pushNamed(kHomeFeedScreenRoute);
-  static Future<void> replaceTo() => Modular.to.pushReplacementNamed(kHomeFeedScreenRoute);
+class TasksPage extends StatefulWidget {
+  static Future<void> navigateTo() => Modular.to.pushNamed(kHomeTasksScreenRoute);
+  static Future<void> replaceTo() => Modular.to.pushReplacementNamed(kHomeTasksScreenRoute);
 
-  const FeedPage({Key? key}) : super(key: key);
+  const TasksPage({Key? key}) : super(key: key);
 
   @override
-  _FeedPageState createState() => _FeedPageState();
+  _TasksPageState createState() => _TasksPageState();
 }
 
-class _FeedPageState extends BaseState<FeedPage, FeedController> {
+class _TasksPageState extends BaseState<TasksPage, TasksController> {
   @override
   PreferredSizeWidget? appBar(BuildContext ctx) => null;
 
@@ -24,7 +24,7 @@ class _FeedPageState extends BaseState<FeedPage, FeedController> {
   Widget child(context, constrains) {
     return Column(
       children: [
-        const Text('Feed'),
+        const Text('Tasks'),
         Observer(builder: (_) {
           return Text(controller.counter.value.toString());
         }),

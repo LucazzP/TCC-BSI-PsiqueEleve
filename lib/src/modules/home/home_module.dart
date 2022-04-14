@@ -1,5 +1,8 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:psique_eleve/src/modules/appointment/appointment_module.dart';
 import 'package:psique_eleve/src/modules/home/presentation/pages/feed/feed_controller.dart';
+import 'package:psique_eleve/src/modules/menu/menu_module.dart';
+import 'package:psique_eleve/src/modules/tasks/tasks_module.dart';
 import 'package:psique_eleve/src/presentation/routes.dart';
 
 import 'presentation/pages/feed/feed_page.dart';
@@ -23,8 +26,24 @@ class HomeModule extends Module {
         ChildRoute(
           kHomeFeedScreenRoute.finalPath,
           child: (_, args) => const FeedPage(),
+          transition: TransitionType.noTransition,
         ),
-      ]
+        ModuleRoute(
+          kHomeAppointmentsScreenRoute.finalPath,
+          module: AppointmentModule(),
+          transition: TransitionType.noTransition,
+        ),
+        ModuleRoute(
+          kHomeTasksScreenRoute.finalPath,
+          module: TasksModule(),
+          transition: TransitionType.noTransition,
+        ),
+        ModuleRoute(
+          kHomeMenuScreenRoute.finalPath,
+          module: MenuModule(),
+          transition: TransitionType.noTransition,
+        ),
+      ],
     ),
   ];
 }
