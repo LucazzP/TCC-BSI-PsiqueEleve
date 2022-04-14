@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'flavor/flavor_config.model.dart';
 import 'flavor/flavor_values.model.dart';
@@ -27,7 +28,8 @@ final kFlavorProd = FlavorValues(
   features: () => Features.prod,
 );
 
+const defaultLanguage = Locale('pt');
 const kLocalhost = 'http://localhost';
 const kLocalhostAndroid = 'http://10.0.2.2';
-const kBaseUrlSupabase = 'https://jrljsykpsirwgfvyeapa.supabase.co';
-const _kPublicAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpybGpzeWtwc2lyd2dmdnllYXBhIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDc5ODk0MTAsImV4cCI6MTk2MzU2NTQxMH0.L4boSYZFW9VPeItSQvSzcqLBDj8TX0b-hn1D-yO67Ns';
+const kBaseUrlSupabase = 'https://ezapyuztdbnwhdnhcwsn.supabase.co';
+const _kPublicAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV6YXB5dXp0ZGJud2hkbmhjd3NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDg3Nzc5MjMsImV4cCI6MTk2NDM1MzkyM30.lsw1S2Reiwlz5Mzryqk6au9qSJGU2NcNWla2DZnlqBw';

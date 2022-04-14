@@ -14,7 +14,7 @@ class HomeModule extends Module {
     ChildRoute(
       Modular.initialRoute,
       child: (_, args) => const HomePage(),
-      transition: TransitionType.noTransition,
+      transition: TransitionType.rightToLeftWithFade,
     ),
   ];
 }

@@ -1,7 +1,34 @@
 {
-  "appTitle": "new_flutter_template",
+  "appTitle": "PsiqueEleve",
   "@appTitle": {
     "description": "The title of the application"
   },
-  "ok": "Ok"
+  "ok": "Ok",
+  "continueWithGoogle": "ENTRAR COM GOOGLE",
+  "continueWithFacebook": "ENTRAR COM FACEBOOK",
+  "continueWithApple": "ENTRAR COM APPLE",
+  "continueWithEmail": "CONTINUAR COM E-MAIL",
+  "startNow": "COMECE AGORA",
+  "continueText": "CONTINUAR",
+  "typeYourEmail": "Digite seu e-mail",
+  "typeYourPassword": "Digite sua senha",
+  "welcomeBack": ", bem vindo(a) de volta.",
+  "enter": "ENTRAR",
+  "followThisFormToCompleteYourRegistration": "Siga este formulário para completar seu cadastro:",
+  "pleaseConfirmSomeOfYourData": "Por favor, confirme alguns de seus dados:",
+  "fullName": "Nome completo",
+  "cpf": "CPF",
+  "cellphone": "Celular",
+  "password": "Senha",
+  "emptyName": "O nome não pode ser vazio",
+  "completeName": "Digite o nome completo",
+  "invalidCpf": "CPF inválido",
+  "emptyCellphone": "O número do celular não pode ser vazio",
+  "invalidCellphone": "Número inválido",
+  "emptyPassword": "A senha não pode ser vazia",
+  "shortPassword": "A senha deve possuir pelo menos 6 caracteres",
+  "weakPassword": "Senha fraca, tente uma mais forte",
+  "emptyEmail": "O email não pode ser vazio",
+  "invalidEmail": "Coloque seu e-mail no formato: nome@exemplo.com",
+  "invalidEmailOrPassword": "E-mail ou senha inválidos"
 }

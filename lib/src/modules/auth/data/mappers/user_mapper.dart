@@ -10,7 +10,7 @@ extension UserMapper on UserEntity {
       'email': email,
       'cpf': cpf,
       'cellphone': cellphone,
-      'address': address.toMap(),
+      'address': address?.toMap(),
     };
   }
 
@@ -22,7 +22,7 @@ extension UserMapper on UserEntity {
       email: map['email'] ?? '',
       cpf: map['cpf'] ?? '',
       cellphone: map['cellphone'] ?? '',
-      address: AddressMapper.fromMap(map['address']),
+      address: AddressMapper.fromMap(map['address'] ?? {}),
     );
   }
 }

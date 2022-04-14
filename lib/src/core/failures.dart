@@ -52,7 +52,11 @@ class CacheFailure extends Failure {
 }
 
 class CredentialsFailure extends Failure {
-  const CredentialsFailure() : super(title: 'Algo deu errado', message: 'Credenciais inválidas');
+  const CredentialsFailure()
+      : super(
+          title: 'Falha no login',
+          message: 'Seu usuário ou senha estão incorretos, tente novamente.',
+        );
 }
 
 class ConnectionFailure extends Failure {
@@ -61,4 +65,14 @@ class ConnectionFailure extends Failure {
             title: 'Falha na conexão',
             message: 'Encontramos uma falha na conexão,'
                 '\nverifique sua internet e tente novamente.');
+}
+
+class ParseEntityFailure extends Failure {
+  const ParseEntityFailure(Type entity)
+      : super(
+          title: 'Falha no sistema',
+          message: 'Houve uma falha ao traduzir a mensagem do servidor, '
+              'tente novamente ou contacte o suporte.',
+          code: '100$entity',
+        );
 }

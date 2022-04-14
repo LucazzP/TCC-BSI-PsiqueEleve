@@ -23,6 +23,9 @@ Future<Either<Failure, Result>> callEither<Result, Response>(
     if (e is APIClientNotLoggedException) {
       return const Left(kExpiredSession);
     }
+    if (e is APIInvalidLoginCredentialsException) {
+      return const Left(kCredentialsFailure);
+    }
     if (onError != null) {
       return Left(onError(e));
     }

@@ -45,14 +45,24 @@ class AppColorScheme {
   static const Color black = Color(0xff000000);
   static const Color white = Color(0xffFFFFFF);
 
-  static const primaryDefault = Color(0xff00b1e4);
+  static const background = Colors.white;
+  static const border = Color(0xFFEBEDED);
+  static const shadow = Color(0x4B000000);
+  static const bodyText = Color(0xFF202124);
+  static const primaryDefault = Color(0xff009BB1);
   static const primaryLightest = Color(0xffdef5fc);
-  static const primaryLight = Color(0xff99e0f4);
+  static const primaryLight = Color(0xFFEAF8FA);
   static const primaryMedium = Color(0xff66d0ef);
   static const primaryDark = Color(0xff009cc9);
   static const accentDefault = Color(0xffda609f);
   static const accentLighest = Color(0xfffde9f3);
   static const accentLight = Color(0xfff7bbd9);
+
+  static const primaryButtonBackground = Color(0xff009BB1);
+  static const negativeText = Color(0xff000000);
+  static const primarySwatchDark = Color(0xff009cc9);
+  static const inactiveText = Color(0xff000000);
+  static const negativeTextBackground = Color(0xff000000);
 
   static const neutralDark = Color(0xff1f2933);
   static const feedbackDangerBase = Color(0xfff23548);

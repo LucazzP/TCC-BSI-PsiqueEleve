@@ -47,9 +47,9 @@ abstract class BaseState<T extends StatefulWidget, S extends BaseStore> extends 
 
   PreferredSizeWidget? appBar(BuildContext ctx);
 
-  PreferredSizeWidget _buildAppBar(BuildContext ctx) {
+  PreferredSizeWidget? _buildAppBar(BuildContext ctx) {
     final _appBar = appBar(ctx);
-    return _appBar ?? const PreferredSize(child: SizedBox.shrink(), preferredSize: Size.zero);
+    return _appBar;
   }
 
   bool get hasAppBar => scaffoldKey.currentState?.hasAppBar ?? false;
@@ -98,6 +98,7 @@ abstract class BaseState<T extends StatefulWidget, S extends BaseStore> extends 
           appBar: _appBar,
           key: scaffoldKey,
           body: SafeArea(
+            top: hasAppBar,
             child: LayoutBuilder(
               builder: (_, BoxConstraints constrains) {
                 final layoutWithPadding = Padding(

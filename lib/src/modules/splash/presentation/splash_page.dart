@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:psique_eleve/src/localization/app_localizations.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/images.dart';
 
@@ -20,8 +23,11 @@ class _SplashPageState extends BaseState<SplashPage, SplashController> {
   EdgeInsets get padding => const EdgeInsets.all(40);
 
   @override
+  bool get showLoadingOverlay => false;
+
+  @override
   void initState() {
-    controller.onInit();
+    controller.onInit(initializeLocale());
     super.initState();
   }
 
@@ -30,5 +36,16 @@ class _SplashPageState extends BaseState<SplashPage, SplashController> {
     return Center(
       child: Image.asset(kLogoPsiqueEleveBig),
     );
+  }
+
+  Future<void> initializeLocale() {
+    final loadedLocale = Completer();
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      S.initialize(context);
+      loadedLocale.complete();
+    });
+
+    return loadedLocale.future;
   }
 }

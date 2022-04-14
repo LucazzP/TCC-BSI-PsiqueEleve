@@ -16,7 +16,8 @@ extension AddressMapper on AddressEntity {
     };
   }
 
-  static AddressEntity fromMap(Map map) {
+  static AddressEntity? fromMap(Map map) {
+    if (map.isEmpty) return null;
     return AddressEntity(
       id: map['id'] ?? '',
       street: map['street'] ?? '',

@@ -7,7 +7,7 @@ class UserEntity extends Equatable {
   final String email;
   final String cpf;
   final String cellphone;
-  final AddressEntity address;
+  final AddressEntity? address;
 
   const UserEntity({
     this.id = '',
@@ -37,7 +37,7 @@ class UserEntity extends Equatable {
   }
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       id,
       fullName,
