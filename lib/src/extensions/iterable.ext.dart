@@ -11,15 +11,15 @@ extension IterableExtension<T> on Iterable<T?> {
 }
 
 extension IterableFormExtension on Iterable<FormModel> {
-  bool validate(void Function(int index, String error) setError) {
+  bool validate(void Function(int index, String? error) setError) {
     var hasError = false;
     for (var i = 0; i < length; i++) {
       final item = elementAt(i);
       final error = item.validator(item.value);
       if (error != null) {
-        setError(i, error);
         hasError = true;
       }
+      setError(i, error);
     }
     return !hasError;
   }
