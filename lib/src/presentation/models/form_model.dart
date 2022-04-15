@@ -15,10 +15,11 @@ class FormModel extends Equatable {
     String? value,
     String? error,
     String? Function(String? value)? validator,
+    bool resetError = false,
   }) {
     return FormModel(
       value: value ?? this.value,
-      error: error ?? this.error,
+      error: resetError ? error : error ?? this.error,
       validator: validator ?? this.validator,
     );
   }

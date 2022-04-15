@@ -1,11 +1,9 @@
-import 'package:flutter_modular/flutter_modular.dart';
+import 'package:mobx/mobx.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
 import 'package:psique_eleve/src/modules/therapists/domain/usecases/get_therapists.usecase.dart';
 import 'package:psique_eleve/src/modules/therapists/presentation/add_therapist/add_therapist_page.dart';
 import 'package:psique_eleve/src/presentation/base/controller/base.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/value_state.store.dart';
-import 'package:mobx/mobx.dart';
-import 'package:psique_eleve/src/presentation/routes.dart';
 
 part 'therapists_controller.g.dart';
 

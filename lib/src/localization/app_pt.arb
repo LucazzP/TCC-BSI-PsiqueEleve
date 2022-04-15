@@ -30,5 +30,7 @@
   "weakPassword": "Senha fraca, tente uma mais forte",
   "emptyEmail": "O email não pode ser vazio",
   "invalidEmail": "Coloque seu e-mail no formato: nome@exemplo.com",
-  "invalidEmailOrPassword": "E-mail ou senha inválidos"
+  "invalidEmailOrPassword": "E-mail ou senha inválidos",
+  "emptyValue": "O campo não pode ser vazio",
+  "shortValue": "O texto é muito curto"
 }

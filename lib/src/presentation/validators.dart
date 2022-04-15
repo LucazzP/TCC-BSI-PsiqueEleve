@@ -9,7 +9,7 @@ class Validators {
 
     if (value.isEmpty) {
       return S.current.emptyName;
-    } else if (list.length == 1) {
+    } else if (list.length == 1 || list.last.isEmpty) {
       return S.current.completeName;
     } else {
       return null;
@@ -63,4 +63,15 @@ class Validators {
       return S.current.invalidEmail;
     }
   }
+
+  static String? Function(String?) minLenght(int lenght) => (String? value) {
+        value ??= '';
+        if (value.isEmpty) {
+          return S.current.emptyValue;
+        } else if (value.length < lenght) {
+          return S.current.shortValue;
+        } else {
+          return null;
+        }
+      };
 }
