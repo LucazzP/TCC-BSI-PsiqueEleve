@@ -1,5 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -7,11 +5,6 @@ import 'package:psique_eleve/src/modules/therapists/presentation/widgets/address
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/helpers/ui_helper.dart';
 import 'package:psique_eleve/src/presentation/routes.dart';
-import 'package:psique_eleve/src/presentation/styles/app_border_radius.dart';
-import 'package:psique_eleve/src/presentation/styles/app_border_side.dart';
-import 'package:psique_eleve/src/presentation/styles/app_color_scheme.dart';
-import 'package:psique_eleve/src/presentation/styles/app_spacing.dart';
-import 'package:psique_eleve/src/presentation/styles/app_text_theme.dart';
 import 'package:psique_eleve/src/presentation/widgets/app_button/app_button.dart';
 import 'package:psique_eleve/src/presentation/widgets/app_text_field/app_text_field_widget.dart';
 import 'package:psique_eleve/src/presentation/widgets/user_image/user_image_widget.dart';
