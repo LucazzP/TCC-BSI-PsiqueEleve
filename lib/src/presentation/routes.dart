@@ -13,6 +13,9 @@ const kTherapistsModuleRoute = '${kHomeModuleRoute}therapists';
 const kTherapistsScreenRoute = '$kTherapistsModuleRoute/';
 const kTherapistAddScreenRoute = '$kTherapistsModuleRoute/add';
 
+const kAddressModuleRoute = '${kTherapistsModuleRoute}address';
+const kAddressScreeRoute = '$kAddressModuleRoute/';
+
 extension RouterExtension on String {
   String get finalPath {
     final splitted = split('/');

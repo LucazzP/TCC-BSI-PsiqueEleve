@@ -26,6 +26,7 @@ dependencies:
   cpf_cnpj_validator: ^2.0.0
   string_validator: ^0.3.0
   cached_network_image: ^3.2.0
+  easy_mask: ^2.0.1
 
 dev_dependencies:
   flutter_test:

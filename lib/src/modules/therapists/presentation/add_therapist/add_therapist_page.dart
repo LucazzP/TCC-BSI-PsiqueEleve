@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:psique_eleve/src/modules/therapists/presentation/widgets/address_card_widget.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/helpers/ui_helper.dart';
 import 'package:psique_eleve/src/presentation/routes.dart';
@@ -9,6 +11,7 @@ import 'package:psique_eleve/src/presentation/styles/app_border_radius.dart';
 import 'package:psique_eleve/src/presentation/styles/app_border_side.dart';
 import 'package:psique_eleve/src/presentation/styles/app_color_scheme.dart';
 import 'package:psique_eleve/src/presentation/styles/app_spacing.dart';
+import 'package:psique_eleve/src/presentation/styles/app_text_theme.dart';
 import 'package:psique_eleve/src/presentation/widgets/app_button/app_button.dart';
 import 'package:psique_eleve/src/presentation/widgets/app_text_field/app_text_field_widget.dart';
 import 'package:psique_eleve/src/presentation/widgets/user_image/user_image_widget.dart';
@@ -88,41 +91,22 @@ class _AddTherapistPageState extends BaseState<AddTherapistPage, AddTherapistCon
             onSubmitted: (_) => controller.onTapCreateEdit(),
           );
         }),
-        UIHelper.verticalSpaceS12,
+        UIHelper.verticalSpaceS24,
         Observer(builder: (_) {
           final address = controller.address.value;
-          if (address == null) return const SizedBox.shrink();
-          return Container(
-              decoration: BoxDecoration(
-                borderRadius: AppBorderRadius.medium,
-                border: Border.all(
-                  color: AppColorScheme.border,
-                  width: 2,
-                ),
-              ),
-              padding: const EdgeInsets.all(AppSpacing.s20),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(address.street),
-                      Text(address.number),
-                      Text(address.zipCode),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(address.complement),
-                      Text(address.district),
-                      Text(address.city + ' - ' + address.state),
-                    ],
-                  ),
-                ],
-              ));
+          if (address == null) {
+            return AppButton(
+              onPressed: controller.onTapAddAddress,
+              title: 'Adicionar endereço',
+              style: AppButtonStyle.bordered,
+            );
+          }
+          return AddressCardWidget(
+            address: address,
+            onTapEditAddress: controller.onTapEditAddress,
+          );
         }),
-        UIHelper.verticalSpaceS32,
+        UIHelper.verticalSpaceS16,
         AppButton(
           onPressed: controller.onTapCreateEdit,
           title: 'Criar',

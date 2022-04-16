@@ -24,6 +24,7 @@ abstract class _AddTherapistControllerBase extends BaseStore with Store {
     state: 'PR',
     country: 'Brasil',
     zipCode: '80010000',
+    complement: 'Apto 41C',
   ));
 
   final newTherapist = ValueState<UserEntity?>(null);
@@ -43,4 +44,8 @@ abstract class _AddTherapistControllerBase extends BaseStore with Store {
   void onTapCreateEdit() {
     if (validateForms() == false) return;
   }
+
+  void onTapEditAddress() {}
+
+  void onTapAddAddress() {}
 }
