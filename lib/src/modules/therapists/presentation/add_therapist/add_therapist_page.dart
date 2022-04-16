@@ -28,9 +28,8 @@ class _AddTherapistPageState extends BaseState<AddTherapistPage, AddTherapistCon
 
   @override
   Widget child(context, constrains) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return ListView(
+      physics: const BouncingScrollPhysics(parent: ClampingScrollPhysics()),
       children: [
         Observer(builder: (_) {
           return UserImageWidget(

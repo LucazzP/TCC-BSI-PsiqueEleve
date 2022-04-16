@@ -26,11 +26,11 @@ class AddressPage extends StatefulWidget {
 }
 
 class _AddressPageState extends BaseState<AddressPage, AddressController> {
-  String get getCreateEditValue => controller.pageIsForEditing ? 'Editar' : 'Criar';
+  String get getCreateEditValue => controller.pageIsForEditing ? 'Editar' : 'Adicionar';
 
   @override
   PreferredSizeWidget? appBar(BuildContext ctx) => AppBar(
-        title: Text('$getCreateEditValue Endereço'),
+        title: Text('$getCreateEditValue endereço'),
       );
 
   @override
@@ -46,6 +46,7 @@ class _AddressPageState extends BaseState<AddressPage, AddressController> {
   Widget child(context, constrains) {
     return ListView(
       padding: super.padding,
+      physics: const BouncingScrollPhysics(parent: ClampingScrollPhysics()),
       children: [
         Observer(builder: (_) {
           return AppTextFieldWidget(
@@ -57,25 +58,33 @@ class _AddressPageState extends BaseState<AddressPage, AddressController> {
           );
         }),
         UIHelper.verticalSpaceS12,
-        Observer(builder: (_) {
-          return AppTextFieldWidget(
-            title: 'Número',
-            onChanged: controller.number.setValue,
-            errorText: controller.number.error,
-            textInputAction: TextInputAction.next,
-            keyboardType: TextInputType.number,
-          );
-        }),
-        UIHelper.verticalSpaceS12,
-        Observer(builder: (_) {
-          return AppTextFieldWidget(
-            title: 'Complemento',
-            onChanged: controller.complement.setValue,
-            errorText: controller.complement.error,
-            textInputAction: TextInputAction.next,
-            keyboardType: TextInputType.text,
-          );
-        }),
+        Row(
+          children: [
+            Expanded(
+              child: Observer(builder: (_) {
+                return AppTextFieldWidget(
+                  title: 'Número',
+                  onChanged: controller.number.setValue,
+                  errorText: controller.number.error,
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.number,
+                );
+              }),
+            ),
+            UIHelper.horizontalSpaceS12,
+            Expanded(
+              child: Observer(builder: (_) {
+                return AppTextFieldWidget(
+                  title: 'Complemento',
+                  onChanged: controller.complement.setValue,
+                  errorText: controller.complement.error,
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.text,
+                );
+              }),
+            ),
+          ],
+        ),
         UIHelper.verticalSpaceS12,
         Observer(builder: (_) {
           return AppTextFieldWidget(
@@ -87,25 +96,33 @@ class _AddressPageState extends BaseState<AddressPage, AddressController> {
           );
         }),
         UIHelper.verticalSpaceS12,
-        Observer(builder: (_) {
-          return AppTextFieldWidget(
-            title: 'Cidade',
-            onChanged: controller.city.setValue,
-            errorText: controller.city.error,
-            textInputAction: TextInputAction.next,
-            keyboardType: TextInputType.text,
-          );
-        }),
-        UIHelper.verticalSpaceS12,
-        Observer(builder: (_) {
-          return AppTextFieldWidget(
-            title: 'Estado',
-            onChanged: controller.state.setValue,
-            errorText: controller.state.error,
-            textInputAction: TextInputAction.next,
-            keyboardType: TextInputType.text,
-          );
-        }),
+        Row(
+          children: [
+            Expanded(
+              child: Observer(builder: (_) {
+                return AppTextFieldWidget(
+                  title: 'Cidade',
+                  onChanged: controller.city.setValue,
+                  errorText: controller.city.error,
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.text,
+                );
+              }),
+            ),
+            UIHelper.horizontalSpaceS12,
+            Expanded(
+              child: Observer(builder: (_) {
+                return AppTextFieldWidget(
+                  title: 'Estado',
+                  onChanged: controller.state.setValue,
+                  errorText: controller.state.error,
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.text,
+                );
+              }),
+            ),
+          ],
+        ),
         UIHelper.verticalSpaceS12,
         Observer(builder: (_) {
           return AppTextFieldWidget(
@@ -120,7 +137,7 @@ class _AddressPageState extends BaseState<AddressPage, AddressController> {
         UIHelper.verticalSpaceS12,
         Observer(builder: (_) {
           return AppTextFieldWidget(
-            title: 'Country',
+            title: 'País',
             onChanged: controller.country.setValue,
             errorText: controller.country.error,
             textInputAction: TextInputAction.done,

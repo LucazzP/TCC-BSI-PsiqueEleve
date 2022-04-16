@@ -18,39 +18,41 @@ class UserImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CircleAvatar(
-      backgroundImage: imageUrl.isNotEmpty ? CachedNetworkImageProvider(imageUrl) : null,
-      radius: 65,
-      backgroundColor: AppColorScheme.primaryDark,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          TernaryWidget(
-            value: imageUrl.isEmpty,
-            trueWidget: _nameInitialsImage(fullName),
-            useAnimation: false,
-          ),
-          if (onEdit != null)
-            Transform.translate(
-              offset: const Offset(10, 0),
-              child: Align(
-                alignment: Alignment.topRight,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColorScheme.primarySwatch[300],
-                    shape: BoxShape.circle,
-                  ),
-                  height: 40,
-                  child: IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: onEdit,
-                    iconSize: 20,
-                    color: Colors.white,
+    return Center(
+      child: CircleAvatar(
+        backgroundImage: imageUrl.isNotEmpty ? CachedNetworkImageProvider(imageUrl) : null,
+        radius: 65,
+        backgroundColor: AppColorScheme.primaryDark,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            TernaryWidget(
+              value: imageUrl.isEmpty,
+              trueWidget: _nameInitialsImage(fullName),
+              useAnimation: false,
+            ),
+            if (onEdit != null)
+              Transform.translate(
+                offset: const Offset(10, 0),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColorScheme.primarySwatch[300],
+                      shape: BoxShape.circle,
+                    ),
+                    height: 40,
+                    child: IconButton(
+                      icon: const Icon(Icons.edit),
+                      onPressed: onEdit,
+                      iconSize: 20,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
