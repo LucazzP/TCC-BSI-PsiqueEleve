@@ -58,9 +58,9 @@ extension AppButtonStyleExtension on AppButtonStyle {
   Color get splashColor {
     switch (this) {
       case AppButtonStyle.filled:
-        return AppColorScheme.primarySwatchDark;
+        return AppColorScheme.negativeTextBackground.withOpacity(0.2);
       case AppButtonStyle.bordered:
-        return AppColorScheme.inactiveText;
+        return AppColorScheme.primarySwatchDark.withOpacity(0.2);
       case AppButtonStyle.clear:
         return Colors.transparent;
       case AppButtonStyle.destructive:

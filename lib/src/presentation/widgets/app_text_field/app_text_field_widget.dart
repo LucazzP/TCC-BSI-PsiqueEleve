@@ -18,6 +18,7 @@ class AppTextFieldWidget extends StatelessWidget {
   final List<TextInputFormatter> inputFormatters;
   final ValueChanged<String>? onSubmitted;
   final String? errorText;
+  final TextEditingController? controller;
 
   const AppTextFieldWidget({
     Key? key,
@@ -30,6 +31,7 @@ class AppTextFieldWidget extends StatelessWidget {
     this.inputFormatters = const [],
     this.onSubmitted,
     this.errorText,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -53,6 +55,7 @@ class AppTextFieldWidget extends StatelessWidget {
           obscureText: obscureText,
           textCapitalization: textCapitalization,
           onSubmitted: onSubmitted,
+          controller: controller,
           decoration: InputDecoration(
             border: const OutlineInputBorder(
               borderRadius: AppBorderRadius.tiny,

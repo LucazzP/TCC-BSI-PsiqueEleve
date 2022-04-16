@@ -12,7 +12,7 @@ class AddressModule extends Module {
   final List<ModularRoute> routes = [
     ChildRoute(
       Modular.initialRoute,
-      child: (_, args) => const AddressPage(),
+      child: (_, args) => AddressPage(address: args.data),
     ),
   ];
 }

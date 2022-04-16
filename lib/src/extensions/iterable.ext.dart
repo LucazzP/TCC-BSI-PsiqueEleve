@@ -1,4 +1,4 @@
-import 'package:psique_eleve/src/presentation/models/form_model.dart';
+import 'package:psique_eleve/src/presentation/base/controller/form.store.dart';
 
 extension IterableExtension<T> on Iterable<T?> {
   Iterable<T> whereNotNull() sync* {
@@ -10,8 +10,8 @@ extension IterableExtension<T> on Iterable<T?> {
   }
 }
 
-extension IterableFormExtension on Iterable<FormModel> {
-  bool validate(void Function(int index, String? error) setError) {
+extension IterableFormExtension on Iterable<FormStore> {
+  bool validate() {
     var hasError = false;
     for (var i = 0; i < length; i++) {
       final item = elementAt(i);
@@ -19,7 +19,7 @@ extension IterableFormExtension on Iterable<FormModel> {
       if (error != null) {
         hasError = true;
       }
-      setError(i, error);
+      item.setError(error);
     }
     return !hasError;
   }

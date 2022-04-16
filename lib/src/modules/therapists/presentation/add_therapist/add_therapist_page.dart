@@ -35,7 +35,7 @@ class _AddTherapistPageState extends BaseState<AddTherapistPage, AddTherapistCon
         Observer(builder: (_) {
           return UserImageWidget(
             imageUrl: controller.imageUrl.value,
-            fullName: controller.fullName.value.value,
+            fullName: controller.fullName.value,
             onEdit: () {},
           );
         }),
@@ -43,8 +43,8 @@ class _AddTherapistPageState extends BaseState<AddTherapistPage, AddTherapistCon
         Observer(builder: (_) {
           return AppTextFieldWidget(
             title: 'Nome completo',
-            onChanged: controller.onNameChanged,
-            errorText: controller.fullName.value.error,
+            onChanged: controller.fullName.setValue,
+            errorText: controller.fullName.error,
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.name,
             textCapitalization: TextCapitalization.words,
@@ -54,8 +54,8 @@ class _AddTherapistPageState extends BaseState<AddTherapistPage, AddTherapistCon
         Observer(builder: (_) {
           return AppTextFieldWidget(
             title: 'Email',
-            onChanged: controller.onEmailChanged,
-            errorText: controller.email.value.error,
+            onChanged: controller.email.setValue,
+            errorText: controller.email.error,
             obscureText: true,
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.emailAddress,
@@ -65,8 +65,8 @@ class _AddTherapistPageState extends BaseState<AddTherapistPage, AddTherapistCon
         Observer(builder: (_) {
           return AppTextFieldWidget(
             title: 'CPF',
-            onChanged: controller.onCpfChanged,
-            errorText: controller.cpf.value.error,
+            onChanged: controller.cpf.setValue,
+            errorText: controller.cpf.error,
             obscureText: true,
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.number,
@@ -76,8 +76,8 @@ class _AddTherapistPageState extends BaseState<AddTherapistPage, AddTherapistCon
         Observer(builder: (_) {
           return AppTextFieldWidget(
             title: 'Telefone',
-            onChanged: controller.onCellphoneChanged,
-            errorText: controller.cellphone.value.error,
+            onChanged: controller.cellphone.setValue,
+            errorText: controller.cellphone.error,
             obscureText: true,
             textInputAction: TextInputAction.done,
             keyboardType: TextInputType.number,

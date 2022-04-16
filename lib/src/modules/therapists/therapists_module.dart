@@ -1,4 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:psique_eleve/src/modules/address/address_module.dart';
 import 'package:psique_eleve/src/modules/therapists/data/datasource/therapists.datasource.dart';
 import 'package:psique_eleve/src/modules/therapists/data/datasource/therapists_impl.datasource.dart';
 import 'package:psique_eleve/src/modules/therapists/data/repository/therapists_impl.repository.dart';
@@ -29,6 +30,10 @@ class TherapistsModule extends Module {
     ChildRoute(
       kTherapistAddScreenRoute.finalPath,
       child: (_, args) => const AddTherapistPage(),
+    ),
+    ModuleRoute(
+      kAddressModuleRoute.finalPath,
+      module: AddressModule(),
     ),
   ];
 }

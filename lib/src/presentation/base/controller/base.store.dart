@@ -1,13 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:psique_eleve/src/extensions/iterable.ext.dart';
-import 'package:psique_eleve/src/modules/logger/domain/log.usecase.dart';
-import 'package:psique_eleve/src/presentation/base/controller/value.store.dart';
-import 'package:psique_eleve/src/presentation/base/controller/value_state.store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:psique_eleve/src/core/failures.dart';
-import 'package:psique_eleve/src/presentation/models/form_model.dart';
+import 'package:psique_eleve/src/extensions/iterable.ext.dart';
+import 'package:psique_eleve/src/modules/logger/domain/log.usecase.dart';
+import 'package:psique_eleve/src/presentation/base/controller/form.store.dart';
+import 'package:psique_eleve/src/presentation/base/controller/value_state.store.dart';
 
 part 'base.store.g.dart';
 
@@ -26,15 +25,11 @@ abstract class _BaseStoreBase extends Disposable with Store {
   Iterable<ValueState> get getStates;
 
   @protected
-  List<ValueStore<FormModel>> get getForms => [];
+  List<FormStore> get getForms => [];
 
   @protected
   @nonVirtual
-  bool validateForms() => getForms.map((e) => e.value).validate(
-        (index, error) => getForms[index].setValue(
-          getForms[index].value.copyWith(error: error, resetError: true),
-        ),
-      );
+  bool validateForms() => getForms.map((e) => e).validate();
 
   /// Mesma finalidade do [getStates], a diferença é que esse é um `computed` que
   /// notificará para o os outros `computed` que estão escutando ele.

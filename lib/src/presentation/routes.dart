@@ -1,20 +1,20 @@
 const kSplashScreenRoute = '/';
 
-const kHomeModuleRoute = '/home/';
-const kHomeFeedScreenRoute = '${kHomeModuleRoute}feed';
-const kHomeAppointmentsScreenRoute = '${kHomeModuleRoute}appointments/';
-const kHomeTasksScreenRoute = '${kHomeModuleRoute}tasks/';
-const kHomeMenuScreenRoute = '${kHomeModuleRoute}menu/';
+const kHomeModuleRoute = '/home';
+const kHomeFeedScreenRoute = '$kHomeModuleRoute/feed';
+const kHomeAppointmentsScreenRoute = '$kHomeModuleRoute/appointments/';
+const kHomeTasksScreenRoute = '$kHomeModuleRoute/tasks/';
+const kHomeMenuScreenRoute = '$kHomeModuleRoute/menu/';
 
 const kAuthModuleRoute = '/auth/';
 const kAuthLoginScreenRoute = '${kAuthModuleRoute}login';
 
-const kTherapistsModuleRoute = '${kHomeModuleRoute}therapists';
+const kTherapistsModuleRoute = '$kHomeModuleRoute/therapists';
 const kTherapistsScreenRoute = '$kTherapistsModuleRoute/';
 const kTherapistAddScreenRoute = '$kTherapistsModuleRoute/add';
 
-const kAddressModuleRoute = '${kTherapistsModuleRoute}address';
-const kAddressScreeRoute = '$kAddressModuleRoute/';
+const kAddressModuleRoute = '$kTherapistsModuleRoute/address';
+const kAddressScreenRoute = '$kAddressModuleRoute/';
 
 extension RouterExtension on String {
   String get finalPath {
