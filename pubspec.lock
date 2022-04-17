@@ -267,6 +267,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  flinq:
+    dependency: "direct main"
+    description:
+      name: flinq
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -672,6 +679,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  random_password_generator:
+    dependency: "direct main"
+    description:
+      name: random_password_generator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.1"
   realtime_client:
     dependency: transitive
     description:

@@ -11,6 +11,8 @@ class UserEntity extends Equatable {
   final String imageUrl;
   final AddressEntity? address;
   final List<RoleEntity> roles;
+  // Will be stored the new temp password when create a new user
+  final String password;
 
   const UserEntity({
     this.id = '',
@@ -19,6 +21,7 @@ class UserEntity extends Equatable {
     this.cpf = '',
     this.cellphone = '',
     this.imageUrl = '',
+    this.password = '',
     required this.address,
     required this.roles,
   });
@@ -32,6 +35,7 @@ class UserEntity extends Equatable {
     String? imageUrl,
     AddressEntity? address,
     List<RoleEntity>? roles,
+    String? password,
   }) {
     return UserEntity(
       id: id ?? this.id,
@@ -42,6 +46,7 @@ class UserEntity extends Equatable {
       imageUrl: imageUrl ?? this.imageUrl,
       address: address ?? this.address,
       roles: roles ?? this.roles,
+      password: password ?? this.password,
     );
   }
 
@@ -56,6 +61,7 @@ class UserEntity extends Equatable {
       address,
       roles,
       imageUrl,
+      password,
     ];
   }
 }

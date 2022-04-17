@@ -1,4 +1,5 @@
 import 'package:psique_eleve/src/helpers/casters.dart';
+import 'package:random_password_generator/random_password_generator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'users.datasource.dart';
@@ -15,7 +16,9 @@ class UsersDataSourceImpl implements UsersDataSource {
     final offset = page * pageSize;
     final res = await _client.from('user').select('''
       *,
-      user_role:role!inner(name)
+      user_role:role!inner(name),
+      address(*),
+      role_user:role(*)
 ''').in_('user_role.name', userTypes).range(0 + offset, 9 + offset).execute();
 
     if (res.hasError) {
@@ -27,15 +30,39 @@ class UsersDataSourceImpl implements UsersDataSource {
 
   @override
   Future<Map> createUser(Map user, List<String> rolesId) async {
+    /// Create user login
+
+    final password = RandomPasswordGenerator().randomPassword(
+      letters: true,
+      numbers: true,
+      passwordLength: 8,
+      specialChar: false,
+      uppercase: false,
+    );
+
+    final userSession = await _client.auth.signUp(user['email'], password);
+
+    final userId = userSession.user?.id;
+
+    if (userSession.error != null || userId == null) {
+      throw Exception(userSession.error ?? 'Unknown error');
+    }
+
+    user['id'] = userId;
+
+    /// Create user on database
+
     final userResponse = await _client.from('user').insert(user).execute();
 
     final userData = Casters.toMap(userResponse.data);
 
-    if (userResponse.hasError || userData['id'] == null) {
+    if (userResponse.hasError) {
       throw Exception(userResponse.error ?? 'Unknown error');
     }
 
-    final userRoles = rolesId.map((role) => {'role_id': role, 'user_id': userData['id']}).toList();
+    /// Create user roles
+
+    final userRoles = rolesId.map((role) => {'role_id': role, 'user_id': userId}).toList();
 
     final roleResponse =
         await _client.from('user_role').upsert(userRoles, ignoreDuplicates: true).execute();
@@ -43,6 +70,8 @@ class UsersDataSourceImpl implements UsersDataSource {
     if (roleResponse.hasError) {
       throw Exception(roleResponse.error);
     }
+
+    userData['password'] = password;
 
     return userData;
   }

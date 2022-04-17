@@ -22,13 +22,15 @@ extension UserMapper on UserEntity {
     if (map.isEmpty) return null;
     final user = UserEntity(
       id: map['id'] ?? '',
+      password: map['password'] ?? '',
       fullName: map['full_name'] ?? '',
       email: map['email'] ?? '',
       cpf: map['cpf'] ?? '',
       cellphone: map['cellphone'] ?? '',
       imageUrl: map['image_url'] ?? '',
-      address:
-          AddressMapper.fromMap(map['address'] is List ? Map.from(map['address'][0] ?? {}) : {}),
+      address: AddressMapper.fromMap(map['address'] is List && map['address'].isNotEmpty
+          ? Map.from(map['address'][0] ?? {})
+          : {}),
       roles: map['role_user'] is List
           ? (map['role_user'] as List)
               .map<RoleEntity>((e) => RoleMapper.fromMap(Map.from(e ?? {})))

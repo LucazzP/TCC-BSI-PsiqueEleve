@@ -42,8 +42,13 @@ abstract class _UsersControllerBase extends BaseStore with Store {
     }
   }
 
-  Future<void> onTapAddUser() async {
-    final shouldUpdate = await AddEditUserPage.navigateToAdd(userType);
+  Future<void> onTapAddEditUser([UserEntity? user]) async {
+    bool shouldUpdate = false;
+    if (user == null) {
+      shouldUpdate = await AddEditUserPage.navigateToAdd(userType) ?? false;
+    } else {
+      shouldUpdate = await AddEditUserPage.navigateToEdit(user, false) ?? false;
+    }
     if (shouldUpdate == true) getUsers();
   }
 

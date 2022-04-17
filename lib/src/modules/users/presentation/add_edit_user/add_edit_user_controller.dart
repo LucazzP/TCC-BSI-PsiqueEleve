@@ -1,3 +1,6 @@
+import 'package:flinq/flinq.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:psique_eleve/src/extensions/string.ext.dart';
@@ -11,6 +14,7 @@ import 'package:psique_eleve/src/presentation/base/controller/value.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/value_state.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/form.store.dart';
 import 'package:psique_eleve/src/presentation/constants/validators.dart';
+import 'package:psique_eleve/src/presentation/widgets/custom_alert_dialog/custom_alert_dialog.dart';
 part 'add_edit_user_controller.g.dart';
 
 class AddEditUserController = _AddEditUserControllerBase with _$AddEditUserController;
@@ -44,7 +48,7 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
   List<FormStore> get getForms => [fullName, email, cpf, cellphone];
 
   void initialize(UserType? userType, UserEntity? user, bool isProfilePage) {
-    this.userType = userType ?? user?.roles.first.type ?? UserType.patient;
+    this.userType = userType ?? user?.roles.firstOrNull?.type ?? UserType.patient;
     newUser.setValue(user);
     id = user?.id ?? '';
     this.isProfilePage = isProfilePage;
@@ -52,7 +56,7 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
     _setFieldValues();
   }
 
-  Future<void> onTapCreateEdit() async {
+  Future<void> onTapCreateEdit(BuildContext context) async {
     if (validateForms() == false) return;
     final user = UserEntity(
       id: id,
@@ -70,6 +74,11 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
     );
 
     if (hasFailure) return;
+
+    Clipboard.setData(ClipboardData(text: newUser.value?.password ?? ''));
+
+    await CustomAlertDialog.createdUser(context, newUser.value?.password ?? '');
+
     Modular.to.pop(true);
   }
 

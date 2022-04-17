@@ -36,7 +36,7 @@ class CreateUserUseCase implements BaseUseCase<UserEntity, CreateUserParams> {
       Either<Failure, AddressEntity> _addressResult = const Right(AddressEntity());
 
       return _userResult.fold((l) => Left(l), (user) async {
-        if (address != null) {
+        if (address != null && address.isComplete()) {
           _addressResult = await _createAddressUseCase.call(address.copyWith(userId: user.id));
         }
 

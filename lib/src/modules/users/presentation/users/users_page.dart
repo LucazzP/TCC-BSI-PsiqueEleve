@@ -36,7 +36,7 @@ class _UsersPageState extends BaseState<UsersPage, UsersController> {
 
   @override
   Widget? get floatingActionButton => FloatingActionButton(
-        onPressed: controller.onTapAddUser,
+        onPressed: controller.onTapAddEditUser,
         child: const Icon(Icons.add, color: Colors.white),
         backgroundColor: AppColorScheme.primaryButtonBackground,
       );
@@ -60,9 +60,10 @@ class _UsersPageState extends BaseState<UsersPage, UsersController> {
       return ListView.builder(
         itemCount: users.length,
         itemBuilder: (context, index) {
-          final therapist = users[index];
+          final user = users[index];
           return ListTile(
-            title: Text(therapist.fullName),
+            title: Text(user.fullName),
+            onTap: () => controller.onTapAddEditUser(user),
           );
         },
       );

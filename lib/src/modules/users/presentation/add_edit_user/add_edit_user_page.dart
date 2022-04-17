@@ -112,7 +112,7 @@ class _AddEditUserPageState extends BaseState<AddEditUserPage, AddEditUserContro
             textInputAction: TextInputAction.done,
             keyboardType: TextInputType.number,
             inputFormatters: [TextInputMask(mask: kPhoneMask)],
-            onSubmitted: (_) => controller.onTapCreateEdit(),
+            onSubmitted: (_) => controller.onTapCreateEdit(context),
           );
         }),
         UIHelper.verticalSpaceS24,
@@ -132,7 +132,7 @@ class _AddEditUserPageState extends BaseState<AddEditUserPage, AddEditUserContro
         }),
         UIHelper.verticalSpaceS16,
         AppButton(
-          onPressed: controller.onTapCreateEdit,
+          onPressed: () => controller.onTapCreateEdit(context),
           title: controller.getCreateEditValue,
           style: AppButtonStyle.filled,
         ),
