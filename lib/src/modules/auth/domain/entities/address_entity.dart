@@ -10,6 +10,7 @@ class AddressEntity extends Equatable {
   final String city;
   final String state;
   final String country;
+  final String userId;
 
   const AddressEntity({
     this.id = '',
@@ -21,6 +22,7 @@ class AddressEntity extends Equatable {
     this.state = '',
     this.country = '',
     this.district = '',
+    this.userId = '',
   });
 
   bool isComplete() {
@@ -43,6 +45,7 @@ class AddressEntity extends Equatable {
     String? state,
     String? country,
     String? district,
+    String? userId,
   }) {
     return AddressEntity(
       id: id ?? this.id,
@@ -54,6 +57,7 @@ class AddressEntity extends Equatable {
       state: state ?? this.state,
       country: country ?? this.country,
       district: district ?? this.district,
+      userId: userId ?? this.userId,
     );
   }
 
@@ -69,6 +73,7 @@ class AddressEntity extends Equatable {
       state,
       country,
       district,
+      userId,
     ];
   }
 }

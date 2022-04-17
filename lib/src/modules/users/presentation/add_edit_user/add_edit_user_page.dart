@@ -1,3 +1,4 @@
+import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -5,8 +6,9 @@ import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
 import 'package:psique_eleve/src/modules/users/presentation/widgets/address_card_widget.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
+import 'package:psique_eleve/src/presentation/constants/masks.dart';
 import 'package:psique_eleve/src/presentation/helpers/ui_helper.dart';
-import 'package:psique_eleve/src/presentation/routes.dart';
+import 'package:psique_eleve/src/presentation/constants/routes.dart';
 import 'package:psique_eleve/src/presentation/widgets/app_button/app_button.dart';
 import 'package:psique_eleve/src/presentation/widgets/app_text_field/app_text_field_widget.dart';
 import 'package:psique_eleve/src/presentation/widgets/user_image/user_image_widget.dart';
@@ -16,21 +18,26 @@ import 'add_edit_user_controller.dart';
 class AddEditUserPage extends StatefulWidget {
   final UserType? userType;
   final UserEntity? user;
+  final bool isProfilePage;
 
-  static Future<void> navigateToAdd(UserType userType) => Modular.to.pushNamed(
+  static Future<bool?> navigateToAdd(UserType userType) => Modular.to.pushNamed(
         kUserAddEditScreenRoute,
         arguments: userType,
       );
 
-  static Future<void> navigateToEdit(UserEntity user) => Modular.to.pushNamed(
+  static Future<bool?> navigateToEdit(UserEntity user, bool isProfilePage) => Modular.to.pushNamed(
         kUserAddEditScreenRoute,
-        arguments: user,
+        arguments: {
+          'user': user,
+          'isProfilePage': isProfilePage,
+        },
       );
 
   const AddEditUserPage({
     Key? key,
     this.userType,
     this.user,
+    this.isProfilePage = false,
   }) : super(key: key);
 
   @override
@@ -39,13 +46,16 @@ class AddEditUserPage extends StatefulWidget {
 
 class _AddEditUserPageState extends BaseState<AddEditUserPage, AddEditUserController> {
   @override
-  PreferredSizeWidget? appBar(BuildContext ctx) => AppBar(
-        title: const Text('Adicionar terapeuta'),
+  PreferredSizeWidget? appBar(BuildContext ctx) => PreferredSize(
+        child: AppBar(
+          title: Text(controller.title.value),
+        ),
+        preferredSize: const Size.fromHeight(kToolbarHeight),
       );
 
   @override
   void initState() {
-    controller.initialize(widget.userType, widget.user);
+    controller.initialize(widget.userType, widget.user, widget.isProfilePage);
     super.initState();
   }
 
@@ -78,7 +88,6 @@ class _AddEditUserPageState extends BaseState<AddEditUserPage, AddEditUserContro
             title: 'Email',
             controller: controller.email.controller,
             errorText: controller.email.error,
-            obscureText: true,
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.emailAddress,
           );
@@ -89,9 +98,9 @@ class _AddEditUserPageState extends BaseState<AddEditUserPage, AddEditUserContro
             title: 'CPF',
             controller: controller.cpf.controller,
             errorText: controller.cpf.error,
-            obscureText: true,
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.number,
+            inputFormatters: [TextInputMask(mask: kCpfMask)],
           );
         }),
         UIHelper.verticalSpaceS12,
@@ -100,9 +109,9 @@ class _AddEditUserPageState extends BaseState<AddEditUserPage, AddEditUserContro
             title: 'Telefone',
             controller: controller.cellphone.controller,
             errorText: controller.cellphone.error,
-            obscureText: true,
             textInputAction: TextInputAction.done,
             keyboardType: TextInputType.number,
+            inputFormatters: [TextInputMask(mask: kPhoneMask)],
             onSubmitted: (_) => controller.onTapCreateEdit(),
           );
         }),
@@ -124,7 +133,7 @@ class _AddEditUserPageState extends BaseState<AddEditUserPage, AddEditUserContro
         UIHelper.verticalSpaceS16,
         AppButton(
           onPressed: controller.onTapCreateEdit,
-          title: 'Criar',
+          title: controller.getCreateEditValue,
           style: AppButtonStyle.filled,
         ),
         UIHelper.verticalSpaceS32,

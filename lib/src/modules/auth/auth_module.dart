@@ -3,7 +3,7 @@ import 'package:psique_eleve/src/modules/auth/data/repository/auth_impl.reposito
 import 'package:psique_eleve/src/modules/auth/domain/repository/auth.repository.dart';
 import 'package:psique_eleve/src/modules/auth/domain/usecases/get_user_logged_usecase.dart';
 import 'package:psique_eleve/src/modules/auth/domain/usecases/login_email_usecase.dart';
-import 'package:psique_eleve/src/presentation/routes.dart';
+import 'package:psique_eleve/src/presentation/constants/routes.dart';
 
 import 'data/datasource/local/auth_local.datasource.dart';
 import 'data/datasource/local/auth_local_impl.datasource.dart';

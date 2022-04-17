@@ -1,11 +1,9 @@
 import 'package:psique_eleve/src/modules/auth/domain/entities/address_entity.dart';
 
 extension AddressMapper on AddressEntity {
-
-
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      if (id.isNotEmpty) 'id': id,
       'street': street,
       'number': number,
       'complement': complement,
@@ -14,6 +12,7 @@ extension AddressMapper on AddressEntity {
       'city': city,
       'state': state,
       'country': country,
+      'user_id': userId,
     };
   }
 
@@ -29,6 +28,7 @@ extension AddressMapper on AddressEntity {
       state: map['state'] ?? '',
       country: map['country'] ?? '',
       district: map['district'] ?? '',
+      userId: map['user_id'] ?? '',
     );
   }
 }

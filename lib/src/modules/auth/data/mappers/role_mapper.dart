@@ -4,6 +4,7 @@ import 'package:psique_eleve/src/modules/auth/domain/entities/role_entity.dart';
 extension RoleMapper on RoleEntity {
   Map<String, dynamic> toMap() {
     return {
+      if (id.isNotEmpty) 'id': id,
       'name': name,
       'can_manage_therapists': canManageTherapists,
       'can_manage_patients': canManagePatients,
@@ -18,6 +19,7 @@ extension RoleMapper on RoleEntity {
 
   static RoleEntity fromMap(Map map) {
     return RoleEntity(
+      id: map['id'],
       name: map['name'] ?? '',
       type: UserType.values.firstWhere(
         (element) => element.name == map['name'],

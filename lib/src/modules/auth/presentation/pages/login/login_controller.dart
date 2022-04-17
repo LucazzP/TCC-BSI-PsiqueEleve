@@ -5,7 +5,7 @@ import 'package:psique_eleve/src/modules/home/presentation/pages/feed/feed_page.
 import 'package:psique_eleve/src/presentation/base/controller/base.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/form.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/value_state.store.dart';
-import 'package:psique_eleve/src/presentation/validators.dart';
+import 'package:psique_eleve/src/presentation/constants/validators.dart';
 
 part 'login_controller.g.dart';
 

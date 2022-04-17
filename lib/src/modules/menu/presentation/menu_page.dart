@@ -5,7 +5,7 @@ import 'package:psique_eleve/src/modules/menu/model/menu_option_model.dart';
 import 'package:psique_eleve/src/modules/users/presentation/add_edit_user/add_edit_user_page.dart';
 import 'package:psique_eleve/src/modules/users/presentation/users/users_page.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
-import 'package:psique_eleve/src/presentation/routes.dart';
+import 'package:psique_eleve/src/presentation/constants/routes.dart';
 import 'package:psique_eleve/src/presentation/styles/app_spacing.dart';
 
 import 'menu_controller.dart';
@@ -38,7 +38,7 @@ class _MenuPageState extends BaseState<MenuPage, MenuController> {
         onTap: () {
           final user = controller.user.value;
           if (user != null) {
-            AddEditUserPage.navigateToEdit(user);
+            AddEditUserPage.navigateToEdit(user, true);
           } else {
             Modular.to.pop();
           }

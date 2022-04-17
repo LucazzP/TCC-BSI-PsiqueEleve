@@ -50,8 +50,7 @@ abstract class BaseState<T extends StatefulWidget, S extends BaseStore> extends 
   PreferredSizeWidget? appBar(BuildContext ctx);
 
   PreferredSizeWidget? _buildAppBar(BuildContext ctx) {
-    final _appBar = appBar(ctx);
-    return _appBar;
+    return appBar(ctx);
   }
 
   bool get hasAppBar => scaffoldKey.currentState?.hasAppBar ?? false;

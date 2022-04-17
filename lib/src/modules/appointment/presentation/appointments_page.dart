@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
-import 'package:psique_eleve/src/presentation/routes.dart';
+import 'package:psique_eleve/src/presentation/constants/routes.dart';
 
 import 'appointments_controller.dart';
 

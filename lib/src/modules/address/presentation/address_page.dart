@@ -4,9 +4,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/address_entity.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
+import 'package:psique_eleve/src/presentation/constants/masks.dart';
 import 'package:psique_eleve/src/presentation/helpers/ui_helper.dart';
 import 'package:psique_eleve/src/presentation/helpers/upper_case_text_formatter.dart';
-import 'package:psique_eleve/src/presentation/routes.dart';
+import 'package:psique_eleve/src/presentation/constants/routes.dart';
 import 'package:psique_eleve/src/presentation/widgets/app_button/app_button.dart';
 import 'package:psique_eleve/src/presentation/widgets/app_text_field/app_text_field_widget.dart';
 
@@ -27,11 +28,9 @@ class AddressPage extends StatefulWidget {
 }
 
 class _AddressPageState extends BaseState<AddressPage, AddressController> {
-  String get getCreateEditValue => controller.pageIsForEditing ? 'Editar' : 'Adicionar';
-
   @override
   PreferredSizeWidget? appBar(BuildContext ctx) => AppBar(
-        title: Text('$getCreateEditValue endereço'),
+        title: Text('${controller.getCreateEditValue} endereço'),
       );
 
   @override
@@ -61,7 +60,7 @@ class _AddressPageState extends BaseState<AddressPage, AddressController> {
               errorText: controller.zipCode.error,
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.number,
-              inputFormatters: [TextInputMask(mask: '99999-999')],
+              inputFormatters: [TextInputMask(mask: kZipCodeMask)],
             );
           }),
           UIHelper.verticalSpaceS12,
@@ -141,7 +140,7 @@ class _AddressPageState extends BaseState<AddressPage, AddressController> {
                     errorText: controller.state.error,
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.text,
-                    inputFormatters: [TextInputMask(mask: 'AA'), UpperCaseTextFormatter()],
+                    inputFormatters: [TextInputMask(mask: kStateMask), UpperCaseTextFormatter()],
                     textCapitalization: TextCapitalization.characters,
                   );
                 }),
@@ -151,7 +150,7 @@ class _AddressPageState extends BaseState<AddressPage, AddressController> {
           UIHelper.verticalSpaceS32,
           AppButton(
             onPressed: controller.onTapCreateEdit,
-            title: getCreateEditValue,
+            title: controller.getCreateEditValue,
             style: AppButtonStyle.filled,
           ),
           UIHelper.verticalSpaceS32,

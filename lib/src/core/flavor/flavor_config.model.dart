@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:psique_eleve/src/extensions/string.ext.dart';
+
 import 'flavor_values.model.dart';
 
 @immutable
@@ -17,7 +17,7 @@ class FlavorConfig {
   }) {
     _instance = FlavorConfig._internal(
       flavor,
-      flavor.toString().getNameFromEnum(),
+      flavor.name,
       color,
       values,
     );
@@ -30,7 +30,7 @@ class FlavorConfig {
     Color color = Colors.blue,
     required FlavorValues values,
   }) {
-    _instance = FlavorConfig._internal(flavor, flavor.toString().getNameFromEnum(), color, values);
+    _instance = FlavorConfig._internal(flavor, flavor.name, color, values);
     return _instance;
   }
 

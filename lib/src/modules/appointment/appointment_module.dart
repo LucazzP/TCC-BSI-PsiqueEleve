@@ -6,6 +6,7 @@ class AppointmentModule extends Module {
   @override
   final List<Bind> binds = [
     Bind.lazySingleton((i) => AppointmentsController()),
+    
   ];
 
   @override

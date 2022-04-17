@@ -5,15 +5,16 @@ import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
 import 'address_mapper.dart';
 
 extension UserMapper on UserEntity {
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap({bool onlyUserFields = false}) {
     return {
-      'id': id,
+      if (id.isNotEmpty) 'id': id,
       'full_name': fullName,
       'email': email,
       'cpf': cpf,
       'cellphone': cellphone,
-      'address': [address?.toMap()],
-      'role_user': roles.map((e) => e.toMap()),
+      'image_url': imageUrl,
+      if (!onlyUserFields) 'address': [address?.toMap()],
+      if (!onlyUserFields) 'role_user': roles.map((e) => e.toMap()).toList(),
     };
   }
 
@@ -25,6 +26,7 @@ extension UserMapper on UserEntity {
       email: map['email'] ?? '',
       cpf: map['cpf'] ?? '',
       cellphone: map['cellphone'] ?? '',
+      imageUrl: map['image_url'] ?? '',
       address:
           AddressMapper.fromMap(map['address'] is List ? Map.from(map['address'][0] ?? {}) : {}),
       roles: map['role_user'] is List

@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:psique_eleve/src/core/constants.dart';
 import 'package:psique_eleve/src/core/exceptions.dart';
+import 'package:psique_eleve/src/helpers/casters.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'auth_remote.datasource.dart';
@@ -20,7 +21,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     address(*),
     role_user:role(*)
   ''').eq('id', user.id).single().execute();
-    return Map.from(res.data);
+    return Casters.toMap(res.data);
   }
 
   @override

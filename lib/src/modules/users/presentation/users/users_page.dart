@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
-import 'package:psique_eleve/src/presentation/routes.dart';
+import 'package:psique_eleve/src/presentation/constants/routes.dart';
 import 'package:psique_eleve/src/presentation/styles/app_color_scheme.dart';
 
 import 'users_controller.dart';
@@ -27,8 +27,11 @@ class UsersPage extends StatefulWidget {
 
 class _UsersPageState extends BaseState<UsersPage, UsersController> {
   @override
-  PreferredSizeWidget? appBar(BuildContext ctx) => AppBar(
-        title: const Text('Terapeutas'),
+  PreferredSizeWidget? appBar(BuildContext ctx) => PreferredSize(
+        child: AppBar(
+          title: Text(controller.title.value),
+        ),
+        preferredSize: const Size.fromHeight(kToolbarHeight),
       );
 
   @override
@@ -50,8 +53,8 @@ class _UsersPageState extends BaseState<UsersPage, UsersController> {
     return Observer(builder: (context) {
       final users = controller.users.value;
       if (users.isEmpty && !controller.isLoading) {
-        return const Center(
-          child: Text('Nenhum terapeuta cadastrado'),
+        return Center(
+          child: Text(controller.emptyMessage.value),
         );
       }
       return ListView.builder(

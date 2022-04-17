@@ -4,7 +4,7 @@ import 'package:psique_eleve/src/core/flavor/flavor_config.model.dart';
 import 'package:psique_eleve/src/data/local/hive_client.dart';
 import 'package:psique_eleve/src/data/remote/interceptors/auth_interceptor.dart';
 import 'package:psique_eleve/src/modules/logger/log.module.dart';
-import 'package:psique_eleve/src/presentation/routes.dart';
+import 'package:psique_eleve/src/presentation/constants/routes.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'data/remote/dio_client.dart';

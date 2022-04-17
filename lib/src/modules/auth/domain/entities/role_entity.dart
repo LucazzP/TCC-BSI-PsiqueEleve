@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 
 class RoleEntity extends Equatable {
+  final String id;
   final String name;
   final UserType type;
   final bool canManageTherapists;
@@ -14,6 +15,7 @@ class RoleEntity extends Equatable {
   final bool canManageRewards;
 
   const RoleEntity({
+    this.id = '',
     this.name = '',
     this.type = UserType.patient,
     this.canManageTherapists = false,
@@ -27,6 +29,7 @@ class RoleEntity extends Equatable {
   });
 
   RoleEntity copyWith({
+    String? id,
     String? name,
     UserType? type,
     bool? canManageTherapists,
@@ -39,12 +42,14 @@ class RoleEntity extends Equatable {
     bool? canManageRewards,
   }) {
     return RoleEntity(
+      id: id ?? this.id,
       name: name ?? this.name,
       type: type ?? this.type,
       canManageTherapists: canManageTherapists ?? this.canManageTherapists,
       canManagePatients: canManagePatients ?? this.canManagePatients,
       canManageResponsibles: canManageResponsibles ?? this.canManageResponsibles,
-      canManagePatientTherapistRelationships: canManagePatientTherapistRelationships ?? this.canManagePatientTherapistRelationships,
+      canManagePatientTherapistRelationships:
+          canManagePatientTherapistRelationships ?? this.canManagePatientTherapistRelationships,
       canManageAppointments: canManageAppointments ?? this.canManageAppointments,
       canManageTasks: canManageTasks ?? this.canManageTasks,
       canManageAchivements: canManageAchivements ?? this.canManageAchivements,
@@ -55,6 +60,7 @@ class RoleEntity extends Equatable {
   @override
   List<Object> get props {
     return [
+      id,
       name,
       type,
       canManageTherapists,

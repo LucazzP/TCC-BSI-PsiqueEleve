@@ -8,6 +8,7 @@ class UserEntity extends Equatable {
   final String email;
   final String cpf;
   final String cellphone;
+  final String imageUrl;
   final AddressEntity? address;
   final List<RoleEntity> roles;
 
@@ -17,6 +18,7 @@ class UserEntity extends Equatable {
     this.email = '',
     this.cpf = '',
     this.cellphone = '',
+    this.imageUrl = '',
     required this.address,
     required this.roles,
   });
@@ -27,6 +29,7 @@ class UserEntity extends Equatable {
     String? email,
     String? cpf,
     String? cellphone,
+    String? imageUrl,
     AddressEntity? address,
     List<RoleEntity>? roles,
   }) {
@@ -36,6 +39,7 @@ class UserEntity extends Equatable {
       email: email ?? this.email,
       cpf: cpf ?? this.cpf,
       cellphone: cellphone ?? this.cellphone,
+      imageUrl: imageUrl ?? this.imageUrl,
       address: address ?? this.address,
       roles: roles ?? this.roles,
     );
@@ -51,6 +55,7 @@ class UserEntity extends Equatable {
       cellphone,
       address,
       roles,
+      imageUrl,
     ];
   }
 }

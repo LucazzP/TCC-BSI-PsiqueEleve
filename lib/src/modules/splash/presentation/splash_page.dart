@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:psique_eleve/src/localization/app_localizations.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
-import 'package:psique_eleve/src/presentation/images.dart';
+import 'package:psique_eleve/src/presentation/constants/images.dart';
 
 import 'splash_controller.dart';
 

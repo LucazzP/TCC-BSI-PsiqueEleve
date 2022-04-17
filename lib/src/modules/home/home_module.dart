@@ -4,7 +4,7 @@ import 'package:psique_eleve/src/modules/home/presentation/pages/feed/feed_contr
 import 'package:psique_eleve/src/modules/menu/menu_module.dart';
 import 'package:psique_eleve/src/modules/tasks/tasks_module.dart';
 import 'package:psique_eleve/src/modules/users/users_module.dart';
-import 'package:psique_eleve/src/presentation/routes.dart';
+import 'package:psique_eleve/src/presentation/constants/routes.dart';
 
 import 'presentation/pages/feed/feed_page.dart';
 import 'presentation/pages/home/home_controller.dart';
