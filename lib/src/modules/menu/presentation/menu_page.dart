@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/modules/menu/model/menu_option_model.dart';
+import 'package:psique_eleve/src/modules/users/presentation/add_edit_user/add_edit_user_page.dart';
+import 'package:psique_eleve/src/modules/users/presentation/users/users_page.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/routes.dart';
 import 'package:psique_eleve/src/presentation/styles/app_spacing.dart';
@@ -24,6 +27,36 @@ class _MenuPageState extends BaseState<MenuPage, MenuController> {
   @override
   EdgeInsets get padding => EdgeInsets.zero;
 
+  late final List<MenuOptionModel> options;
+
+  @override
+  void initState() {
+    controller.getUserLogged();
+    options = [
+      MenuOptionModel(
+        title: 'Perfil',
+        onTap: () {
+          final user = controller.user.value;
+          if (user != null) {
+            AddEditUserPage.navigateToEdit(user);
+          } else {
+            Modular.to.pop();
+          }
+        },
+      ),
+      MenuOptionModel(
+        title: 'Gerenciar Terapeutas',
+        onTap: () => UsersPage.navigateTo(UserType.therapist),
+      ),
+      MenuOptionModel(
+        title: 'Gerenciar Pacientes',
+        onTap: () => UsersPage.navigateTo(UserType.patient),
+      ),
+      MenuOptionModel(title: 'Configurações', onTap: () {}),
+    ];
+    super.initState();
+  }
+
   @override
   Widget child(context, constrains) {
     return ListView.builder(
@@ -32,18 +65,11 @@ class _MenuPageState extends BaseState<MenuPage, MenuController> {
         final item = options[index];
         return ListTile(
           title: Text(item.title),
-          onTap: () => Modular.to.pushNamed(item.route),
+          onTap: item.onTap,
           contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.s20),
         );
       },
       itemCount: options.length,
     );
   }
-
-  static const options = [
-    MenuOptionModel(title: 'Perfil'),
-    MenuOptionModel(title: 'Gerenciar Terapeutas', route: kTherapistsScreenRoute),
-    MenuOptionModel(title: 'Gerenciar Pacientes'),
-    MenuOptionModel(title: 'Configurações'),
-  ];
 }

@@ -106,5 +106,9 @@ abstract class _BaseStoreBase extends Disposable with Store {
 
   @override
   @mustCallSuper
-  void dispose() {}
+  void dispose() {
+    for (var form in getForms) {
+      form.dispose();
+    }
+  }
 }

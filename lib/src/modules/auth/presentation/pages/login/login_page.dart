@@ -74,7 +74,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginController> {
                 Observer(builder: (_) {
                   return AppTextFieldWidget(
                     title: 'Email',
-                    onChanged: controller.email.setValue,
+                    controller: controller.email.controller,
                     errorText: controller.email.error,
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.emailAddress,
@@ -84,7 +84,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginController> {
                 Observer(builder: (_) {
                   return AppTextFieldWidget(
                     title: 'Senha',
-                    onChanged: controller.password.setValue,
+                    controller: controller.password.controller,
                     errorText: controller.password.error,
                     obscureText: true,
                     textInputAction: TextInputAction.done,

@@ -19,7 +19,7 @@ extension UserMapper on UserEntity {
 
   static UserEntity? fromMap(Map map) {
     if (map.isEmpty) return null;
-    return UserEntity(
+    final user = UserEntity(
       id: map['id'] ?? '',
       fullName: map['full_name'] ?? '',
       email: map['email'] ?? '',
@@ -33,5 +33,7 @@ extension UserMapper on UserEntity {
               .toList()
           : [],
     );
+    user.roles.sort((a, b) => a.type.index.compareTo(b.type.index));
+    return user;
   }
 }

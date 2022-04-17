@@ -23,6 +23,16 @@ class AddressEntity extends Equatable {
     this.district = '',
   });
 
+  bool isComplete() {
+    return street.isNotEmpty &&
+        number.isNotEmpty &&
+        district.isNotEmpty &&
+        city.isNotEmpty &&
+        state.isNotEmpty &&
+        zipCode.isNotEmpty &&
+        country.isNotEmpty;
+  }
+
   AddressEntity copyWith({
     String? id,
     String? street,

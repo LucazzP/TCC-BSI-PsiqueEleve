@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
+
 class MenuOptionModel {
   final String title;
-  final String route;
+  final VoidCallback? onTap;
 
   const MenuOptionModel({
     this.title = '',
-    this.route = '',
+    this.onTap,
   });
 }

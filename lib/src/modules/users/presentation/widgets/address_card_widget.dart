@@ -59,14 +59,16 @@ class AddressCardWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(address.street + ', ' + address.number + ' - ' + address.district),
+              Text(address.street),
               Text(MagicMask.buildMask('99999-999').getMaskedString(address.zipCode)),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (address.complement.isNotEmpty) Text(address.complement),
+              Text(
+                '${address.number}, ${address.complement.isNotEmpty ? (address.complement + ', ') : ''}${address.district}',
+              ),
               Text(address.city + ' - ' + address.state),
             ],
           ),

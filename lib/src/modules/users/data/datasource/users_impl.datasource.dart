@@ -1,16 +1,16 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'therapists.datasource.dart';
+import 'users.datasource.dart';
 
-class TherapistsDataSourceImpl implements TherapistsDataSource {
+class UsersDataSourceImpl implements UsersDataSource {
   final SupabaseClient client;
 
-  const TherapistsDataSourceImpl(this.client);
+  const UsersDataSourceImpl(this.client);
 
   static const pageSize = 10;
 
   @override
-  Future<List<Map>> getTherapists({int page = 0}) async {
+  Future<List<Map>> getUsers({int page = 0}) async {
     final offset = page * pageSize;
     final res = await client.from('user').select('''
       *,
@@ -20,12 +20,12 @@ class TherapistsDataSourceImpl implements TherapistsDataSource {
   }
 
   @override
-  Future<Map> createTherapist(Map therapist) {
+  Future<Map> createUser(Map therapist) {
     throw UnimplementedError();
   }
 
   @override
-  Future<Map> updateTherapist(Map therapist) {
+  Future<Map> updateUser(Map therapist) {
     throw UnimplementedError();
   }
 }

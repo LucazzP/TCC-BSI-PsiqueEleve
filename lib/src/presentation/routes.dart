@@ -9,11 +9,11 @@ const kHomeMenuScreenRoute = '$kHomeModuleRoute/menu/';
 const kAuthModuleRoute = '/auth/';
 const kAuthLoginScreenRoute = '${kAuthModuleRoute}login';
 
-const kTherapistsModuleRoute = '$kHomeModuleRoute/therapists';
-const kTherapistsScreenRoute = '$kTherapistsModuleRoute/';
-const kTherapistAddScreenRoute = '$kTherapistsModuleRoute/add';
+const kUsersModuleRoute = '$kHomeModuleRoute/users';
+const kUsersScreenRoute = '$kUsersModuleRoute/';
+const kUserAddEditScreenRoute = '$kUsersModuleRoute/add';
 
-const kAddressModuleRoute = '$kTherapistsModuleRoute/address';
+const kAddressModuleRoute = '$kUsersModuleRoute/address';
 const kAddressScreenRoute = '$kAddressModuleRoute/';
 
 extension RouterExtension on String {

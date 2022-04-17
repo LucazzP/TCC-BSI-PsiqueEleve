@@ -1,3 +1,4 @@
+import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/role_entity.dart';
 
 extension RoleMapper on RoleEntity {
@@ -18,10 +19,15 @@ extension RoleMapper on RoleEntity {
   static RoleEntity fromMap(Map map) {
     return RoleEntity(
       name: map['name'] ?? '',
+      type: UserType.values.firstWhere(
+        (element) => element.name == map['name'],
+        orElse: () => UserType.patient,
+      ),
       canManageTherapists: map['can_manage_therapists'] ?? false,
       canManagePatients: map['can_manage_patients'] ?? false,
       canManageResponsibles: map['can_manage_responsibles'] ?? false,
-      canManagePatientTherapistRelationships: map['can_manage_patient_therapist_relationships'] ?? false,
+      canManagePatientTherapistRelationships:
+          map['can_manage_patient_therapist_relationships'] ?? false,
       canManageAppointments: map['can_manage_appointments'] ?? false,
       canManageTasks: map['can_manage_tasks'] ?? false,
       canManageAchivements: map['can_manage_achivements'] ?? false,

@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 
 class RoleEntity extends Equatable {
   final String name;
+  final UserType type;
   final bool canManageTherapists;
   final bool canManagePatients;
   final bool canManageResponsibles;
@@ -13,6 +15,7 @@ class RoleEntity extends Equatable {
 
   const RoleEntity({
     this.name = '',
+    this.type = UserType.patient,
     this.canManageTherapists = false,
     this.canManagePatients = false,
     this.canManageResponsibles = false,
@@ -25,6 +28,7 @@ class RoleEntity extends Equatable {
 
   RoleEntity copyWith({
     String? name,
+    UserType? type,
     bool? canManageTherapists,
     bool? canManagePatients,
     bool? canManageResponsibles,
@@ -36,6 +40,7 @@ class RoleEntity extends Equatable {
   }) {
     return RoleEntity(
       name: name ?? this.name,
+      type: type ?? this.type,
       canManageTherapists: canManageTherapists ?? this.canManageTherapists,
       canManagePatients: canManagePatients ?? this.canManagePatients,
       canManageResponsibles: canManageResponsibles ?? this.canManageResponsibles,
@@ -51,6 +56,7 @@ class RoleEntity extends Equatable {
   List<Object> get props {
     return [
       name,
+      type,
       canManageTherapists,
       canManagePatients,
       canManageResponsibles,
