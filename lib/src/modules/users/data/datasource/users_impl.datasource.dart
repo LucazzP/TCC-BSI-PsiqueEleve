@@ -60,16 +60,7 @@ class UsersDataSourceImpl implements UsersDataSource {
       throw Exception(userResponse.error ?? 'Unknown error');
     }
 
-    /// Create user roles
-
-    final userRoles = rolesId.map((role) => {'role_id': role, 'user_id': userId}).toList();
-
-    final roleResponse =
-        await _client.from('user_role').upsert(userRoles, ignoreDuplicates: true).execute();
-
-    if (roleResponse.hasError) {
-      throw Exception(roleResponse.error);
-    }
+    await _createUpdateUserRoles(rolesId, userId);
 
     userData['password'] = password;
 
@@ -82,7 +73,11 @@ class UsersDataSourceImpl implements UsersDataSource {
     if (id == null || id.isEmpty) {
       return createUser(user, rolesId);
     }
+    await _createUpdateUserRoles(rolesId, id);
     final res = await _client.from('user').update(user).eq('id', id).execute();
+    if (res.hasError) {
+      throw Exception(res.error ?? 'Unknown error');
+    }
     return Casters.toMap(res.data);
   }
 
@@ -95,5 +90,19 @@ class UsersDataSourceImpl implements UsersDataSource {
     }
 
     return Casters.toListMap(res.data);
+  }
+
+  Future<List<Map>> _createUpdateUserRoles(List<String> rolesId, String userId) async {
+    final userRoles = rolesId.map((role) => {'role_id': role, 'user_id': userId}).toList();
+
+    final roleResponse =
+        await _client.from('user_role').upsert(userRoles, ignoreDuplicates: true).execute();
+
+    final error = roleResponse.error;
+    if (error != null && !error.message.contains('duplicate key')) {
+      throw Exception(roleResponse.error);
+    }
+
+    return Casters.toListMap(roleResponse.data);
   }
 }

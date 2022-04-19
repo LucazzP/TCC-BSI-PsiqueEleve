@@ -90,6 +90,7 @@ class _AddEditUserPageState extends BaseState<AddEditUserPage, AddEditUserContro
             errorText: controller.email.error,
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.emailAddress,
+            enabled: controller.pageIsForEditing == false,
           );
         }),
         UIHelper.verticalSpaceS12,

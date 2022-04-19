@@ -21,6 +21,7 @@ class AppTextFieldWidget extends StatelessWidget {
   final String? errorText;
   final TextEditingController? controller;
   final bool isLoading;
+  final bool enabled;
 
   const AppTextFieldWidget({
     Key? key,
@@ -35,6 +36,7 @@ class AppTextFieldWidget extends StatelessWidget {
     this.errorText,
     this.controller,
     this.isLoading = false,
+    this.enabled = true,
   }) : super(key: key);
 
   @override
@@ -52,6 +54,7 @@ class AppTextFieldWidget extends StatelessWidget {
         UIHelper.verticalSpaceS12,
         TextField(
           onChanged: onChanged,
+          enabled: enabled,
           textInputAction: textInputAction,
           keyboardType: keyboardType,
           inputFormatters: inputFormatters,

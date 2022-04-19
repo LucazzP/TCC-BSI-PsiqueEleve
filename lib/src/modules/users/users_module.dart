@@ -9,6 +9,7 @@ import 'package:psique_eleve/src/modules/users/domain/repository/users.repositor
 import 'package:psique_eleve/src/modules/users/domain/usecases/create_user.usecase.dart';
 import 'package:psique_eleve/src/modules/users/domain/usecases/get_patients.usecase.dart';
 import 'package:psique_eleve/src/modules/users/domain/usecases/get_therapists.usecase.dart';
+import 'package:psique_eleve/src/modules/users/domain/usecases/update_user.usecase.dart';
 import 'package:psique_eleve/src/modules/users/presentation/users/users_controller.dart';
 import 'package:psique_eleve/src/modules/users/presentation/users/users_page.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
@@ -22,11 +23,12 @@ class UsersModule extends Module {
 
   @override
   final List<Bind> binds = [
-    Bind.lazySingleton((i) => AddEditUserController(i())),
+    Bind.lazySingleton((i) => AddEditUserController(i(), i())),
     Bind.lazySingleton((i) => UsersController(i(), i())),
     Bind.factory((i) => GetTherapistsUseCase(i())),
     Bind.factory((i) => GetPatientsUseCase(i())),
     Bind.factory((i) => CreateUserUseCase(i(), i())),
+    Bind.factory((i) => UpdateUserUseCase(i(), i())),
     Bind.factory<UsersRepository>((i) => UsersRepositoryImpl(i())),
     Bind.factory<UsersDataSource>((i) => UsersDataSourceImpl(i())),
   ];

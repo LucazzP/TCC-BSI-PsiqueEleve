@@ -26,6 +26,24 @@ class UserEntity extends Equatable {
     required this.roles,
   });
 
+  RoleEntity get role {
+    final bestRole = roles.first;
+    return RoleEntity(
+      id: bestRole.id,
+      name: bestRole.name,
+      type: bestRole.type,
+      canManageTherapists: roles.any((role) => role.canManageTherapists),
+      canManagePatients: roles.any((role) => role.canManagePatients),
+      canManageResponsibles: roles.any((role) => role.canManageResponsibles),
+      canManagePatientTherapistRelationships:
+          roles.any((role) => role.canManagePatientTherapistRelationships),
+      canManageAppointments: roles.any((role) => role.canManageAppointments),
+      canManageTasks: roles.any((role) => role.canManageTasks),
+      canManageAchivements: roles.any((role) => role.canManageAchivements),
+      canManageRewards: roles.any((role) => role.canManageRewards),
+    );
+  }
+
   UserEntity copyWith({
     String? id,
     String? fullName,

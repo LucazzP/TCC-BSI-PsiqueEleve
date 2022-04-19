@@ -9,6 +9,7 @@ import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/address_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
 import 'package:psique_eleve/src/modules/users/domain/usecases/create_user.usecase.dart';
+import 'package:psique_eleve/src/modules/users/domain/usecases/update_user.usecase.dart';
 import 'package:psique_eleve/src/presentation/base/controller/base.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/value.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/value_state.store.dart';
@@ -21,8 +22,9 @@ class AddEditUserController = _AddEditUserControllerBase with _$AddEditUserContr
 
 abstract class _AddEditUserControllerBase extends BaseStore with Store {
   final CreateUserUseCase _createUserUseCase;
+  final UpdateUserUseCase _updateUserUseCase;
 
-  _AddEditUserControllerBase(this._createUserUseCase);
+  _AddEditUserControllerBase(this._createUserUseCase, this._updateUserUseCase);
 
   late final UserType userType;
   late final String id;
@@ -70,14 +72,17 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
     );
 
     await newUser.execute(
-      () => _createUserUseCase(CreateUserParams(user: user, userTypes: [userType])),
+      () => pageIsForEditing
+          ? _updateUserUseCase(UpdateUserParams(user: user, userTypes: [userType]))
+          : _createUserUseCase(CreateUserParams(user: user, userTypes: [userType])),
     );
 
     if (hasFailure) return;
 
-    Clipboard.setData(ClipboardData(text: newUser.value?.password ?? ''));
-
-    await CustomAlertDialog.createdUser(context, newUser.value?.password ?? '');
+    if (pageIsForEditing == false) {
+      Clipboard.setData(ClipboardData(text: newUser.value?.password ?? ''));
+      await CustomAlertDialog.createdUser(context, newUser.value?.password ?? '');
+    }
 
     Modular.to.pop(true);
   }

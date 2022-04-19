@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide ErrorWidget;
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:psique_eleve/src/core/constants.dart';
 import 'package:psique_eleve/src/presentation/base/controller/base.store.dart';
 import 'package:psique_eleve/src/presentation/base/pages/reaction.dart';
 import 'package:psique_eleve/src/presentation/styles/app_color_scheme.dart';
@@ -85,7 +86,7 @@ abstract class BaseState<T extends StatefulWidget, S extends BaseStore> extends 
     super.dispose();
   }
 
-  Widget loader = const Center(child: CircularProgressIndicator());
+  Widget loader = const Center(child: CircularProgressIndicator(color: AppColorScheme.white));
 
   @override
   @mustCallSuper
@@ -120,7 +121,15 @@ abstract class BaseState<T extends StatefulWidget, S extends BaseStore> extends 
         if (showLoadingOverlay)
           Observer(builder: (_) {
             return (controller.isLoading && !controller.hasFailure)
-                ? OverlayWidget(child: loader)
+                ? FutureBuilder(
+                    future: Future.delayed(kAnimationDuration),
+                    builder: (context, future) {
+                      return future.connectionState == ConnectionState.done &&
+                              (controller.isLoading && !controller.hasFailure)
+                          ? OverlayWidget(child: loader)
+                          : const SizedBox.shrink();
+                    },
+                  )
                 : const SizedBox.shrink();
           }),
         if (showErrorOverlay)
