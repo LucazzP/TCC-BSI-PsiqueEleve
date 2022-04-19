@@ -37,9 +37,10 @@ abstract class _MenuControllerBase extends BaseStore with Store {
     options.setValue([
       MenuOptionModel(
         title: 'Perfil',
-        onTap: () {
+        onTap: () async {
           if (_user != null) {
-            AddEditUserPage.navigateToEdit(_user, true);
+            final wasModified = await AddEditUserPage.navigateToEdit(_user, true);
+            if (wasModified == true) getUserLogged();
           } else {
             Modular.to.pop();
           }

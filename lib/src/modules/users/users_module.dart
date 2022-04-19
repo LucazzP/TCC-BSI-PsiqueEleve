@@ -28,7 +28,7 @@ class UsersModule extends Module {
     Bind.factory((i) => GetTherapistsUseCase(i())),
     Bind.factory((i) => GetPatientsUseCase(i())),
     Bind.factory((i) => CreateUserUseCase(i(), i())),
-    Bind.factory((i) => UpdateUserUseCase(i(), i())),
+    Bind.factory((i) => UpdateUserUseCase(i(), i(), i())),
     Bind.factory<UsersRepository>((i) => UsersRepositoryImpl(i())),
     Bind.factory<UsersDataSource>((i) => UsersDataSourceImpl(i())),
   ];

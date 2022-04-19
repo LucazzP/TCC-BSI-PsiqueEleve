@@ -52,4 +52,12 @@ class AuthRepositoryImpl implements AuthRepository {
       return unit;
     });
   }
+
+  @override
+  Future<Either<Failure, Unit>> resetLocalUser() {
+    return callEither(() async {
+      await _localDataSource.saveUserLogged({});
+      return unit;
+    });
+  }
 }

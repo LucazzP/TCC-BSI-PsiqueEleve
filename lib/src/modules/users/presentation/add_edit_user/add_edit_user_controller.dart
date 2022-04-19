@@ -73,7 +73,11 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
 
     await newUser.execute(
       () => pageIsForEditing
-          ? _updateUserUseCase(UpdateUserParams(user: user, userTypes: [userType]))
+          ? _updateUserUseCase(UpdateUserParams(
+              user: user,
+              userTypes: [userType],
+              isProfilePage: isProfilePage,
+            ))
           : _createUserUseCase(CreateUserParams(user: user, userTypes: [userType])),
     );
 
