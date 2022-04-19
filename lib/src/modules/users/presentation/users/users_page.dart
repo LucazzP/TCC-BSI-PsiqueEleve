@@ -5,6 +5,7 @@ import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
 import 'package:psique_eleve/src/presentation/styles/app_color_scheme.dart';
+import 'package:psique_eleve/src/presentation/styles/app_spacing.dart';
 
 import 'users_controller.dart';
 
@@ -49,6 +50,9 @@ class _UsersPageState extends BaseState<UsersPage, UsersController> {
   }
 
   @override
+  EdgeInsets get padding => EdgeInsets.zero;
+
+  @override
   Widget child(context, constrains) {
     return Observer(builder: (context) {
       final users = controller.users.value;
@@ -64,6 +68,10 @@ class _UsersPageState extends BaseState<UsersPage, UsersController> {
           return ListTile(
             title: Text(user.fullName),
             onTap: () => controller.onTapAddEditUser(user),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.s24,
+              vertical: AppSpacing.s4,
+            ),
           );
         },
       );

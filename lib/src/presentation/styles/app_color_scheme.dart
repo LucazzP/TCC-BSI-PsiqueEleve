@@ -49,7 +49,7 @@ class AppColorScheme {
   static const shadow = Color(0x4B000000);
   static const bodyText = Color(0xFF202124);
   static const primaryDefault = Color(0xFF009BB1);
-  static const primaryLightest = Color(0xFFE0F3F6);
+  static const primaryLightest = Color(0xFFeaf8fa);
   static const primaryLight = Color(0xFF80CDD8);
   static const primaryMedium = Color(0xFF0093AA);
   static const primaryDark = Color(0xFF007F98);

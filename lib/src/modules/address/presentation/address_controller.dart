@@ -4,6 +4,7 @@ import 'package:psique_eleve/src/extensions/string.ext.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/address_entity.dart';
 import 'package:psique_eleve/src/presentation/base/controller/base.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/form.store.dart';
+import 'package:psique_eleve/src/presentation/base/controller/value.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/value_state.store.dart';
 import 'package:psique_eleve/src/presentation/constants/validators.dart';
 import 'package:via_cep_flutter/via_cep_flutter.dart';
@@ -20,6 +21,7 @@ abstract class _AddressControllerBase extends BaseStore with Store {
   final city = FormStore(Validators.minLenght(3));
   final state = FormStore(Validators.minLenght(3));
   final zipCode = FormStore(Validators.minLenght(3));
+  final zipCodeIsLoading = ValueStore(false);
   late final String id;
   bool get pageIsForEditing => id.isNotEmpty;
   String get getCreateEditValue => pageIsForEditing ? 'Editar' : 'Adicionar';
@@ -48,13 +50,15 @@ abstract class _AddressControllerBase extends BaseStore with Store {
     city.setValue(address.city);
     state.setValue(address.state);
     zipCode.setValue(address.zipCode.withZipCodeMask);
-    zipCode.controller.addListener(_onZipCodeChanged);
   }
 
-  Future<void> _onZipCodeChanged() async {
+  Future<void> onZipCodeChanged() async {
     final _zipCode = zipCode.value.replaceAll('-', '');
     if (_zipCode.length < 8) return;
-    final address = await readAddressByCep(_zipCode);
+    zipCodeIsLoading.setValue(true);
+    final address = await readAddressByCep(_zipCode).whenComplete(
+      () => zipCodeIsLoading.setValue(false),
+    );
     if (address.isEmpty) return;
     if (address['city'] != null) city.setValue(address['city']);
     if (address['neighborhood'] != null) district.setValue(address['neighborhood']);

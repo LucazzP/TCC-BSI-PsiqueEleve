@@ -38,7 +38,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginController> {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          backgroundColor: AppColorScheme.primaryLight,
+          backgroundColor: AppColorScheme.primaryLightest,
           expandedHeight: 300,
           pinned: true,
           flexibleSpace: FlexibleSpaceBar(

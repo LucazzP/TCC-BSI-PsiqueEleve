@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/address_entity.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
+import 'package:psique_eleve/src/presentation/base/pages/reaction.dart';
 import 'package:psique_eleve/src/presentation/constants/masks.dart';
 import 'package:psique_eleve/src/presentation/helpers/ui_helper.dart';
 import 'package:psique_eleve/src/presentation/helpers/upper_case_text_formatter.dart';
@@ -43,6 +44,11 @@ class _AddressPageState extends BaseState<AddressPage, AddressController> {
   }
 
   @override
+  get reaction => [
+        Reaction(() => controller.zipCode.value, (value) => controller.onZipCodeChanged()),
+      ];
+
+  @override
   Widget child(context, constrains) {
     return WillPopScope(
       onWillPop: () async {
@@ -61,8 +67,41 @@ class _AddressPageState extends BaseState<AddressPage, AddressController> {
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.number,
               inputFormatters: [TextInputMask(mask: kZipCodeMask)],
+              isLoading: controller.zipCodeIsLoading.value,
             );
           }),
+          UIHelper.verticalSpaceS12,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Observer(builder: (_) {
+                  return AppTextFieldWidget(
+                    title: 'Estado',
+                    controller: controller.state.controller,
+                    errorText: controller.state.error,
+                    textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.text,
+                    inputFormatters: [TextInputMask(mask: kStateMask), UpperCaseTextFormatter()],
+                    textCapitalization: TextCapitalization.characters,
+                  );
+                }),
+              ),
+              UIHelper.horizontalSpaceS12,
+              Expanded(
+                child: Observer(builder: (_) {
+                  return AppTextFieldWidget(
+                    title: 'Cidade',
+                    controller: controller.city.controller,
+                    errorText: controller.city.error,
+                    textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.text,
+                    textCapitalization: TextCapitalization.words,
+                  );
+                }),
+              ),
+            ],
+          ),
           UIHelper.verticalSpaceS12,
           Observer(builder: (_) {
             return AppTextFieldWidget(
@@ -115,38 +154,6 @@ class _AddressPageState extends BaseState<AddressPage, AddressController> {
               textCapitalization: TextCapitalization.sentences,
             );
           }),
-          UIHelper.verticalSpaceS12,
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Observer(builder: (_) {
-                  return AppTextFieldWidget(
-                    title: 'Cidade',
-                    controller: controller.city.controller,
-                    errorText: controller.city.error,
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.text,
-                    textCapitalization: TextCapitalization.words,
-                  );
-                }),
-              ),
-              UIHelper.horizontalSpaceS12,
-              Expanded(
-                child: Observer(builder: (_) {
-                  return AppTextFieldWidget(
-                    title: 'Estado',
-                    controller: controller.state.controller,
-                    errorText: controller.state.error,
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.text,
-                    inputFormatters: [TextInputMask(mask: kStateMask), UpperCaseTextFormatter()],
-                    textCapitalization: TextCapitalization.characters,
-                  );
-                }),
-              ),
-            ],
-          ),
           UIHelper.verticalSpaceS32,
           AppButton(
             onPressed: controller.onTapCreateEdit,

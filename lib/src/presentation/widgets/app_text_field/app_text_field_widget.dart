@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:psique_eleve/src/presentation/styles/app_border_radius.dart';
@@ -19,6 +20,7 @@ class AppTextFieldWidget extends StatelessWidget {
   final ValueChanged<String>? onSubmitted;
   final String? errorText;
   final TextEditingController? controller;
+  final bool isLoading;
 
   const AppTextFieldWidget({
     Key? key,
@@ -32,6 +34,7 @@ class AppTextFieldWidget extends StatelessWidget {
     this.onSubmitted,
     this.errorText,
     this.controller,
+    this.isLoading = false,
   }) : super(key: key);
 
   @override
@@ -66,6 +69,7 @@ class AppTextFieldWidget extends StatelessWidget {
               vertical: AppSpacing.s4,
               horizontal: AppSpacing.s12,
             ),
+            suffixIcon: isLoading ? const CupertinoActivityIndicator() : null,
           ),
         ),
       ],
