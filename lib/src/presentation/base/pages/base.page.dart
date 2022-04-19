@@ -122,7 +122,7 @@ abstract class BaseState<T extends StatefulWidget, S extends BaseStore> extends 
           Observer(builder: (_) {
             return (controller.isLoading && !controller.hasFailure)
                 ? FutureBuilder(
-                    future: Future.delayed(kAnimationDuration),
+                    future: Future.delayed(k100msDuration),
                     builder: (context, future) {
                       return future.connectionState == ConnectionState.done &&
                               (controller.isLoading && !controller.hasFailure)

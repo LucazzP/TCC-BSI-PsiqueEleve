@@ -28,6 +28,7 @@ final kFlavorProd = FlavorValues(
   features: () => Features.prod,
 );
 
+const k100msDuration = Duration(milliseconds: 100);
 const kAnimationDuration = Duration(milliseconds: 300);
 const defaultLanguage = Locale('pt');
 const kLoginCallBackMobile = 'dev.polazzo.psique_eleve://login-callback/';

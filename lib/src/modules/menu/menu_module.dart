@@ -5,7 +5,7 @@ import 'package:psique_eleve/src/modules/menu/presentation/menu_page.dart';
 class MenuModule extends Module {
   @override
   final List<Bind> binds = [
-    Bind.lazySingleton((i) => MenuController(i())),
+    Bind.lazySingleton((i) => MenuController(i(), i())),
   ];
 
   @override

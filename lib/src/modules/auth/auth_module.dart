@@ -3,6 +3,7 @@ import 'package:psique_eleve/src/modules/auth/data/repository/auth_impl.reposito
 import 'package:psique_eleve/src/modules/auth/domain/repository/auth.repository.dart';
 import 'package:psique_eleve/src/modules/auth/domain/usecases/get_user_logged_usecase.dart';
 import 'package:psique_eleve/src/modules/auth/domain/usecases/login_email_usecase.dart';
+import 'package:psique_eleve/src/modules/auth/domain/usecases/logout.usecase.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
 
 import 'data/datasource/local/auth_local.datasource.dart';
@@ -18,6 +19,7 @@ class AuthModule extends Module {
     Bind.lazySingleton((i) => LoginController(i())),
     Bind.factory((i) => LoginEmailUseCase(i())),
     Bind.factory((i) => GetUserLoggedUseCase(i()), export: true),
+    Bind.factory((i) => LogoutUseCase(i()), export: true),
     Bind.factory<AuthRepository>((i) => AuthRepositoryImpl(i(), i()), export: true),
     Bind.factory<AuthRemoteDataSource>((i) => AuthRemoteDataSourceImpl(i()), export: true),
     Bind.factory<AuthLocalDataSource>((i) => AuthLocalDataSourceImpl(i()), export: true),
