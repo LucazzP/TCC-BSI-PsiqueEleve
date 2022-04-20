@@ -2,29 +2,27 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:psique_eleve/src/modules/auth/presentation/pages/reset_password/reset_password_page.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
+import 'package:psique_eleve/src/presentation/helpers/ui_helper.dart';
 import 'package:psique_eleve/src/presentation/constants/images.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
-import 'package:psique_eleve/src/presentation/helpers/ui_helper.dart';
 import 'package:psique_eleve/src/presentation/styles/app_color_scheme.dart';
 import 'package:psique_eleve/src/presentation/styles/app_text_theme.dart';
 import 'package:psique_eleve/src/presentation/widgets/app_button/app_button.dart';
 import 'package:psique_eleve/src/presentation/widgets/app_text_field/app_text_field_widget.dart';
 
-import 'login_controller.dart';
+import 'reset_password_controller.dart';
 
-class LoginPage extends StatefulWidget {
-  static Future<void> navigateTo() => Modular.to.pushNamed(kAuthLoginScreenRoute);
-  static Future<void> replaceTo() => Modular.to.pushReplacementNamed(kAuthLoginScreenRoute);
+class ResetPasswordPage extends StatefulWidget {
+  static Future<void> navigateTo() => Modular.to.pushNamed(kAuthResetPasswordScreenRoute);
 
-  const LoginPage({Key? key}) : super(key: key);
+  const ResetPasswordPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _ResetPasswordPageState createState() => _ResetPasswordPageState();
 }
 
-class _LoginPageState extends BaseState<LoginPage, LoginController> {
+class _ResetPasswordPageState extends BaseState<ResetPasswordPage, ResetPasswordController> {
   @override
   PreferredSizeWidget? appBar(BuildContext ctx) => null;
 
@@ -108,7 +106,8 @@ class _LoginPageState extends BaseState<LoginPage, LoginController> {
                         text: 'Clique aqui',
                         style: AppTextTheme.textTheme.caption
                             ?.copyWith(decoration: TextDecoration.underline),
-                        recognizer: TapGestureRecognizer()..onTap = ResetPasswordPage.navigateTo,
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => Modular.to.pushNamed(kAuthLoginScreenRoute),
                       ),
                     ],
                   ),

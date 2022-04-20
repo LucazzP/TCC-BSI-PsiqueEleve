@@ -8,6 +8,7 @@ const kHomeMenuScreenRoute = '$kHomeModuleRoute/menu/';
 
 const kAuthModuleRoute = '/auth/';
 const kAuthLoginScreenRoute = '${kAuthModuleRoute}login';
+const kAuthResetPasswordScreenRoute = '${kAuthModuleRoute}resetPassword';
 
 const kUsersModuleRoute = '$kHomeModuleRoute/users';
 const kUsersScreenRoute = '$kUsersModuleRoute/';

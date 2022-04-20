@@ -31,26 +31,26 @@ class UserImageWidget extends StatelessWidget {
               trueWidget: _nameInitialsImage(fullName),
               useAnimation: false,
             ),
-            if (onEdit != null)
-              Transform.translate(
-                offset: const Offset(10, 0),
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColorScheme.primarySwatch[300],
-                      shape: BoxShape.circle,
-                    ),
-                    height: 40,
-                    child: IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: onEdit,
-                      iconSize: 20,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
+            // if (onEdit != null)
+            //   Transform.translate(
+            //     offset: const Offset(10, 0),
+            //     child: Align(
+            //       alignment: Alignment.topRight,
+            //       child: Container(
+            //         decoration: BoxDecoration(
+            //           color: AppColorScheme.primarySwatch[300],
+            //           shape: BoxShape.circle,
+            //         ),
+            //         height: 40,
+            //         child: IconButton(
+            //           icon: const Icon(Icons.edit),
+            //           onPressed: onEdit,
+            //           iconSize: 20,
+            //           color: Colors.white,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
           ],
         ),
       ),
@@ -58,7 +58,7 @@ class UserImageWidget extends StatelessWidget {
   }
 
   Widget _nameInitialsImage(String fullName) {
-    final splitted = fullName.toUpperCase().split(' ');
+    final splitted = fullName.trim().toUpperCase().split(' ');
     if (splitted.length < 2 || splitted.last.isEmpty) return Container();
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
