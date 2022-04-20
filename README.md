@@ -1,30 +1,9 @@
-# new_flutter_template
+# Artefatos
 
-A new Flutter project.
+Estão localizados na pasta "artefatos" dentro do repositorio, se incluem todos os arquivos de documentaçāo do projeto.
 
-## Getting Started
+# Links úteis
 
-This project is a starting point for a Flutter application that follows the
-[simple app state management
-tutorial](https://flutter.dev/docs/development/data-and-backend/state-mgmt/simple).
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-## Assets
-
-The `assets` directory houses images, fonts, and any other files you want to
-include with your application.
-
-The `assets/images` directory contains [resolution-aware
-images](https://flutter.dev/docs/development/ui/assets-and-images#resolution-aware).
-
-## Localization
-
-This project generates localized messages based on arb files found in
-the `lib/src/localization` directory.
-
-To support additional languages, please visit the tutorial on
-[Internationalizing Flutter
-apps](https://flutter.dev/docs/development/accessibility-and-localization/internationalization)
+- https://trello.com/b/tuC3LG4V/psiqueeleve
+- https://miro.com/welcomeonboard/TDVmbU90MzdGa0c5R256QnUyV0tjajdDYnp3R212eHVEdndRemNtRHpyRkJhbGdZRndsVHljNHFuUm9VS2RpSXwzMDc0NDU3MzQ5NjE0NDI2MTM1?share_link_id=133996960723
+- https://github.com/LucazzP/TCC-BSI-PsiqueEleve
