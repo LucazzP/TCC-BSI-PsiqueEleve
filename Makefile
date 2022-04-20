@@ -15,6 +15,9 @@ build_clean:
 	flutter gen-l10n
 	flutter pub run build_runner build --delete-conflicting-outputs
 
+build_web:
+	flutter build web -t lib/main_production.dart --release
+
 watch:
 	flutter gen-l10n
 	flutter pub run build_runner watch
