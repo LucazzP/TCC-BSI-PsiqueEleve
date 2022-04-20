@@ -21,7 +21,16 @@ class AuthRepositoryImpl implements AuthRepository {
     return callEither<UserEntity?, Map>(
       () async {
         final localUser = await _localDataSource.getUserLogged();
-        if (localUser.isNotEmpty) return localUser;
+        if (localUser.isNotEmpty) {
+          if (localUser['saved_at'] != null) {
+            final savedAt = DateTime.fromMillisecondsSinceEpoch(localUser['saved_at']);
+            final now = DateTime.now();
+            if (now.difference(savedAt).inMinutes < 10) {
+              updateLocalUserWithRemote();
+            }
+          }
+          return localUser;
+        }
         return _remoteDataSource.getUserLogged();
       },
       processResponse: (res) async {
@@ -30,6 +39,12 @@ class AuthRepositoryImpl implements AuthRepository {
         return Right(user);
       },
     );
+  }
+
+  Future<void> updateLocalUserWithRemote() {
+    return _remoteDataSource.getUserLogged().then((res) async {
+      if (res.isNotEmpty) await _localDataSource.saveUserLogged(res);
+    });
   }
 
   @override
@@ -61,5 +76,18 @@ class AuthRepositoryImpl implements AuthRepository {
       await _localDataSource.saveUserLogged({});
       return unit;
     });
+  }
+
+  @override
+  Future<Either<Failure, Unit>> resetPassword(String email) {
+    return callEither(
+      () => _remoteDataSource.resetPassword(email),
+      onError: (error) {
+        if (error.toString().contains('User not found')) {
+          return kUserNotFoundResetPasswordFailure;
+        }
+        return kServerFailure;
+      },
+    );
   }
 }

@@ -42,6 +42,8 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
 
   bool get pageIsForEditing => id.isNotEmpty;
   String get getCreateEditValue => pageIsForEditing ? 'Editar' : 'Criar';
+  String get getSuccessMessage =>
+      pageIsForEditing ? 'Usuário editado com sucesso!' : 'Usuário criado com sucesso!';
 
   @override
   Iterable<ValueState> get getStates => [newUser];
@@ -58,8 +60,8 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
     _setFieldValues();
   }
 
-  Future<void> onTapCreateEdit(BuildContext context) async {
-    if (validateForms() == false) return;
+  Future<bool> onTapCreateEdit(BuildContext context) async {
+    if (validateForms() == false) return false;
     final user = UserEntity(
       id: id,
       fullName: fullName.value,
@@ -81,7 +83,7 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
           : _createUserUseCase(CreateUserParams(user: user, userTypes: [userType])),
     );
 
-    if (hasFailure) return;
+    if (hasFailure) return false;
 
     if (pageIsForEditing == false) {
       Clipboard.setData(ClipboardData(text: newUser.value?.password ?? ''));
@@ -89,6 +91,7 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
     }
 
     Modular.to.pop(true);
+    return true;
   }
 
   Future<void> onTapAddEditAddress() async {

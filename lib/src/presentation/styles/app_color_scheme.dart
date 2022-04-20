@@ -63,6 +63,7 @@ class AppColorScheme {
   static const negativeTextBackground = Color(0xff000000);
 
   static const neutralDark = Color(0xff1f2933);
+  static const feedbackSuccessBase = Color(0xFF30AE1A);
   static const feedbackDangerBase = Color(0xfff23548);
   static const feedbackDangerDark = Color(0xffcc2d3d);
   static const googleButton = Color.fromRGBO(231, 77, 60, 1);

@@ -4,6 +4,7 @@ import 'package:psique_eleve/src/modules/auth/domain/repository/auth.repository.
 import 'package:psique_eleve/src/modules/auth/domain/usecases/get_user_logged_usecase.dart';
 import 'package:psique_eleve/src/modules/auth/domain/usecases/login_email_usecase.dart';
 import 'package:psique_eleve/src/modules/auth/domain/usecases/logout.usecase.dart';
+import 'package:psique_eleve/src/modules/auth/domain/usecases/reset_password.usecase.dart';
 import 'package:psique_eleve/src/modules/auth/presentation/pages/reset_password/reset_password_controller.dart';
 import 'package:psique_eleve/src/modules/auth/presentation/pages/reset_password/reset_password_page.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
@@ -19,8 +20,9 @@ class AuthModule extends Module {
   @override
   final List<Bind> binds = [
     Bind.lazySingleton((i) => LoginController(i())),
-    Bind.lazySingleton((i) => ResetPasswordController()),
+    Bind.lazySingleton((i) => ResetPasswordController(i())),
     Bind.factory((i) => LoginEmailUseCase(i())),
+    Bind.factory((i) => ResetPasswordUseCase(i())),
     Bind.factory((i) => GetUserLoggedUseCase(i()), export: true),
     Bind.factory((i) => LogoutUseCase(i()), export: true),
     Bind.factory<AuthRepository>((i) => AuthRepositoryImpl(i(), i()), export: true),
@@ -33,7 +35,6 @@ class AuthModule extends Module {
     ChildRoute(
       kAuthLoginScreenRoute.finalPath,
       child: (_, args) => const LoginPage(),
-      transition: TransitionType.rightToLeftWithFade,
     ),
     ChildRoute(
       kAuthResetPasswordScreenRoute.finalPath,

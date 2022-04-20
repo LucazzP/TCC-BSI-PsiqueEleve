@@ -21,6 +21,7 @@ const kCacheFailure = CacheFailure();
 const kCredentialsFailure = CredentialsFailure();
 const kConnectionFailure = ConnectionFailure();
 const kExpiredSession = ExpiredSessionFailure();
+const kUserNotFoundResetPasswordFailure = UserNotFoundResetPasswordFailure();
 
 class ExpiredSessionFailure extends Failure {
   const ExpiredSessionFailure()
@@ -74,5 +75,13 @@ class ParseEntityFailure extends Failure {
           message: 'Houve uma falha ao traduzir a mensagem do servidor, '
               'tente novamente ou contacte o suporte.',
           code: '100$entity',
+        );
+}
+
+class UserNotFoundResetPasswordFailure extends Failure {
+  const UserNotFoundResetPasswordFailure()
+      : super(
+          title: 'Erro ao resetar senha',
+          message: 'Não foi possível encontrar o usuário, tente novamente com outro e-mail.',
         );
 }

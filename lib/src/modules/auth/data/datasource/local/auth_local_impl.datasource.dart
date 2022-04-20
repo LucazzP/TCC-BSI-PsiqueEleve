@@ -15,6 +15,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<Map> saveUserLogged(Map user) async {
+    user['saved_at'] = DateTime.now().millisecondsSinceEpoch;
     await _hiveClient.put(box, _userKey, user);
     return getUserLogged();
   }

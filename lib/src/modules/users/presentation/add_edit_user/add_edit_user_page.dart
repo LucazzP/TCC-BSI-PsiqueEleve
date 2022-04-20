@@ -2,6 +2,7 @@ import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:psique_eleve/src/core/constants.dart';
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
 import 'package:psique_eleve/src/modules/users/presentation/widgets/address_card_widget.dart';
@@ -10,6 +11,7 @@ import 'package:psique_eleve/src/presentation/constants/masks.dart';
 import 'package:psique_eleve/src/presentation/helpers/ui_helper.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
 import 'package:psique_eleve/src/presentation/widgets/app_button/app_button.dart';
+import 'package:psique_eleve/src/presentation/widgets/app_snackbar/app_snackbar.dart';
 import 'package:psique_eleve/src/presentation/widgets/app_text_field/app_text_field_widget.dart';
 import 'package:psique_eleve/src/presentation/widgets/user_image/user_image_widget.dart';
 
@@ -133,7 +135,13 @@ class _AddEditUserPageState extends BaseState<AddEditUserPage, AddEditUserContro
         }),
         UIHelper.verticalSpaceS16,
         AppButton(
-          onPressed: () => controller.onTapCreateEdit(context),
+          onPressed: () async {
+            final success = await controller.onTapCreateEdit(context);
+            if (success) {
+              await Future.delayed(k100msDuration);
+              AppSnackBar.success(context, controller.getSuccessMessage);
+            }
+          },
           title: controller.getCreateEditValue,
           style: AppButtonStyle.filled,
         ),
