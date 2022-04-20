@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -6,8 +5,6 @@ import 'package:psique_eleve/src/core/constants.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
 import 'package:psique_eleve/src/presentation/helpers/ui_helper.dart';
-import 'package:psique_eleve/src/presentation/styles/app_color_scheme.dart';
-import 'package:psique_eleve/src/presentation/styles/app_text_theme.dart';
 import 'package:psique_eleve/src/presentation/widgets/app_button/app_button.dart';
 import 'package:psique_eleve/src/presentation/widgets/app_snackbar/app_snackbar.dart';
 import 'package:psique_eleve/src/presentation/widgets/app_text_field/app_text_field_widget.dart';
