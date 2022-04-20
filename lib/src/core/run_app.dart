@@ -31,6 +31,7 @@ class RunApp {
       url: flavorValues.baseUrl,
       anonKey: flavorValues.publicAnonKey,
       debug: flavor == Flavor.dev && kDebugMode,
+      authCallbackUrlHostname: flavorValues.authCallbackUrlHostname,
     );
 
     runApp(rootWidget);

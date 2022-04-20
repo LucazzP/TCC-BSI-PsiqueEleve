@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:psique_eleve/src/modules/auth/presentation/pages/reset_password/reset_password_page.dart';
+import 'package:psique_eleve/src/modules/auth/presentation/pages/recover_password/recover_password_page.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/constants/images.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
@@ -16,7 +16,7 @@ import 'login_controller.dart';
 
 class LoginPage extends StatefulWidget {
   static Future<void> navigateTo() => Modular.to.pushNamed(kAuthLoginScreenRoute);
-  static Future<void> replaceTo() => Modular.to.pushReplacementNamed(kAuthLoginScreenRoute);
+  static void replaceTo() => Modular.to.navigate(kAuthLoginScreenRoute);
 
   const LoginPage({Key? key}) : super(key: key);
 
@@ -108,7 +108,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginController> {
                         text: 'Clique aqui',
                         style: AppTextTheme.textTheme.caption
                             ?.copyWith(decoration: TextDecoration.underline),
-                        recognizer: TapGestureRecognizer()..onTap = ResetPasswordPage.navigateTo,
+                        recognizer: TapGestureRecognizer()..onTap = RecoverPasswordPage.navigateTo,
                       ),
                     ],
                   ),

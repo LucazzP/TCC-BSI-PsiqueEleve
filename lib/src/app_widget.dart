@@ -1,8 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:psique_eleve/src/localization/app_localizations.dart';
 import 'package:psique_eleve/src/presentation/styles/app_theme_data.dart';
 
 import 'presentation/widgets/flavor_banner/flavor_banner.widget.dart';
@@ -16,10 +18,11 @@ class AppWidget extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    initializeLocale(context);
     return MaterialApp.router(
       title: 'Flutter app',
       theme: AppThemeData.themeDataLight,
-      darkTheme: AppThemeData.themeDataDark,
+      darkTheme: AppThemeData.themeDataLight,
       themeMode: ThemeMode.light,
       // Providing a restorationScopeId allows the Navigator built by the
       // MaterialApp to restore the navigation stack when a user leaves and
@@ -37,7 +40,7 @@ class AppWidget extends StatelessWidget {
       ],
       onGenerateTitle: (BuildContext context) => AppLocalizations.of(context)!.appTitle,
       builder: (context, child) {
-        AppThemeData.setIsDark(context);
+        AppThemeData.setIsDark(context, isDark: false);
         return FlavorBannerWidget(
           child: child ?? const SizedBox(),
         );
@@ -45,5 +48,16 @@ class AppWidget extends StatelessWidget {
       routerDelegate: Modular.routerDelegate,
       routeInformationParser: Modular.routeInformationParser,
     );
+  }
+
+  Future<void> initializeLocale(BuildContext context) {
+    final loadedLocale = Completer();
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      S.initialize(context);
+      loadedLocale.complete();
+    });
+
+    return loadedLocale.future;
   }
 }

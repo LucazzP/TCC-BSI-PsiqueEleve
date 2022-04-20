@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -43,9 +45,8 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
 
   @override
   void initState() {
-    controller.activePage.setValue(
-      controller.screenRoutes.indexOf(Modular.to.navigateHistory.first.name),
-    );
+    final index = controller.screenRoutes.indexOf(Modular.to.navigateHistory.first.name);
+    controller.activePage.setValue(max(0, index));
     super.initState();
   }
 

@@ -6,14 +6,14 @@ import 'presentation/splash_page.dart';
 class SplashModule extends Module {
   @override
   final List<Bind> binds = [
-    Bind.lazySingleton((i) => SplashController(i())),
+    Bind.lazySingleton((i) => SplashController(i()), export: true),
   ];
 
   @override
   final List<ModularRoute> routes = [
     ChildRoute(
       Modular.initialRoute,
-      child: (_, args) => const SplashPage(),
+      child: (_, args) => SplashPage(initialUri: args.uri),
       transition: TransitionType.noTransition,
     ),
   ];

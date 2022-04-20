@@ -8,7 +8,7 @@ import 'feed_controller.dart';
 
 class FeedPage extends StatefulWidget {
   static Future<void> navigateTo() => Modular.to.pushNamed(kHomeFeedScreenRoute);
-  static Future<void> replaceTo() => Modular.to.pushReplacementNamed(kHomeFeedScreenRoute);
+  static void replaceTo() => Modular.to.navigate(kHomeFeedScreenRoute);
 
   const FeedPage({Key? key}) : super(key: key);
 

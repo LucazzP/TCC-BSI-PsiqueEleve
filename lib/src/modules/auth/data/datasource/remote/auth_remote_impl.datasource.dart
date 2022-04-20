@@ -56,8 +56,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<Unit> resetPassword(String email) async {
+  Future<Unit> recoverPassword(String email) async {
     final res = await api.auth.api.resetPasswordForEmail(email);
+    if (res.error != null) throw Exception(res.error?.message);
+    return unit;
+  }
+
+  @override
+  Future<Unit> changePassword(String password) async {
+    final res = await api.auth.update(UserAttributes(password: password));
     if (res.error != null) throw Exception(res.error?.message);
     return unit;
   }

@@ -79,9 +79,9 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> resetPassword(String email) {
+  Future<Either<Failure, Unit>> recoverPassword(String email) {
     return callEither(
-      () => _remoteDataSource.resetPassword(email),
+      () => _remoteDataSource.recoverPassword(email),
       onError: (error) {
         if (error.toString().contains('User not found')) {
           return kUserNotFoundResetPasswordFailure;
@@ -89,5 +89,10 @@ class AuthRepositoryImpl implements AuthRepository {
         return kServerFailure;
       },
     );
+  }
+
+  @override
+  Future<Either<Failure, Unit>> changePassword(String password) {
+    return callEither(() => _remoteDataSource.changePassword(password));
   }
 }

@@ -4,6 +4,7 @@ import 'package:psique_eleve/src/core/flavor/flavor_config.model.dart';
 import 'package:psique_eleve/src/data/local/hive_client.dart';
 import 'package:psique_eleve/src/data/remote/interceptors/auth_interceptor.dart';
 import 'package:psique_eleve/src/modules/logger/log.module.dart';
+import 'package:psique_eleve/src/modules/splash/presentation/splash_page.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -20,6 +21,7 @@ class AppModule extends Module {
   final List<Module> imports = [
     LogModule(),
     AuthModule(),
+    SplashModule(),
   ];
 
   @override
@@ -36,5 +38,6 @@ class AppModule extends Module {
     ModuleRoute(kSplashScreenRoute.finalPath, module: SplashModule()),
     ModuleRoute(kHomeModuleRoute.finalPath, module: HomeModule()),
     ModuleRoute(kAuthModuleRoute.finalPath, module: AuthModule()),
+    WildcardRoute(child: (_, args) => SplashPage(initialUri: args.uri)),
   ];
 }

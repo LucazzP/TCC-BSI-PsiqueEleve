@@ -53,6 +53,19 @@ class Validators {
     return null;
   }
 
+  static String? confirmPassword(String? password, String? confirmPassword) {
+    confirmPassword ??= '';
+    if (confirmPassword.isEmpty) {
+      return S.current.emptyConfirmPassword;
+    }
+
+    if (password != confirmPassword) {
+      return S.current.invalidConfirmPassword;
+    }
+
+    return null;
+  }
+
   static String? email(String? email) {
     email ??= '';
     if (email.isEmpty) {

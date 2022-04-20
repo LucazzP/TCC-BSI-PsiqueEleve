@@ -6,9 +6,10 @@ const kHomeAppointmentsScreenRoute = '$kHomeModuleRoute/appointments/';
 const kHomeTasksScreenRoute = '$kHomeModuleRoute/tasks/';
 const kHomeMenuScreenRoute = '$kHomeModuleRoute/menu/';
 
-const kAuthModuleRoute = '/auth/';
-const kAuthLoginScreenRoute = '${kAuthModuleRoute}login';
-const kAuthResetPasswordScreenRoute = '${kAuthModuleRoute}resetPassword';
+const kAuthModuleRoute = '/auth';
+const kAuthLoginScreenRoute = '$kAuthModuleRoute/';
+const kAuthRecoverPasswordScreenRoute = '$kAuthModuleRoute/recoverPassword';
+const kAuthResetPasswordScreenRoute = '$kAuthModuleRoute/resetPassword';
 
 const kUsersModuleRoute = '$kHomeModuleRoute/users';
 const kUsersScreenRoute = '$kUsersModuleRoute/';

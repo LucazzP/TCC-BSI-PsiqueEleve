@@ -3,14 +3,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide ErrorWidget;
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:mobx/mobx.dart' as mobx;
 import 'package:psique_eleve/src/core/constants.dart';
+import 'package:psique_eleve/src/extensions/context.ext.dart';
 import 'package:psique_eleve/src/presentation/base/controller/base.store.dart';
 import 'package:psique_eleve/src/presentation/base/pages/reaction.dart';
 import 'package:psique_eleve/src/presentation/styles/app_color_scheme.dart';
 import 'package:psique_eleve/src/presentation/widgets/error/error.widget.dart';
 import 'package:psique_eleve/src/presentation/widgets/overlay/overlay.widget.dart';
-import 'package:mobx/mobx.dart' as mobx;
-import 'package:psique_eleve/src/extensions/context.ext.dart';
 
 abstract class BaseState<T extends StatefulWidget, S extends BaseStore> extends ModularState<T, S> {
   static const errorKey = Key('ErrorWidgetKey');

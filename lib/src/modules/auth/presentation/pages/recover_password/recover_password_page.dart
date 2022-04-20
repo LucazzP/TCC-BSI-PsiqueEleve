@@ -9,21 +9,21 @@ import 'package:psique_eleve/src/presentation/widgets/app_button/app_button.dart
 import 'package:psique_eleve/src/presentation/widgets/app_snackbar/app_snackbar.dart';
 import 'package:psique_eleve/src/presentation/widgets/app_text_field/app_text_field_widget.dart';
 
-import 'reset_password_controller.dart';
+import 'recover_password_controller.dart';
 
-class ResetPasswordPage extends StatefulWidget {
-  static Future<void> navigateTo() => Modular.to.pushNamed(kAuthResetPasswordScreenRoute);
+class RecoverPasswordPage extends StatefulWidget {
+  static Future<void> navigateTo() => Modular.to.pushNamed(kAuthRecoverPasswordScreenRoute);
 
-  const ResetPasswordPage({Key? key}) : super(key: key);
+  const RecoverPasswordPage({Key? key}) : super(key: key);
 
   @override
-  _ResetPasswordPageState createState() => _ResetPasswordPageState();
+  _RecoverPasswordPageState createState() => _RecoverPasswordPageState();
 }
 
-class _ResetPasswordPageState extends BaseState<ResetPasswordPage, ResetPasswordController> {
+class _RecoverPasswordPageState extends BaseState<RecoverPasswordPage, RecoverPasswordController> {
   @override
   PreferredSizeWidget? appBar(BuildContext ctx) => AppBar(
-        title: const Text("Alterar senha"),
+        title: const Text("Esqueci minha senha"),
       );
 
   @override
@@ -34,34 +34,23 @@ class _ResetPasswordPageState extends BaseState<ResetPasswordPage, ResetPassword
         UIHelper.verticalSpaceS16,
         Observer(builder: (_) {
           return AppTextFieldWidget(
-            title: 'Nova senha',
-            controller: controller.password.controller,
-            errorText: controller.password.error,
-            obscureText: true,
+            title: 'Email',
+            controller: controller.email.controller,
+            errorText: controller.email.error,
             textInputAction: TextInputAction.next,
-          );
-        }),
-        UIHelper.verticalSpaceS12,
-        Observer(builder: (_) {
-          return AppTextFieldWidget(
-            title: 'Confirme a nova senha',
-            controller: controller.confirmPassword.controller,
-            errorText: controller.confirmPassword.error,
-            obscureText: true,
-            textInputAction: TextInputAction.done,
-            onSubmitted: (_) => controller.onTapChangePass(),
+            keyboardType: TextInputType.emailAddress,
           );
         }),
         UIHelper.verticalSpaceS40,
         AppButton(
           onPressed: () async {
-            final success = await controller.onTapChangePass();
+            final success = await controller.onTapResetPass();
             if (success) {
               await Future.delayed(k100msDuration);
-              AppSnackBar.success(context, 'Senha alterada com sucesso!');
+              AppSnackBar.success(context, 'Email enviado com sucesso!');
             }
           },
-          title: 'Alterar',
+          title: 'Enviar',
           style: AppButtonStyle.filled,
         ),
       ],

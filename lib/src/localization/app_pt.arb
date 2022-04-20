@@ -32,5 +32,7 @@
   "invalidEmail": "Coloque seu e-mail no formato: nome@exemplo.com",
   "invalidEmailOrPassword": "E-mail ou senha inválidos",
   "emptyValue": "O campo não pode ser vazio",
-  "shortValue": "O texto é muito curto"
+  "shortValue": "O texto é muito curto",
+  "emptyConfirmPassword": "A confirmação de senha não pode ser vazia",
+  "invalidConfirmPassword": "As senhas não coincidem"
 }
