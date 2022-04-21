@@ -7,27 +7,25 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class AuthState<T extends StatefulWidget> extends SupabaseAuthState<T> {
   @override
   void onUnauthenticated() {
-    if (mounted) {
-      Modular.to.navigate(kAuthLoginScreenRoute);
-    }
+    Modular.to.navigate(kAuthLoginScreenRoute);
   }
 
   @override
   void onAuthenticated(Session session) {
-    if (mounted && !Uri.base.queryParameters.values.contains('recovery')) {
+    if (!Uri.base.queryParameters.values.contains('recovery')) {
       Modular.to.navigate(kHomeFeedScreenRoute);
     }
   }
 
   @override
   void onPasswordRecovery(Session session) {
-    if (mounted) {
-      Modular.to.navigate(kAuthResetPasswordScreenRoute);
-    }
+    Modular.to.navigate(kAuthResetPasswordScreenRoute);
   }
 
   @override
   void onErrorAuthenticating(String message) {
-    AppSnackBar.error(context, message);
+    if (mounted) {
+      AppSnackBar.error(context, message);
+    }
   }
 }

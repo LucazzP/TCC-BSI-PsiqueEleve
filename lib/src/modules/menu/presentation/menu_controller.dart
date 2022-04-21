@@ -4,6 +4,7 @@ import 'package:psique_eleve/src/modules/auth/domain/entities/role_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/usecases/get_user_logged_usecase.dart';
 import 'package:psique_eleve/src/modules/auth/domain/usecases/logout.usecase.dart';
+import 'package:psique_eleve/src/modules/auth/presentation/pages/reset_password/reset_password_page.dart';
 import 'package:psique_eleve/src/modules/menu/model/menu_option_model.dart';
 import 'package:psique_eleve/src/modules/users/presentation/add_edit_user/add_edit_user_page.dart';
 import 'package:psique_eleve/src/modules/users/presentation/users/users_page.dart';
@@ -66,6 +67,10 @@ abstract class _MenuControllerBase extends BaseStore with Store {
           onTap: () => UsersPage.navigateTo(UserType.patient),
         ),
       MenuOptionModel(title: 'Configurações', onTap: () {}),
+      MenuOptionModel(
+        title: 'Alterar a senha',
+        onTap: () => ResetPasswordPage.navigateTo(),
+      ),
       MenuOptionModel(title: 'Sair da conta', onTap: _logout),
     ]);
   }

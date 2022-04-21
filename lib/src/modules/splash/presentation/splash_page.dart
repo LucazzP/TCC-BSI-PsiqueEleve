@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:psique_eleve/src/extensions/uri.ext.dart';
 import 'package:psique_eleve/src/presentation/base/pages/auth.state.dart';
 import 'package:psique_eleve/src/presentation/constants/images.dart';
+import 'package:uni_links/uni_links.dart';
 
 import 'splash_controller.dart';
 
@@ -26,10 +29,26 @@ class _SplashPageState extends AuthState<SplashPage> {
   void initState() {
     controller.onInit();
     recoverSupabaseSession();
-    if (Uri.base.queryParameters.isNotEmpty) {
-      recoverSessionFromUrl(Uri.base);
-    }
+    recoverSessionUrl();
     super.initState();
+  }
+
+  void recoverSessionUrl() async {
+    Uri? initialLink;
+    try {
+      initialLink = await getInitialUri();
+    } catch (_) {}
+    final uri = initialLink?.fromDeepLink ?? Uri.base;
+    if (uri.queryParameters.isNotEmpty) {
+      recoverSessionFromUrl(uri);
+    }
+
+    if (kIsWeb) return;
+    uriLinkStream.listen((event) {
+      if (event != null) {
+        recoverSessionFromUrl(event.fromDeepLink);
+      }
+    });
   }
 
   @override

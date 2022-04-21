@@ -40,8 +40,19 @@
               <category android:name="android.intent.category.BROWSABLE" />
               <!-- Accepts URIs that begin with YOUR_SCHEME://YOUR_HOST -->
               <data
-                android:scheme="dev.polazzo.psique_eleve"
-                android:host="login-callback" />
+                android:scheme="psiqueeleve"
+                android:host="polazzo.dev" />
+            </intent-filter>
+
+            <!-- App Links -->
+            <intent-filter android:autoVerify="true">
+              <action android:name="android.intent.action.VIEW" />
+              <category android:name="android.intent.category.DEFAULT" />
+              <category android:name="android.intent.category.BROWSABLE" />
+              <!-- Accepts URIs that begin with https://YOUR_HOST -->
+              <data
+                android:scheme="https"
+                android:host="polazzo.dev" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

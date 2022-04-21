@@ -48,9 +48,11 @@
 		<dict>
 		<key>CFBundleTypeRole</key>
 		<string>Editor</string>
+		<key>CFBundleURLName</key>
+      	<string>polazzo.dev</string>
 		<key>CFBundleURLSchemes</key>
 		<array>
-			<string>dev.polazzo.psique_eleve</string>
+			<string>psiqueeleve</string>
 		</array>
 		</dict>
 	</array>
