@@ -34,11 +34,14 @@ class _SplashPageState extends AuthState<SplashPage> {
   }
 
   void recoverSessionUrl() async {
-    Uri? initialLink;
-    try {
-      initialLink = await getInitialUri();
-    } catch (_) {}
-    final uri = initialLink?.fromDeepLink ?? Uri.base;
+    Uri? uri;
+
+    if (!kIsWeb) {
+      try {
+        uri = await getInitialUri();
+      } catch (_) {}
+    }
+    uri ??= Uri.base;
     if (uri.queryParameters.isNotEmpty) {
       recoverSessionFromUrl(uri);
     }
