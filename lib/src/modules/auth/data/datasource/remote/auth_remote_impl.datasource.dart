@@ -57,12 +57,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<Unit> recoverPassword(String email) async {
-    final res = await api.auth.api.resetPasswordForEmail(
-      email,
-      options: AuthOptions(
-        redirectTo: kIsWeb ? null : kLoginCallBackMobile,
-      ),
-    );
+    final res = await api.auth.api.resetPasswordForEmail(email);
     if (res.error != null) throw Exception(res.error?.message);
     return unit;
   }
