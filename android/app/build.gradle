@@ -8,7 +8,7 @@ if (localPropertiesFile.exists()) {
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+    throw new GradleException('Flutter SDK not found. Define location with flutter.sdk in the local.properties file.')
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
@@ -26,7 +26,7 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion flutter.compileSdkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -42,10 +42,9 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "dev.polazzo.psique_eleve"
-        minSdkVersion 16
-        targetSdkVersion 30
+        applicationId 'dev.polazzo.psique_eleve'
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -58,20 +57,17 @@ android {
         }
     }
 
-    flavorDimensions "flavors"
+    flavorDimensions 'flavors'
     productFlavors {
         dev {
-            dimension "flavors"
-            applicationIdSuffix ".dev"
-            versionNameSuffix "-dev"
+            applicationIdSuffix '.dev'
+            versionNameSuffix '-dev'
         }
         qa {
-            dimension "flavors"
-            applicationIdSuffix ".qa"
-            versionNameSuffix "-qa"
+            applicationIdSuffix '.qa'
+            versionNameSuffix '-qa'
         }
         prod {
-            dimension "flavors"
         }
     }
 }

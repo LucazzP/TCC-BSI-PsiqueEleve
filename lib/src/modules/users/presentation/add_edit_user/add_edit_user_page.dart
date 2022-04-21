@@ -62,9 +62,13 @@ class _AddEditUserPageState extends BaseState<AddEditUserPage, AddEditUserContro
   }
 
   @override
+  EdgeInsets get padding => EdgeInsets.zero;
+
+  @override
   Widget child(context, constrains) {
     return ListView(
       physics: const BouncingScrollPhysics(parent: ClampingScrollPhysics()),
+      padding: super.padding,
       children: [
         Observer(builder: (_) {
           return UserImageWidget(
@@ -82,6 +86,7 @@ class _AddEditUserPageState extends BaseState<AddEditUserPage, AddEditUserContro
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.name,
             textCapitalization: TextCapitalization.words,
+            autofillHints: const [AutofillHints.name],
           );
         }),
         UIHelper.verticalSpaceS12,
@@ -93,6 +98,7 @@ class _AddEditUserPageState extends BaseState<AddEditUserPage, AddEditUserContro
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.emailAddress,
             enabled: controller.pageIsForEditing == false,
+            autofillHints: const [AutofillHints.email],
           );
         }),
         UIHelper.verticalSpaceS12,
@@ -115,7 +121,8 @@ class _AddEditUserPageState extends BaseState<AddEditUserPage, AddEditUserContro
             textInputAction: TextInputAction.done,
             keyboardType: TextInputType.number,
             inputFormatters: [TextInputMask(mask: kPhoneMask)],
-            onSubmitted: (_) => controller.onTapCreateEdit(context),
+            onSubmitted: (_) => createEditUser(),
+            autofillHints: const [AutofillHints.telephoneNumberNational],
           );
         }),
         UIHelper.verticalSpaceS24,
@@ -135,18 +142,20 @@ class _AddEditUserPageState extends BaseState<AddEditUserPage, AddEditUserContro
         }),
         UIHelper.verticalSpaceS16,
         AppButton(
-          onPressed: () async {
-            final success = await controller.onTapCreateEdit(context);
-            if (success) {
-              await Future.delayed(k100msDuration);
-              AppSnackBar.success(context, controller.getSuccessMessage);
-            }
-          },
+          onPressed: createEditUser,
           title: controller.getCreateEditValue,
           style: AppButtonStyle.filled,
         ),
         UIHelper.verticalSpaceS32,
       ],
     );
+  }
+
+  void createEditUser() async {
+    final success = await controller.onTapCreateEdit(context);
+    if (success) {
+      await Future.delayed(k100msDuration);
+      AppSnackBar.success(context, controller.getSuccessMessage);
+    }
   }
 }

@@ -79,6 +79,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginController> {
                     errorText: controller.email.error,
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.emailAddress,
+                    autofillHints: const [AutofillHints.email],
                   );
                 }),
                 UIHelper.verticalSpaceS12,
@@ -90,6 +91,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginController> {
                     obscureText: true,
                     textInputAction: TextInputAction.done,
                     onSubmitted: (_) => controller.onTapLogin(),
+                    autofillHints: const [AutofillHints.password],
                   );
                 }),
                 UIHelper.verticalSpaceS32,

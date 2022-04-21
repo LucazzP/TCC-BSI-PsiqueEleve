@@ -41,8 +41,11 @@ class AppWidget extends StatelessWidget {
       onGenerateTitle: (BuildContext context) => AppLocalizations.of(context)!.appTitle,
       builder: (context, child) {
         AppThemeData.setIsDark(context, isDark: false);
-        return FlavorBannerWidget(
-          child: child ?? const SizedBox(),
+        return GestureDetector(
+          onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+          child: FlavorBannerWidget(
+            child: child ?? const SizedBox(),
+          ),
         );
       },
       routerDelegate: Modular.routerDelegate,

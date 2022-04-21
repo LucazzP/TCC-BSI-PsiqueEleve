@@ -37,23 +37,27 @@ class _RecoverPasswordPageState extends BaseState<RecoverPasswordPage, RecoverPa
             title: 'Email',
             controller: controller.email.controller,
             errorText: controller.email.error,
-            textInputAction: TextInputAction.next,
+            textInputAction: TextInputAction.done,
             keyboardType: TextInputType.emailAddress,
+            onSubmitted: (_) => resetPass(),
+            autofillHints: const [AutofillHints.email],
           );
         }),
         UIHelper.verticalSpaceS40,
         AppButton(
-          onPressed: () async {
-            final success = await controller.onTapResetPass();
-            if (success) {
-              await Future.delayed(k100msDuration);
-              AppSnackBar.success(context, 'Email enviado com sucesso!');
-            }
-          },
+          onPressed: resetPass,
           title: 'Enviar',
           style: AppButtonStyle.filled,
         ),
       ],
     );
+  }
+
+  void resetPass() async {
+    final success = await controller.onTapResetPass();
+    if (success) {
+      await Future.delayed(k100msDuration);
+      AppSnackBar.success(context, 'Email enviado com sucesso!');
+    }
   }
 }

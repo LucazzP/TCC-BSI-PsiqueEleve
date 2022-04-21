@@ -39,6 +39,7 @@ class _ResetPasswordPageState extends BaseState<ResetPasswordPage, ResetPassword
             errorText: controller.password.error,
             obscureText: true,
             textInputAction: TextInputAction.next,
+            autofillHints: const [AutofillHints.newPassword],
           );
         }),
         UIHelper.verticalSpaceS12,
@@ -49,22 +50,25 @@ class _ResetPasswordPageState extends BaseState<ResetPasswordPage, ResetPassword
             errorText: controller.confirmPassword.error,
             obscureText: true,
             textInputAction: TextInputAction.done,
-            onSubmitted: (_) => controller.onTapChangePass(),
+            onSubmitted: (_) => changePass(),
+            autofillHints: const [AutofillHints.newPassword],
           );
         }),
         UIHelper.verticalSpaceS40,
         AppButton(
-          onPressed: () async {
-            final success = await controller.onTapChangePass();
-            if (success) {
-              await Future.delayed(k100msDuration);
-              AppSnackBar.success(context, 'Senha alterada com sucesso!');
-            }
-          },
+          onPressed: changePass,
           title: 'Alterar',
           style: AppButtonStyle.filled,
         ),
       ],
     );
+  }
+
+  void changePass() async {
+    final success = await controller.onTapChangePass();
+    if (success) {
+      await Future.delayed(k100msDuration);
+      AppSnackBar.success(context, 'Senha alterada com sucesso!');
+    }
   }
 }

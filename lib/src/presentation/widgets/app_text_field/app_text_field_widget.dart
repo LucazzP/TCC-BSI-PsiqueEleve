@@ -22,6 +22,7 @@ class AppTextFieldWidget extends StatelessWidget {
   final TextEditingController? controller;
   final bool isLoading;
   final bool enabled;
+  final Iterable<String> autofillHints;
 
   const AppTextFieldWidget({
     Key? key,
@@ -37,6 +38,7 @@ class AppTextFieldWidget extends StatelessWidget {
     this.controller,
     this.isLoading = false,
     this.enabled = true,
+    this.autofillHints = const [],
   }) : super(key: key);
 
   @override
@@ -62,6 +64,7 @@ class AppTextFieldWidget extends StatelessWidget {
           textCapitalization: textCapitalization,
           onSubmitted: onSubmitted,
           controller: controller,
+          autofillHints: autofillHints,
           decoration: InputDecoration(
             border: const OutlineInputBorder(
               borderRadius: AppBorderRadius.tiny,

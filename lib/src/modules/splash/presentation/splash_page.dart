@@ -1,9 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:psique_eleve/src/extensions/uri.ext.dart';
-import 'package:psique_eleve/src/localization/app_localizations.dart';
 import 'package:psique_eleve/src/presentation/base/pages/auth.state.dart';
 import 'package:psique_eleve/src/presentation/constants/images.dart';
 
@@ -30,7 +26,9 @@ class _SplashPageState extends AuthState<SplashPage> {
   void initState() {
     controller.onInit();
     recoverSupabaseSession();
-    recoverSessionFromUrl(Uri.base);
+    if (Uri.base.queryParameters.isNotEmpty) {
+      recoverSessionFromUrl(Uri.base);
+    }
     super.initState();
   }
 

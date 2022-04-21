@@ -68,6 +68,7 @@ class _AddressPageState extends BaseState<AddressPage, AddressController> {
               keyboardType: TextInputType.number,
               inputFormatters: [TextInputMask(mask: kZipCodeMask)],
               isLoading: controller.zipCodeIsLoading.value,
+              autofillHints: const [AutofillHints.postalCode],
             );
           }),
           UIHelper.verticalSpaceS12,
@@ -84,6 +85,7 @@ class _AddressPageState extends BaseState<AddressPage, AddressController> {
                     keyboardType: TextInputType.text,
                     inputFormatters: [TextInputMask(mask: kStateMask), UpperCaseTextFormatter()],
                     textCapitalization: TextCapitalization.characters,
+                    autofillHints: const [AutofillHints.streetAddressLevel1],
                   );
                 }),
               ),
@@ -97,6 +99,7 @@ class _AddressPageState extends BaseState<AddressPage, AddressController> {
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.text,
                     textCapitalization: TextCapitalization.words,
+                    autofillHints: const [AutofillHints.streetAddressLevel2],
                   );
                 }),
               ),
@@ -111,6 +114,7 @@ class _AddressPageState extends BaseState<AddressPage, AddressController> {
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.streetAddress,
               textCapitalization: TextCapitalization.words,
+              autofillHints: const [AutofillHints.streetAddressLine1],
             );
           }),
           UIHelper.verticalSpaceS12,
@@ -125,6 +129,7 @@ class _AddressPageState extends BaseState<AddressPage, AddressController> {
                     errorText: controller.number.error,
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.number,
+                    autofillHints: const [AutofillHints.streetAddressLine2],
                   );
                 }),
               ),
@@ -138,6 +143,7 @@ class _AddressPageState extends BaseState<AddressPage, AddressController> {
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.text,
                     textCapitalization: TextCapitalization.sentences,
+                    autofillHints: const [AutofillHints.streetAddressLine3],
                   );
                 }),
               ),
@@ -152,6 +158,7 @@ class _AddressPageState extends BaseState<AddressPage, AddressController> {
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.text,
               textCapitalization: TextCapitalization.sentences,
+              autofillHints: const [AutofillHints.streetAddressLevel3],
             );
           }),
           UIHelper.verticalSpaceS32,

@@ -1,8 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:psique_eleve/src/modules/auth/domain/usecases/change_password.usecase.dart';
-import 'package:psique_eleve/src/modules/auth/domain/usecases/recover_password.usecase.dart';
 import 'package:psique_eleve/src/modules/home/presentation/pages/feed/feed_page.dart';
 import 'package:psique_eleve/src/presentation/base/controller/base.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/form.store.dart';
@@ -27,7 +25,7 @@ abstract class _ResetPasswordControllerBase extends BaseStore with Store {
 
   @override
   Iterable<ValueState> get getStates => [resetPassState];
-
+  
   @override
   List<FormStore> get getForms => [password, confirmPassword];
 
