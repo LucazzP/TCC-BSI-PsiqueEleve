@@ -30,7 +30,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       email: email,
       password: password,
       options: AuthOptions(
-        redirectTo: kIsWeb ? null : kLoginCallBackMobile,
+        redirectTo: kIsWeb ? kLoginCallBackWeb : kLoginCallBackMobile,
       ),
     );
     final error = userResult.error;
@@ -57,7 +57,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<Unit> recoverPassword(String email) async {
-    final res = await api.auth.api.resetPasswordForEmail(email);
+    final res = await api.auth.api.resetPasswordForEmail(
+      email,
+      options: AuthOptions(
+        redirectTo: kLoginCallBackWeb,
+      ),
+    );
     if (res.error != null) throw Exception(res.error?.message);
     return unit;
   }

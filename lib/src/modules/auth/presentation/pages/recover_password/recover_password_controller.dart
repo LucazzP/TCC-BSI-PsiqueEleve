@@ -5,6 +5,7 @@ import 'package:psique_eleve/src/modules/auth/domain/usecases/recover_password.u
 import 'package:psique_eleve/src/presentation/base/controller/base.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/form.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/value_state.store.dart';
+import 'package:psique_eleve/src/presentation/constants/routes.dart';
 import 'package:psique_eleve/src/presentation/constants/validators.dart';
 
 part 'recover_password_controller.g.dart';
@@ -29,7 +30,7 @@ abstract class _RecoverPasswordControllerBase extends BaseStore with Store {
     if (validateForms() == false) return false;
     await resetPassState.execute(() => _resetPasswordUseCase(email.value));
     if (hasFailure == false) {
-      Modular.to.pop();
+      Modular.to.navigate(kAuthLoginScreenRoute);
       return true;
     }
     return false;

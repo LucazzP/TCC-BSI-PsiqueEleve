@@ -41,7 +41,7 @@ class _SplashPageState extends AuthState<SplashPage> {
         uri = await getInitialUri();
       } catch (_) {}
     }
-    uri ??= Uri.base;
+    uri ??= widget.initialUri;
     if (uri.queryParameters.isNotEmpty) {
       recoverSessionFromUrl(uri);
     }
