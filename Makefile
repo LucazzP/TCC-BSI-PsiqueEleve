@@ -18,6 +18,9 @@ build_clean:
 build_web:
 	flutter build web -t lib/main_production.dart --release
 
+build_apk:
+	flutter build apk -t lib/main_production.dart --release --flavor prod
+
 watch:
 	flutter gen-l10n
 	flutter pub run build_runner watch
