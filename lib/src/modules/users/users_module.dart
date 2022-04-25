@@ -9,6 +9,7 @@ import 'package:psique_eleve/src/modules/users/domain/repository/users.repositor
 import 'package:psique_eleve/src/modules/users/domain/usecases/create_user.usecase.dart';
 import 'package:psique_eleve/src/modules/users/domain/usecases/get_patients.usecase.dart';
 import 'package:psique_eleve/src/modules/users/domain/usecases/get_therapists.usecase.dart';
+import 'package:psique_eleve/src/modules/users/domain/usecases/get_user.usecase.dart';
 import 'package:psique_eleve/src/modules/users/domain/usecases/update_user.usecase.dart';
 import 'package:psique_eleve/src/modules/users/presentation/users/users_controller.dart';
 import 'package:psique_eleve/src/modules/users/presentation/users/users_page.dart';
@@ -23,14 +24,15 @@ class UsersModule extends Module {
 
   @override
   final List<Bind> binds = [
-    Bind.lazySingleton((i) => AddEditUserController(i(), i())),
+    Bind.lazySingleton((i) => AddEditUserController(i(), i(), i(), i())),
     Bind.lazySingleton((i) => UsersController(i(), i())),
-    Bind.factory((i) => GetTherapistsUseCase(i())),
-    Bind.factory((i) => GetPatientsUseCase(i())),
-    Bind.factory((i) => CreateUserUseCase(i(), i())),
-    Bind.factory((i) => UpdateUserUseCase(i(), i(), i())),
+    Bind.factory((i) => GetTherapistsUseCase(i(), i(), i())),
+    Bind.factory((i) => GetPatientsUseCase(i(), i(), i())),
+    Bind.factory((i) => GetUserUseCase(i())),
+    Bind.factory((i) => CreateUserUseCase(i(), i(), i())),
+    Bind.factory((i) => UpdateUserUseCase(i(), i(), i(), i())),
     Bind.factory<UsersRepository>((i) => UsersRepositoryImpl(i())),
-    Bind.factory<UsersDataSource>((i) => UsersDataSourceImpl(i())),
+    Bind.factory<UsersDataSource>((i) => UsersDataSourceImpl(i(), i())),
   ];
 
   @override
@@ -48,6 +50,7 @@ class UsersModule extends Module {
         if (args.data is Map) {
           user = args.data['user'];
           isProfilePage = args.data['isProfilePage'] ?? false;
+          userType = args.data['userType'];
         } else if (args.data is UserType) {
           userType = args.data;
         }

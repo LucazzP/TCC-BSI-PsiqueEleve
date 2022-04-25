@@ -1,4 +1,3 @@
-import 'package:flinq/flinq.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -8,14 +7,18 @@ import 'package:psique_eleve/src/modules/address/presentation/address_page.dart'
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/address_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
+import 'package:psique_eleve/src/modules/auth/domain/usecases/get_user_logged_usecase.dart';
+import 'package:psique_eleve/src/modules/users/domain/entities/therapist_patient_relationship.entity.dart';
 import 'package:psique_eleve/src/modules/users/domain/usecases/create_user.usecase.dart';
+import 'package:psique_eleve/src/modules/users/domain/usecases/get_user.usecase.dart';
 import 'package:psique_eleve/src/modules/users/domain/usecases/update_user.usecase.dart';
 import 'package:psique_eleve/src/presentation/base/controller/base.store.dart';
+import 'package:psique_eleve/src/presentation/base/controller/form.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/value.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/value_state.store.dart';
-import 'package:psique_eleve/src/presentation/base/controller/form.store.dart';
 import 'package:psique_eleve/src/presentation/constants/validators.dart';
 import 'package:psique_eleve/src/presentation/widgets/custom_alert_dialog/custom_alert_dialog.dart';
+
 part 'add_edit_user_controller.g.dart';
 
 class AddEditUserController = _AddEditUserControllerBase with _$AddEditUserController;
@@ -23,11 +26,18 @@ class AddEditUserController = _AddEditUserControllerBase with _$AddEditUserContr
 abstract class _AddEditUserControllerBase extends BaseStore with Store {
   final CreateUserUseCase _createUserUseCase;
   final UpdateUserUseCase _updateUserUseCase;
+  final GetUserLoggedUseCase _getUserLoggedUseCase;
+  final GetUserUseCase _getUserUseCase;
 
-  _AddEditUserControllerBase(this._createUserUseCase, this._updateUserUseCase);
+  _AddEditUserControllerBase(
+    this._createUserUseCase,
+    this._updateUserUseCase,
+    this._getUserLoggedUseCase,
+    this._getUserUseCase,
+  );
 
-  late final UserType userType;
-  late final String id;
+  UserType? _userType;
+  late final String userId;
   late final bool isProfilePage;
 
   final fullName = FormStore(Validators.fullName);
@@ -36,34 +46,71 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
   final cellphone = FormStore(Validators.cellphone);
   final imageUrl = ValueStore<String>('');
   final address = ValueStore<AddressEntity?>(null);
-  final title = ValueStore('');
+
+  final linkedWith = ValueStore<UserEntity?>(null);
 
   final newUser = ValueState<UserEntity?>(null);
+  final currentLoggedUser = ValueState<UserEntity?>(null);
 
-  bool get pageIsForEditing => id.isNotEmpty;
+  bool get pageIsForEditing => userId.isNotEmpty;
   String get getCreateEditValue => pageIsForEditing ? 'Editar' : 'Criar';
   String get getSuccessMessage =>
       pageIsForEditing ? 'Usuário editado com sucesso!' : 'Usuário criado com sucesso!';
 
+  @computed
+  String get title {
+    if (isProfilePage) {
+      return '$getCreateEditValue perfil';
+    }
+    switch (userType) {
+      case UserType.admin:
+      case UserType.therapist:
+        return '$getCreateEditValue terapeuta';
+      case UserType.patient:
+      case UserType.responsible:
+        return '$getCreateEditValue paciente';
+    }
+  }
+
   @override
-  Iterable<ValueState> get getStates => [newUser];
+  Iterable<ValueState> get getStates => [newUser, currentLoggedUser];
 
   @override
   List<FormStore> get getForms => [fullName, email, cpf, cellphone];
 
   void initialize(UserType? userType, UserEntity? user, bool isProfilePage) {
-    this.userType = userType ?? user?.roles.firstOrNull?.type ?? UserType.patient;
+    _userType = userType;
     newUser.setValue(user);
-    id = user?.id ?? '';
+    userId = user?.id ?? '';
     this.isProfilePage = isProfilePage;
-    _setStrings();
     _setFieldValues();
+    _getCurrentLoggedUser();
+    _getUser();
+  }
+
+  @computed
+  bool get canLinkPatient =>
+      pageIsForEditing && userType == UserType.patient && linkedWith.value == null;
+
+  @computed
+  UserType get userType => _userType ?? newUser.value?.role.type ?? UserType.patient;
+
+  @computed
+  String get getLinkedPatientText {
+    if (linkedWith.value == null) return '';
+    var text = 'Vinculado ';
+    if (linkedWith.value?.id == currentLoggedUser.value?.id) {
+      text += 'com você';
+    } else {
+      text += 'com ${linkedWith.value?.fullName}';
+    }
+    return text;
   }
 
   Future<bool> onTapCreateEdit(BuildContext context) async {
     if (validateForms() == false) return false;
     final user = UserEntity(
-      id: id,
+      id: userId,
       fullName: fullName.value,
       email: email.value,
       cpf: cpf.value.removeAllMasks,
@@ -73,12 +120,22 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
       roles: const [],
     );
 
+    final linkedWithId = linkedWith.value?.id;
+    final therapistPatientRelationship = linkedWithId == null || userId.isEmpty
+        ? null
+        : TherapistPatientRelationshipEntity(
+            patientId: userId,
+            therapistId: linkedWithId,
+            createdAt: DateTime.now(),
+          );
+
     await newUser.execute(
       () => pageIsForEditing
           ? _updateUserUseCase(UpdateUserParams(
               user: user,
               userTypes: [userType],
               isProfilePage: isProfilePage,
+              therapistPatientRelationship: therapistPatientRelationship,
             ))
           : _createUserUseCase(CreateUserParams(user: user, userTypes: [userType])),
     );
@@ -99,18 +156,8 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
     if (newAddress != null) address.setValue(newAddress);
   }
 
-  void _setStrings() {
-    if (isProfilePage) {
-      return title.setValue('$getCreateEditValue perfil');
-    }
-    switch (userType) {
-      case UserType.admin:
-      case UserType.therapist:
-        return title.setValue('$getCreateEditValue terapeuta');
-      case UserType.patient:
-      case UserType.responsible:
-        return title.setValue('$getCreateEditValue paciente');
-    }
+  Future<void> onTapLinkPatient() async {
+    linkedWith.setValue(currentLoggedUser.value);
   }
 
   void _setFieldValues() {
@@ -122,5 +169,17 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
     cellphone.setValue(user.cellphone.withPhoneMask);
     imageUrl.setValue(user.imageUrl);
     address.setValue(user.address);
+    linkedWith.setValue(user.therapist);
+  }
+
+  Future<void> _getCurrentLoggedUser() {
+    return currentLoggedUser.execute(_getUserLoggedUseCase);
+  }
+
+  Future<void> _getUser() async {
+    if (pageIsForEditing) {
+      await newUser.execute(() => _getUserUseCase.call(userId));
+      _setFieldValues();
+    }
   }
 }

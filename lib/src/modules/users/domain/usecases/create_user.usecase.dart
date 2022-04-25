@@ -5,6 +5,7 @@ import 'package:psique_eleve/src/modules/address/domain/usecases/create_address.
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/address_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
+import 'package:psique_eleve/src/modules/auth/domain/usecases/get_active_user_role.usecase.dart';
 import 'package:psique_eleve/src/modules/users/domain/repository/users.repository.dart';
 
 class CreateUserParams {
@@ -20,19 +21,20 @@ class CreateUserParams {
 class CreateUserUseCase implements BaseUseCase<UserEntity, CreateUserParams> {
   final UsersRepository _repo;
   final CreateAddressUseCase _createAddressUseCase;
+  final GetActiveUserRoleUseCase _getActiveUserRoleUseCase;
 
-  const CreateUserUseCase(this._repo, this._createAddressUseCase);
+  const CreateUserUseCase(this._repo, this._createAddressUseCase, this._getActiveUserRoleUseCase);
 
   @override
   Future<Either<Failure, UserEntity>> call(CreateUserParams params) async {
     final _user = params.user;
     final address = _user.address?.copyWith(id: '');
+    final _activeUserRole = await _getActiveUserRoleUseCase();
 
     final _roles = await _repo.getRoles(params.userTypes);
 
     return _roles.fold((l) => Left(l), (roles) async {
-      final roleIds = roles.map((e) => e.id).toList();
-      final _userResult = await _repo.createUser(_user, roleIds);
+      final _userResult = await _repo.createUser(_user, roles, _activeUserRole);
       Either<Failure, AddressEntity> _addressResult = const Right(AddressEntity());
 
       return _userResult.fold((l) => Left(l), (user) async {

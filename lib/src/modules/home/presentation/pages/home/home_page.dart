@@ -1,8 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/styles/app_color_scheme.dart';
 
@@ -18,8 +17,29 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends BaseState<HomePage, HomeController> {
   @override
   PreferredSizeWidget appBar(BuildContext ctx) => AppBar(
-        title: const Text('Home'),
+        title: Observer(builder: (_) {
+          return Text(controller.titlePage);
+        }),
         actions: [
+          Observer(
+            builder: (context) {
+              if (controller.shouldShowDropdownUserRole == false) return const SizedBox.shrink();
+              return DropdownButton(
+                items: controller.userRoles.map((role) {
+                  return DropdownMenuItem(
+                    value: role,
+                    child: Text(role.nameFriendly),
+                  );
+                }).toList(),
+                onChanged: controller.onChangedUserRole,
+                value: controller.selectedUserRole.value,
+                underline: Container(),
+                iconEnabledColor: Colors.white,
+                dropdownColor: AppColorScheme.primaryDefault,
+                style: const TextStyle(color: Colors.white),
+              );
+            },
+          ),
           IconButton(onPressed: () {}, icon: const Icon(Icons.notifications_outlined)),
         ],
       );
@@ -45,8 +65,7 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
 
   @override
   void initState() {
-    final index = controller.screenRoutes.indexOf(Modular.to.navigateHistory.first.name);
-    controller.activePage.setValue(max(0, index));
+    controller.initialize();
     super.initState();
   }
 

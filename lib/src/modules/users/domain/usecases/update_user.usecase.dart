@@ -6,17 +6,21 @@ import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/address_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/repository/auth.repository.dart';
+import 'package:psique_eleve/src/modules/auth/domain/usecases/get_active_user_role.usecase.dart';
+import 'package:psique_eleve/src/modules/users/domain/entities/therapist_patient_relationship.entity.dart';
 import 'package:psique_eleve/src/modules/users/domain/repository/users.repository.dart';
 
 class UpdateUserParams {
   final UserEntity user;
   final List<UserType> userTypes;
   final bool isProfilePage;
+  final TherapistPatientRelationshipEntity? therapistPatientRelationship;
 
   const UpdateUserParams({
     required this.user,
     required this.userTypes,
     required this.isProfilePage,
+    this.therapistPatientRelationship,
   });
 }
 
@@ -24,8 +28,9 @@ class UpdateUserUseCase implements BaseUseCase<UserEntity, UpdateUserParams> {
   final UsersRepository _repo;
   final UpdateAddressUseCase _updateAddressUseCase;
   final AuthRepository _authRepository;
+  final GetActiveUserRoleUseCase _getActiveUserRoleUseCase;
 
-  const UpdateUserUseCase(this._repo, this._updateAddressUseCase, this._authRepository);
+  const UpdateUserUseCase(this._repo, this._updateAddressUseCase, this._authRepository, this._getActiveUserRoleUseCase,);
 
   @override
   Future<Either<Failure, UserEntity>> call(UpdateUserParams params) async {
@@ -34,8 +39,12 @@ class UpdateUserUseCase implements BaseUseCase<UserEntity, UpdateUserParams> {
     final _roles = await _repo.getRoles(params.userTypes);
 
     return _roles.fold((l) => Left(l), (roles) async {
-      final roleIds = roles.map((e) => e.id).toList();
-      final _userResult = await _repo.updateUser(_user, roleIds);
+      final _userResult = await _repo.updateUser(
+        _user,
+        roles,
+        await _getActiveUserRoleUseCase(),
+        params.therapistPatientRelationship,
+      );
       Either<Failure, AddressEntity> _addressResult = const Right(AddressEntity());
 
       return _userResult.fold((l) => Left(l), (user) async {

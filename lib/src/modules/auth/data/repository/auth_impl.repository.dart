@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:dartz/dartz.dart';
+import 'package:flinq/flinq.dart';
 import 'package:psique_eleve/src/core/failures.dart';
 import 'package:psique_eleve/src/data/utils/call_either.dart';
 import 'package:psique_eleve/src/extensions/map.ext.dart';
 import 'package:psique_eleve/src/modules/auth/data/datasource/local/auth_local.datasource.dart';
 import 'package:psique_eleve/src/modules/auth/data/mappers/user_mapper.dart';
+import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
 import '../datasource/remote/auth_remote.datasource.dart';
 import '../../domain/repository/auth.repository.dart';
@@ -94,5 +96,26 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, Unit>> changePassword(String password) {
     return callEither(() => _remoteDataSource.changePassword(password));
+  }
+
+  @override
+  Future<Either<Failure, UserType>> getSelectedUserRole() {
+    return callEither<UserType, UserType>(() async {
+      final selectedUserRole = await _localDataSource.getSelectedUserRole();
+      final _selectedRole = UserType.values.firstOrNullWhere((e) => e.name == selectedUserRole);
+      if (_selectedRole != null) return _selectedRole;
+
+      final localUser = await _localDataSource.getUserLogged();
+      final userRole = UserMapper.fromMap(localUser)?.role.type ?? UserType.patient;
+      return userRole;
+    });
+  }
+
+  @override
+  Future<Either<Failure, Unit>> setSelectedUserRole(UserType userType) {
+    return callEither(() async {
+      await _localDataSource.saveSelectedUserRole(userType.name);
+      return unit;
+    });
   }
 }

@@ -66,7 +66,6 @@ abstract class _MenuControllerBase extends BaseStore with Store {
           title: 'Gerenciar Pacientes',
           onTap: () => UsersPage.navigateTo(UserType.patient),
         ),
-      MenuOptionModel(title: 'Configurações', onTap: () {}),
       MenuOptionModel(
         title: 'Alterar a senha',
         onTap: () => ResetPasswordPage.navigateTo(),

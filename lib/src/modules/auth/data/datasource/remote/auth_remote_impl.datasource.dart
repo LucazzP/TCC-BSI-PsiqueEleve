@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:psique_eleve/src/core/constants.dart';
 import 'package:psique_eleve/src/core/exceptions.dart';
 import 'package:psique_eleve/src/helpers/casters.dart';
@@ -9,8 +10,9 @@ import 'auth_remote.datasource.dart';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final SupabaseClient api;
+  final FlutterSecureStorage secureStorage;
 
-  const AuthRemoteDataSourceImpl(this.api);
+  const AuthRemoteDataSourceImpl(this.api, this.secureStorage);
 
   @override
   Future<Map> getUserLogged() async {
@@ -26,6 +28,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<Map> loginEmail({required String email, required String password}) async {
+    await Future.wait([
+      secureStorage.write(key: 'email', value: email),
+      secureStorage.write(key: 'password', value: password),
+    ]);
+
     final userResult = await api.auth.signIn(
       email: email,
       password: password,

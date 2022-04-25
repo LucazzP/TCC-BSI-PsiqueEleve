@@ -15,6 +15,7 @@ extension UserMapper on UserEntity {
       'image_url': imageUrl,
       if (!onlyUserFields) 'address': [address?.toMap()],
       if (!onlyUserFields) 'role_user': roles.map((e) => e.toMap()).toList(),
+      if (!onlyUserFields) 'therapist': therapist?.toMap(),
     };
   }
 
@@ -36,6 +37,7 @@ extension UserMapper on UserEntity {
               .map<RoleEntity>((e) => RoleMapper.fromMap(Map.from(e ?? {})))
               .toList()
           : [],
+      therapist: UserMapper.fromMap(map['therapist'] ?? {}),
     );
     user.roles.sort((a, b) => a.type.index.compareTo(b.type.index));
     return user;

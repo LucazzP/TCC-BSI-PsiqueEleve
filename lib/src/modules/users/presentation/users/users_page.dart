@@ -28,11 +28,10 @@ class UsersPage extends StatefulWidget {
 
 class _UsersPageState extends BaseState<UsersPage, UsersController> {
   @override
-  PreferredSizeWidget? appBar(BuildContext ctx) => PreferredSize(
-        child: AppBar(
-          title: Text(controller.title.value),
-        ),
-        preferredSize: const Size.fromHeight(kToolbarHeight),
+  PreferredSizeWidget? appBar(BuildContext ctx) => AppBar(
+        title: Observer(builder: (_) {
+          return Text(controller.title.value);
+        }),
       );
 
   @override

@@ -27,11 +27,12 @@ class AddEditUserPage extends StatefulWidget {
         arguments: userType,
       );
 
-  static Future<bool?> navigateToEdit(UserEntity user, bool isProfilePage) => Modular.to.pushNamed(
+  static Future<bool?> navigateToEdit(UserEntity user, bool isProfilePage, {UserType? userType}) => Modular.to.pushNamed(
         kUserAddEditScreenRoute,
         arguments: {
           'user': user,
           'isProfilePage': isProfilePage,
+          'userType': userType,
         },
       );
 
@@ -48,11 +49,10 @@ class AddEditUserPage extends StatefulWidget {
 
 class _AddEditUserPageState extends BaseState<AddEditUserPage, AddEditUserController> {
   @override
-  PreferredSizeWidget? appBar(BuildContext ctx) => PreferredSize(
-        child: AppBar(
-          title: Text(controller.title.value),
-        ),
-        preferredSize: const Size.fromHeight(kToolbarHeight),
+  PreferredSizeWidget? appBar(BuildContext ctx) => AppBar(
+        title: Observer(builder: (_) {
+          return Text(controller.title);
+        }),
       );
 
   @override
@@ -141,6 +141,26 @@ class _AddEditUserPageState extends BaseState<AddEditUserPage, AddEditUserContro
           );
         }),
         UIHelper.verticalSpaceS16,
+        Observer(builder: (context) {
+          var children = <Widget>[];
+          if (controller.canLinkPatient) {
+            children = [
+              AppButton(
+                onPressed: linkPatient,
+                title: 'Vincular paciente',
+                style: AppButtonStyle.bordered,
+              ),
+              UIHelper.verticalSpaceS12,
+            ];
+          }
+          if (controller.getLinkedPatientText.isNotEmpty) {
+            children = [
+              Text(controller.getLinkedPatientText),
+              UIHelper.verticalSpaceS12,
+            ];
+          }
+          return Column(children: children);
+        }),
         AppButton(
           onPressed: createEditUser,
           title: controller.getCreateEditValue,
@@ -157,5 +177,9 @@ class _AddEditUserPageState extends BaseState<AddEditUserPage, AddEditUserContro
       await Future.delayed(k100msDuration);
       AppSnackBar.success(context, controller.getSuccessMessage);
     }
+  }
+
+  void linkPatient() {
+    controller.onTapLinkPatient();
   }
 }

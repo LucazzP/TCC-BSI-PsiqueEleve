@@ -47,7 +47,7 @@ abstract class _UsersControllerBase extends BaseStore with Store {
     if (user == null) {
       shouldUpdate = await AddEditUserPage.navigateToAdd(userType) ?? false;
     } else {
-      shouldUpdate = await AddEditUserPage.navigateToEdit(user, false) ?? false;
+      shouldUpdate = await AddEditUserPage.navigateToEdit(user, false, userType: userType) ?? false;
     }
     if (shouldUpdate == true) getUsers();
   }

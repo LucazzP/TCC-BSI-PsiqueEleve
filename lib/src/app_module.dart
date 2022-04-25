@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:psique_eleve/src/core/flavor/flavor_config.model.dart';
 import 'package:psique_eleve/src/data/local/hive_client.dart';
 import 'package:psique_eleve/src/data/remote/interceptors/auth_interceptor.dart';
@@ -26,6 +27,7 @@ class AppModule extends Module {
 
   @override
   final List<Bind> binds = [
+    Bind.lazySingleton((i) => const FlutterSecureStorage()),
     Bind.lazySingleton((i) => Dio()),
     Bind.lazySingleton((i) => AuthInterceptor(i(), () async => '', () async => '')),
     Bind.lazySingleton((i) => DioClient(i(), i())),

@@ -13,7 +13,7 @@ import 'presentation/pages/home/home_page.dart';
 class HomeModule extends Module {
   @override
   final List<Bind> binds = [
-    Bind.lazySingleton((i) => HomeController()),
+    Bind.lazySingleton((i) => HomeController(i(), i(), i())),
     Bind.lazySingleton((i) => FeedController()),
   ];
 
