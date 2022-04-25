@@ -22,16 +22,15 @@ class UsersDataSourceImpl implements UsersDataSource {
     int page = 0,
   }) async {
     final offset = page * pageSize;
-    var query = _client.from('user').select('''
+    var query = _client.from('users_view').select('''
       *,
-      user_role:role!inner(name),
-      therapist:patient_user_id!left(active, therapist_user_id)
+      user_role:role!inner(name)
 ''').in_('user_role.name', userTypes);
 
     final shouldFilterByLinkedPatients =
         activeUserRole == UserType.therapist && userTypes.contains(UserType.patient.name);
     if (shouldFilterByLinkedPatients) {
-      query = query.eq('therapist.therapist_user_id', loggedUserId);
+      query = query.eq('therapist_user_id', loggedUserId);
     }
 
     final res = await query.range(0 + offset, pageSize + offset).execute();
@@ -41,8 +40,6 @@ class UsersDataSourceImpl implements UsersDataSource {
     }
 
     final resultList = Casters.toListMap(res.data);
-
-    resultList.removeWhere((element) => Casters.toMap(element['therapist'])['active'] == false);
 
     for (final user in resultList) {
       user.remove('therapist');
@@ -60,7 +57,7 @@ class UsersDataSourceImpl implements UsersDataSource {
       address(*),
       role_user:role(*),
       therapist:patient_user_id(*)
-''').eq('id', userId).eq('therapist.active', true).single().execute();
+''').eq('id', userId).single().execute();
 
     if (res.hasError) {
       throw Exception(res.error);
@@ -69,6 +66,7 @@ class UsersDataSourceImpl implements UsersDataSource {
     final user = Casters.toMap(res.data);
 
     final therapistsLink = Casters.toListMap(user['therapist']);
+    therapistsLink.removeWhere((element) => element['active'] == false);
     final therapistId =
         therapistsLink.isEmpty ? '' : therapistsLink[0]['therapist_user_id'] as String?;
 
