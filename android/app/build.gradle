@@ -53,7 +53,7 @@ android {
 
     defaultConfig {
         applicationId 'dev.polazzo.psique_eleve'
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 18
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
