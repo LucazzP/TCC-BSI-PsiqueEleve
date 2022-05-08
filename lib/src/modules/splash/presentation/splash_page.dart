@@ -4,6 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:psique_eleve/src/extensions/uri.ext.dart';
 import 'package:psique_eleve/src/presentation/base/pages/auth.state.dart';
 import 'package:psique_eleve/src/presentation/constants/images.dart';
+import 'package:psique_eleve/src/presentation/styles/app_color_scheme.dart';
 import 'package:uni_links/uni_links.dart';
 
 import 'splash_controller.dart';
@@ -57,8 +58,12 @@ class _SplashPageState extends AuthState<SplashPage> {
   @override
   Widget build(context) {
     return Scaffold(
-      body: Center(
-        child: Image.asset(kLogoPsiqueEleveBig),
+      backgroundColor: AppColorScheme.primaryLight,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Center(
+          child: Image.asset(kLogoPsiqueEleveBig),
+        ),
       ),
     );
   }

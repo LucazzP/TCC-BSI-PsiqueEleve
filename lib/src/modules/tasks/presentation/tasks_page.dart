@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
+import 'package:psique_eleve/src/presentation/styles/app_spacing.dart';
 
 import 'tasks_controller.dart';
 
@@ -18,23 +19,37 @@ class TasksPage extends StatefulWidget {
 
 class _TasksPageState extends BaseState<TasksPage, TasksController> {
   @override
+  void initState() {
+    controller.getTasks();
+    super.initState();
+  }
+
+  @override
   PreferredSizeWidget? appBar(BuildContext ctx) => null;
 
   @override
   Widget child(context, constrains) {
-    return Column(
-      children: [
-        const Text('Tasks'),
-        Observer(builder: (_) {
-          return Text(controller.counter.value.toString());
-        }),
-        TextButton(
-          onPressed: () {
-            controller.counter.setValue(controller.counter.value + 1);
-          },
-          child: const Text('aumentar'),
-        )
-      ],
-    );
+    return Observer(builder: (context) {
+      final tasks = controller.tasks.value;
+      if (tasks.isEmpty && !controller.isLoading) {
+        return const Center(
+          child: Text('Não há nenhuma task criada.'),
+        );
+      }
+      return ListView.builder(
+        itemCount: tasks.length,
+        itemBuilder: (context, index) {
+          final task = tasks[index];
+          return ListTile(
+            title: Text(task.status.name),
+            onTap: () => controller.onTapAddEditTask(task),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.s24,
+              vertical: AppSpacing.s4,
+            ),
+          );
+        },
+      );
+    });
   }
 }
