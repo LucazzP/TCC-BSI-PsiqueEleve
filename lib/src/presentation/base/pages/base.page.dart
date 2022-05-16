@@ -19,6 +19,7 @@ abstract class BaseState<T extends StatefulWidget, S extends BaseStore> extends 
   bool get shouldRemoveAppbarHeight => false;
   bool get showLoadingOverlay => true;
   bool get showErrorOverlay => true;
+  bool get safeAreaBottom => true;
   EdgeInsets get padding => const EdgeInsets.symmetric(vertical: 16, horizontal: 16);
   Widget? get bottomNavigationBar => null;
   Widget? get floatingActionButton => null;
@@ -103,6 +104,7 @@ abstract class BaseState<T extends StatefulWidget, S extends BaseStore> extends 
           floatingActionButton: floatingActionButton,
           body: SafeArea(
             top: hasAppBar,
+            bottom: safeAreaBottom,
             child: LayoutBuilder(
               builder: (_, BoxConstraints constrains) {
                 final layoutWithPadding = Padding(

@@ -13,6 +13,7 @@ extension UserMapper on UserEntity {
       'cpf': cpf,
       'cellphone': cellphone,
       'image_url': imageUrl,
+      'created_at': createdAt?.toIso8601String(),
       if (!onlyUserFields) 'address': [address?.toMap()],
       if (!onlyUserFields) 'role_user': roles.map((e) => e.toMap()).toList(),
       if (!onlyUserFields) 'therapist': therapist?.toMap(),
@@ -38,6 +39,7 @@ extension UserMapper on UserEntity {
               .toList()
           : [],
       therapist: UserMapper.fromMap(map['therapist'] ?? {}),
+      createdAt: DateTime.tryParse(map['created_at'] ?? ''),
     );
     user.roles.sort((a, b) => a.type.index.compareTo(b.type.index));
     return user;

@@ -46,6 +46,7 @@ class AppColorScheme {
 
   static const background = Colors.white;
   static const border = Color(0xFFEBEDED);
+  static const borderDark = Color.fromARGB(255, 180, 180, 180);
   static const shadow = Color(0x4B000000);
   static const bodyText = Color(0xFF202124);
   static const primaryDefault = Color(0xFF009BB1);

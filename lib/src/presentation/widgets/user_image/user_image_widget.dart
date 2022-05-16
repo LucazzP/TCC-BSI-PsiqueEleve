@@ -8,51 +8,51 @@ class UserImageWidget extends StatelessWidget {
   final String imageUrl;
   final String fullName;
   final VoidCallback? onEdit;
+  final double radius;
 
   const UserImageWidget({
     Key? key,
     this.imageUrl = '',
     required this.fullName,
     this.onEdit,
+    this.radius = 65,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: CircleAvatar(
-        backgroundImage: imageUrl.isNotEmpty ? CachedNetworkImageProvider(imageUrl) : null,
-        radius: 65,
-        backgroundColor: AppColorScheme.primaryDark,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            TernaryWidget(
-              value: imageUrl.isEmpty,
-              trueWidget: _nameInitialsImage(fullName),
-              useAnimation: false,
-            ),
-            // if (onEdit != null)
-            //   Transform.translate(
-            //     offset: const Offset(10, 0),
-            //     child: Align(
-            //       alignment: Alignment.topRight,
-            //       child: Container(
-            //         decoration: BoxDecoration(
-            //           color: AppColorScheme.primarySwatch[300],
-            //           shape: BoxShape.circle,
-            //         ),
-            //         height: 40,
-            //         child: IconButton(
-            //           icon: const Icon(Icons.edit),
-            //           onPressed: onEdit,
-            //           iconSize: 20,
-            //           color: Colors.white,
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-          ],
-        ),
+    return CircleAvatar(
+      backgroundImage: imageUrl.isNotEmpty ? CachedNetworkImageProvider(imageUrl) : null,
+      radius: radius,
+      backgroundColor: AppColorScheme.primaryDark,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          TernaryWidget(
+            value: imageUrl.isEmpty,
+            trueWidget: _nameInitialsImage(fullName),
+            useAnimation: false,
+          ),
+          // if (onEdit != null)
+          //   Transform.translate(
+          //     offset: const Offset(10, 0),
+          //     child: Align(
+          //       alignment: Alignment.topRight,
+          //       child: Container(
+          //         decoration: BoxDecoration(
+          //           color: AppColorScheme.primarySwatch[300],
+          //           shape: BoxShape.circle,
+          //         ),
+          //         height: 40,
+          //         child: IconButton(
+          //           icon: const Icon(Icons.edit),
+          //           onPressed: onEdit,
+          //           iconSize: 20,
+          //           color: Colors.white,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+        ],
       ),
     );
   }
@@ -67,7 +67,7 @@ class UserImageWidget extends StatelessWidget {
           splitted.first.substring(0, 1) + splitted.last.substring(0, 1),
           style: AppTextTheme.textTheme.headline6?.copyWith(
             color: Colors.white,
-            fontSize: 50,
+            fontSize: 50 / 65 * radius,
             fontWeight: FontWeight.bold,
             letterSpacing: 2,
           ),

@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
+import 'package:psique_eleve/src/presentation/styles/app_color_scheme.dart';
 import 'package:psique_eleve/src/presentation/styles/app_spacing.dart';
 
 import 'menu_controller.dart';
@@ -34,16 +35,20 @@ class _MenuPageState extends BaseState<MenuPage, MenuController> {
   Widget child(context, constrains) {
     return Observer(builder: (_) {
       final options = controller.options.value;
-      return ListView.builder(
-        padding: super.padding.copyWith(left: 0, right: 0),
+      return ListView.separated(
         itemBuilder: (context, index) {
           final item = options[index];
           return ListTile(
             title: Text(item.title),
             onTap: item.onTap,
             contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.s20),
+            trailing: Icon(item.icon ?? Icons.chevron_right),
           );
         },
+        separatorBuilder: (context, index) => const Divider(
+          height: 1,
+          color: AppColorScheme.borderDark,
+        ),
         itemCount: options.length,
       );
     });

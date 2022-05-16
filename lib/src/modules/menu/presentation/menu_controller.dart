@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/role_entity.dart';
@@ -47,6 +48,7 @@ abstract class _MenuControllerBase extends BaseStore with Store {
     options.setValue([
       MenuOptionModel(
         title: 'Perfil',
+        icon: Icons.person,
         onTap: () async {
           if (_user != null) {
             final wasModified = await AddEditUserPage.navigateToEdit(_user, true);
@@ -59,18 +61,25 @@ abstract class _MenuControllerBase extends BaseStore with Store {
       if (_role.canManageTherapists)
         MenuOptionModel(
           title: 'Gerenciar Terapeutas',
+          icon: Icons.people,
           onTap: () => UsersPage.navigateTo(UserType.therapist),
         ),
       if (_role.canManagePatients)
         MenuOptionModel(
           title: 'Gerenciar Pacientes',
+          icon: Icons.people,
           onTap: () => UsersPage.navigateTo(UserType.patient),
         ),
       MenuOptionModel(
         title: 'Alterar a senha',
+        icon: Icons.lock,
         onTap: () => ResetPasswordPage.navigateTo(),
       ),
-      MenuOptionModel(title: 'Sair da conta', onTap: _logout),
+      MenuOptionModel(
+        title: 'Sair da conta',
+        icon: Icons.logout,
+        onTap: _logout,
+      ),
     ]);
   }
 }

@@ -27,7 +27,8 @@ class AddEditUserPage extends StatefulWidget {
         arguments: userType,
       );
 
-  static Future<bool?> navigateToEdit(UserEntity user, bool isProfilePage, {UserType? userType}) => Modular.to.pushNamed(
+  static Future<bool?> navigateToEdit(UserEntity user, bool isProfilePage, {UserType? userType}) =>
+      Modular.to.pushNamed(
         kUserAddEditScreenRoute,
         arguments: {
           'user': user,
@@ -63,6 +64,9 @@ class _AddEditUserPageState extends BaseState<AddEditUserPage, AddEditUserContro
 
   @override
   EdgeInsets get padding => EdgeInsets.zero;
+  
+  @override
+  bool get safeAreaBottom => false;
 
   @override
   Widget child(context, constrains) {
@@ -71,10 +75,12 @@ class _AddEditUserPageState extends BaseState<AddEditUserPage, AddEditUserContro
       padding: super.padding,
       children: [
         Observer(builder: (_) {
-          return UserImageWidget(
-            imageUrl: controller.imageUrl.value,
-            fullName: controller.fullName.value,
-            onEdit: () {},
+          return Center(
+            child: UserImageWidget(
+              imageUrl: controller.imageUrl.value,
+              fullName: controller.fullName.value,
+              onEdit: () {},
+            ),
           );
         }),
         UIHelper.verticalSpaceS24,
