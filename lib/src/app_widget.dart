@@ -56,7 +56,7 @@ class AppWidget extends StatelessWidget {
   Future<void> initializeLocale(BuildContext context) {
     final loadedLocale = Completer();
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       S.initialize(context);
       loadedLocale.complete();
     });

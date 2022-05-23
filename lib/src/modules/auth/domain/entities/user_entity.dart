@@ -14,6 +14,7 @@ class UserEntity extends Equatable {
   final AddressEntity? address;
   final List<RoleEntity> roles;
   final UserEntity? therapist;
+  final int xp;
   // Will be stored the new temp password when create a new user
   final String password;
   final DateTime? createdAt;
@@ -29,12 +30,13 @@ class UserEntity extends Equatable {
     this.roles = const [],
     this.address,
     this.therapist,
+    this.xp = 0,
     this.createdAt,
   });
 
   RoleEntity get role {
     final bestRole = roles.firstOrNull;
-    if(bestRole == null) {
+    if (bestRole == null) {
       return const RoleEntity(type: UserType.patient, name: 'patient');
     }
     return RoleEntity(
