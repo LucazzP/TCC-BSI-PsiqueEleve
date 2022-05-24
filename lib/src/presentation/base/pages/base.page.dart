@@ -12,7 +12,10 @@ import 'package:psique_eleve/src/presentation/styles/app_color_scheme.dart';
 import 'package:psique_eleve/src/presentation/widgets/error/error.widget.dart';
 import 'package:psique_eleve/src/presentation/widgets/overlay/overlay.widget.dart';
 
-abstract class BaseState<T extends StatefulWidget, S extends BaseStore> extends ModularState<T, S> {
+abstract class BaseState<T extends StatefulWidget, S extends BaseStore> extends State<T> {
+  final S _scope = Modular.get<S>();
+  S get controller => _scope;
+
   static const errorKey = Key('ErrorWidgetKey');
   final scaffoldKey = GlobalKey<ScaffoldState>();
   Color get bgColor => AppColorScheme.colorScheme.background;
@@ -65,6 +68,7 @@ abstract class BaseState<T extends StatefulWidget, S extends BaseStore> extends 
     disposers.addAll(
       when.map((tuple) => mobx.when(tuple.value1, tuple.value2)),
     );
+    Modular.dispose<S>();
     super.initState();
   }
 

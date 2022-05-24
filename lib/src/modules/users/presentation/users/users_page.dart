@@ -40,8 +40,8 @@ class _UsersPageState extends BaseState<UsersPage, UsersController> {
   @override
   Widget? get floatingActionButton => FloatingActionButton(
         onPressed: controller.onTapAddEditUser,
-        child: const Icon(Icons.add, color: Colors.white),
         backgroundColor: AppColorScheme.primaryButtonBackground,
+        child: const Icon(Icons.add, color: Colors.white),
       );
 
   @override

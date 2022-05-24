@@ -20,7 +20,7 @@ class AppWidget extends StatelessWidget {
     ]);
     initializeLocale(context);
     return MaterialApp.router(
-      title: 'Flutter app',
+      title: 'PsiqueEleve',
       theme: AppThemeData.themeDataLight,
       darkTheme: AppThemeData.themeDataLight,
       themeMode: ThemeMode.light,

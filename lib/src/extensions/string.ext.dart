@@ -10,7 +10,7 @@ extension StringExtensions on String {
 
   String withEllipse({int maxLength = 78, bool keepExt = true}) => length > maxLength
       ? '${substring(0, maxLength - 3)}...'
-          '${keepExt ? ' ' + substring(length - 4, length) : ''}'
+          '${keepExt ? ' ${substring(length - 4, length)}' : ''}'
       : this;
 
   String get withCpfMask => MagicMask.buildMask(kCpfMask).getMaskedString(this);

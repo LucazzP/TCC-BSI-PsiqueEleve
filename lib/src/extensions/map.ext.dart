@@ -54,7 +54,7 @@ extension TransformExtNullable<T> on T? {
   O? transform<O>(O? Function(T) transform) {
     if (this == null) return null;
     if (this is String && (this as String).isEmpty) return null;
-    return transform(this!);
+    return transform(this as T);
   }
 }
 

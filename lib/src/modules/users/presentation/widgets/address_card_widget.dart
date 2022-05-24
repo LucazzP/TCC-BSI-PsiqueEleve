@@ -45,12 +45,12 @@ class AddressCardWidget extends StatelessWidget {
               Align(
                 alignment: Alignment.topRight,
                 child: InkWell(
+                  onTap: onTapEditAddress,
+                  borderRadius: AppBorderRadius.circular,
                   child: const Padding(
                     padding: EdgeInsets.all(AppSpacing.s4),
                     child: Icon(Icons.edit),
                   ),
-                  onTap: onTapEditAddress,
-                  borderRadius: AppBorderRadius.circular,
                 ),
               ),
             ],
@@ -67,9 +67,9 @@ class AddressCardWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${address.number}, ${address.complement.isNotEmpty ? (address.complement + ', ') : ''}${address.district}',
+                '${address.number}, ${address.complement.isNotEmpty ? ('${address.complement}, ') : ''}${address.district}',
               ),
-              Text(address.city + ' - ' + address.state),
+              Text('${address.city} - ${address.state}'),
             ],
           ),
         ],
