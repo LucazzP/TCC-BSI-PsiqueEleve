@@ -21,7 +21,7 @@ extension TaskMapper on TaskEntity {
       task: map['task'] ?? '',
       status: Status.values.firstWhere((e) => e.name == map['status'], orElse: () => Status.todo),
       xp: map['xp']?.toInt() ?? 0,
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['created_at']),
+      createdAt: DateTime.parse(map['created_at']),
     );
   }
 }

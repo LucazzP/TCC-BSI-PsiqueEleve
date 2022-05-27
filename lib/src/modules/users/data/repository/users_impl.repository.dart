@@ -62,7 +62,7 @@ class UsersRepositoryImpl implements UsersRepository {
       UserType activeUserRole, TherapistPatientRelationshipEntity? therapistPatientRelationship) {
     return callEither<UserEntity, Map>(
       () => _dataSource.updateUser(
-        user.toMap(onlyUserFields: true),
+        user.toMap(onlyUserFields: true)..remove('created_at'),
         roles.map((e) => e.toMap()).toList(),
         activeUserRole,
         therapistPatientRelationship?.toMap() ?? {},

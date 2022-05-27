@@ -4,10 +4,13 @@ import 'package:dartz/dartz.dart';
 import 'package:flinq/flinq.dart';
 import 'package:psique_eleve/src/core/failures.dart';
 import 'package:psique_eleve/src/data/utils/call_either.dart';
+import 'package:psique_eleve/src/extensions/iterable.ext.dart';
 import 'package:psique_eleve/src/extensions/map.ext.dart';
 import 'package:psique_eleve/src/modules/auth/data/datasource/local/auth_local.datasource.dart';
+import 'package:psique_eleve/src/modules/auth/data/mappers/role_mapper.dart';
 import 'package:psique_eleve/src/modules/auth/data/mappers/user_mapper.dart';
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
+import 'package:psique_eleve/src/modules/auth/domain/entities/role_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
 import '../datasource/remote/auth_remote.datasource.dart';
 import '../../domain/repository/auth.repository.dart';
@@ -27,7 +30,7 @@ class AuthRepositoryImpl implements AuthRepository {
           if (localUser['saved_at'] != null) {
             final savedAt = DateTime.fromMillisecondsSinceEpoch(localUser['saved_at']);
             final now = DateTime.now();
-            if (now.difference(savedAt).inMinutes < 10) {
+            if (now.difference(savedAt).inMinutes > 10) {
               updateLocalUserWithRemote();
             }
           }
@@ -43,6 +46,7 @@ class AuthRepositoryImpl implements AuthRepository {
     );
   }
 
+  @override
   Future<void> updateLocalUserWithRemote() {
     return _remoteDataSource.getUserLogged().then((res) async {
       if (res.isNotEmpty) await _localDataSource.saveUserLogged(res);
@@ -117,5 +121,13 @@ class AuthRepositoryImpl implements AuthRepository {
       await _localDataSource.saveSelectedUserRole(userType.name);
       return unit;
     });
+  }
+
+  @override
+  Future<Either<Failure, List<RoleEntity>>> getRoles() {
+    return callEither<List<RoleEntity>, List<Map>>(
+      () => _remoteDataSource.getRoles(),
+      processResponse: (res) async => Right(res.map(RoleMapper.fromMap).whereNotNull().toList()),
+    );
   }
 }

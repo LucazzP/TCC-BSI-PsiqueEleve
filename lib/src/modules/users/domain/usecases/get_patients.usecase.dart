@@ -21,7 +21,7 @@ class GetPatientsUseCase implements BaseUseCase<List<UserEntity>, int> {
     return _repo.getUsers(
       page: page,
       userTypes: [UserType.patient, UserType.responsible],
-      activeUserRole: await _getActiveUserRoleUseCase(),
+      activeUserRole: (await _getActiveUserRoleUseCase()).type,
       loggedUserId: user.getOrElse(() => const UserEntity())?.id ?? '',
     );
   }

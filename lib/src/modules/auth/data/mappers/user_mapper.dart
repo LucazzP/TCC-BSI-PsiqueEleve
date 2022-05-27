@@ -13,8 +13,8 @@ extension UserMapper on UserEntity {
       'cpf': cpf,
       'cellphone': cellphone,
       'image_url': imageUrl,
-      'xp': xp,
       'created_at': createdAt?.toIso8601String(),
+      if (!onlyUserFields) 'xp': xp,
       if (!onlyUserFields) 'address': [address?.toMap()],
       if (!onlyUserFields) 'role_user': roles.map((e) => e.toMap()).toList(),
       if (!onlyUserFields) 'therapist': therapist?.toMap(),
@@ -23,6 +23,12 @@ extension UserMapper on UserEntity {
 
   static UserEntity? fromMap(Map map) {
     if (map.isEmpty) return null;
+    var xp = 0;
+    if (map.containsKey('xp')) {
+      xp = map['xp'];
+    } else if (map['therapist'] != null && map['therapist']['xp'] != null) {
+      xp = map['therapist']['xp'];
+    }
     final user = UserEntity(
       id: map['id'] ?? '',
       password: map['password'] ?? '',
@@ -41,7 +47,7 @@ extension UserMapper on UserEntity {
           : [],
       therapist: UserMapper.fromMap(map['therapist'] ?? {}),
       createdAt: DateTime.tryParse(map['created_at'] ?? ''),
-      xp: map['xp'] ?? 0,
+      xp: xp,
     );
     user.roles.sort((a, b) => a.type.index.compareTo(b.type.index));
     return user;

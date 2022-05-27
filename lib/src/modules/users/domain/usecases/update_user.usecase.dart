@@ -42,7 +42,7 @@ class UpdateUserUseCase implements BaseUseCase<UserEntity, UpdateUserParams> {
       final _userResult = await _repo.updateUser(
         _user,
         roles,
-        await _getActiveUserRoleUseCase(),
+        (await _getActiveUserRoleUseCase()).type,
         params.therapistPatientRelationship,
       );
       Either<Failure, AddressEntity> _addressResult = const Right(AddressEntity());

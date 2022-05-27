@@ -21,9 +21,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final res = await api.from('user').select('''
     *,
     address(*),
-    role_user:role(*)
+    role_user:role(*),
+    therapist:therapist_patient!patient_user_id(id, xp, therapist_user_id, patient_user_id)
   ''').eq('id', user.id).single().execute();
-    return Casters.toMap(res.data);
+    if (res.hasError) {
+      throw Exception(res.error);
+    }
+    final data = Casters.toMap(res.data);
+    data['therapist'] = Casters.toMap(data['therapist']);
+    return data;
   }
 
   @override
@@ -74,5 +80,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final res = await api.auth.update(UserAttributes(password: password));
     if (res.error != null) throw Exception(res.error?.message);
     return unit;
+  }
+  
+  @override
+  Future<List<Map>> getRoles() async {
+    final res = await api.from('role').select('*').execute();
+    if (res.hasError) {
+      throw Exception(res.error);
+    }
+    return res.data;
   }
 }

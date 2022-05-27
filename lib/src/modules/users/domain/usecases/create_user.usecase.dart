@@ -34,7 +34,7 @@ class CreateUserUseCase implements BaseUseCase<UserEntity, CreateUserParams> {
     final _roles = await _repo.getRoles(params.userTypes);
 
     return _roles.fold((l) => Left(l), (roles) async {
-      final _userResult = await _repo.createUser(_user, roles, _activeUserRole);
+      final _userResult = await _repo.createUser(_user, roles, _activeUserRole.type);
       Either<Failure, AddressEntity> _addressResult = const Right(AddressEntity());
 
       return _userResult.fold((l) => Left(l), (user) async {

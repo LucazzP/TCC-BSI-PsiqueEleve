@@ -25,6 +25,9 @@ class _TasksPageState extends BaseState<TasksPage, TasksController> {
   }
 
   @override
+  EdgeInsets get padding => EdgeInsets.zero;
+
+  @override
   PreferredSizeWidget? appBar(BuildContext ctx) => null;
 
   @override
@@ -41,7 +44,7 @@ class _TasksPageState extends BaseState<TasksPage, TasksController> {
         itemBuilder: (context, index) {
           final task = tasks[index];
           return ListTile(
-            title: Text(task.status.name),
+            title: Text(task.task),
             onTap: () => controller.onTapAddEditTask(task),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: AppSpacing.s24,

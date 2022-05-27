@@ -6,4 +6,5 @@ abstract class AuthRemoteDataSource {
   Future<Unit> logout();
   Future<Unit> recoverPassword(String email);
   Future<Unit> changePassword(String password);
+  Future<List<Map>> getRoles();
 }

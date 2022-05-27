@@ -25,7 +25,7 @@ class GetTherapistsUseCase implements BaseUseCase<List<UserEntity>, int> {
     return _repo.getUsers(
       page: page,
       userTypes: [UserType.therapist],
-      activeUserRole: await _getActiveUserRoleUseCase(),
+      activeUserRole: (await _getActiveUserRoleUseCase()).type,
       loggedUserId: user.getOrElse(() => const UserEntity())?.id ?? '',
     );
   }

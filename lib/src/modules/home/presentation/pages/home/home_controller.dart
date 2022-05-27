@@ -83,7 +83,7 @@ abstract class _HomeControllerBase extends BaseStore with Store {
 
   Future<void> getActiveUserRole() async {
     final selectedRole = await _getActiveUserRoleUseCase();
-    return selectedUserRole.setValue(selectedRole);
+    return selectedUserRole.setValue(selectedRole.type);
   }
 
   void onChangedUserRole(UserType? userType) {
