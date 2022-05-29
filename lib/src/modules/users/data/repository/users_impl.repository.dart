@@ -23,7 +23,7 @@ class UsersRepositoryImpl implements UsersRepository {
       UserEntity user, List<RoleEntity> roles, UserType activeUserRole) {
     return callEither<UserEntity, Map>(
       () => _dataSource.createUser(
-        user.toMap(onlyUserFields: true),
+        user.toMap(onlyUserFields: true)..remove('created_at'),
         roles.map((e) => e.toMap()).toList(),
         activeUserRole,
       ),
