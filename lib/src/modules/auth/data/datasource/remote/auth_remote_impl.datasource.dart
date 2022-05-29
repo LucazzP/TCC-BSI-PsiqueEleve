@@ -88,6 +88,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     if (res.hasError) {
       throw Exception(res.error);
     }
-    return res.data;
+    return Casters.toListMap(res.data);
   }
 }

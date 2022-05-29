@@ -127,7 +127,8 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, List<RoleEntity>>> getRoles() {
     return callEither<List<RoleEntity>, List<Map>>(
       () => _remoteDataSource.getRoles(),
-      processResponse: (res) async => Right(res.map(RoleMapper.fromMap).whereNotNull().toList()),
+      processResponse: (res) async =>
+          Right(res.map<RoleEntity>(RoleMapper.fromMap).whereNotNull().toList()),
     );
   }
 }
