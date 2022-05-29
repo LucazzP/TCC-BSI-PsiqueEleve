@@ -64,7 +64,7 @@ class _AddEditUserPageState extends BaseState<AddEditUserPage, AddEditUserContro
 
   @override
   EdgeInsets get padding => EdgeInsets.zero;
-  
+
   @override
   bool get safeAreaBottom => false;
 

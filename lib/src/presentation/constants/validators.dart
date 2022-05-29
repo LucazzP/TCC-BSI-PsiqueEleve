@@ -28,7 +28,7 @@ class Validators {
     }
 
     final split = value.replaceAll(RegExp(r'[ ()-]'), '');
-    if (split.length >= 11) {
+    if (split.length >= 10) {
       return null;
     } else {
       return S.current.invalidCellphone;
