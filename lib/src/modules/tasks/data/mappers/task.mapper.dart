@@ -9,7 +9,7 @@ extension TaskMapper on TaskEntity {
       'task': task,
       'status': status.name,
       'xp': xp,
-      'createdAt': createdAt.millisecondsSinceEpoch,
+      // 'createdAt': createdAt.toIso8601String(),
     };
   }
 
@@ -21,7 +21,7 @@ extension TaskMapper on TaskEntity {
       task: map['task'] ?? '',
       status: Status.values.firstWhere((e) => e.name == map['status'], orElse: () => Status.todo),
       xp: map['xp']?.toInt() ?? 0,
-      createdAt: DateTime.parse(map['created_at']),
+      createdAt: map['created_at'] == null ? DateTime.now() : DateTime.parse(map['created_at']),
     );
   }
 }

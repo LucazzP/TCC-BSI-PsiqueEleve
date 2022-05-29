@@ -58,7 +58,7 @@ class _SplashPageState extends AuthState<SplashPage> {
   @override
   Widget build(context) {
     return Scaffold(
-      backgroundColor: AppColorScheme.primaryLight,
+      backgroundColor: AppColorScheme.primaryLightest,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Center(

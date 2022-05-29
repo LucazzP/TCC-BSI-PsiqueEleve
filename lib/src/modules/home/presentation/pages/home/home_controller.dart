@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:mobx/mobx.dart';
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/usecases/get_active_user_role.usecase.dart';
@@ -9,7 +10,6 @@ import 'package:psique_eleve/src/modules/auth/domain/usecases/set_active_user_ro
 import 'package:psique_eleve/src/presentation/base/controller/base.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/value.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/value_state.store.dart';
-import 'package:mobx/mobx.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
 
 part 'home_controller.g.dart';
@@ -90,5 +90,6 @@ abstract class _HomeControllerBase extends BaseStore with Store {
     if (userType == null) return;
     _setActiveUserRoleUseCase.call(userType);
     selectedUserRole.setValue(userType);
+    Modular.to.navigate(kSplashScreenRoute);
   }
 }

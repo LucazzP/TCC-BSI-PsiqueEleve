@@ -7,7 +7,7 @@ extension TherapistPatientRelationshipMapper on TherapistPatientRelationshipEnti
       'patient_user_id': patientId,
       'therapist_user_id': therapistId,
       'active': active,
-      'created_at': createdAt.millisecondsSinceEpoch,
+      // 'created_at': createdAt.toIso8601String(),
     };
   }
 
@@ -17,7 +17,7 @@ extension TherapistPatientRelationshipMapper on TherapistPatientRelationshipEnti
       patientId: map['patient_user_id'] ?? '',
       therapistId: map['therapist_user_id'] ?? '',
       active: map['active'] ?? false,
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['created_at']),
+      createdAt: map['created_at'] == null ? DateTime.now() : DateTime.parse(map['created_at']),
     );
   }
 }

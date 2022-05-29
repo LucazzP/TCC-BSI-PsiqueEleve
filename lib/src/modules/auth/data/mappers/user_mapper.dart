@@ -46,7 +46,7 @@ extension UserMapper on UserEntity {
               .toList()
           : [],
       therapist: UserMapper.fromMap(map['therapist'] ?? {}),
-      createdAt: DateTime.tryParse(map['created_at'] ?? ''),
+      createdAt: map['created_at'] == null ? null : DateTime.parse(map['created_at']),
       xp: xp,
     );
     user.roles.sort((a, b) => a.type.index.compareTo(b.type.index));
