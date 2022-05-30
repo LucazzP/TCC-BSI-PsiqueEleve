@@ -1,6 +1,7 @@
 import 'package:psique_eleve/src/modules/auth/data/mappers/role_mapper.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/role_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
+import 'package:psique_eleve/src/modules/users/data/mappers/therapist_patient_relationship.mapper.dart';
 
 import 'address_mapper.dart';
 
@@ -17,7 +18,7 @@ extension UserMapper on UserEntity {
       if (!onlyUserFields) 'xp': xp,
       if (!onlyUserFields) 'address': [address?.toMap()],
       if (!onlyUserFields) 'role_user': roles.map((e) => e.toMap()).toList(),
-      if (!onlyUserFields) 'therapist': therapist?.toMap(),
+      if (!onlyUserFields) 'therapist': therapistRelationship?.toMap(),
     };
   }
 
@@ -45,7 +46,7 @@ extension UserMapper on UserEntity {
               .map<RoleEntity>((e) => RoleMapper.fromMap(Map.from(e ?? {})))
               .toList()
           : [],
-      therapist: UserMapper.fromMap(map['therapist'] ?? {}),
+      therapistRelationship: TherapistPatientRelationshipMapper.fromMap(map['therapist'] ?? {}),
       createdAt: map['created_at'] == null ? null : DateTime.parse(map['created_at']),
       xp: xp,
     );

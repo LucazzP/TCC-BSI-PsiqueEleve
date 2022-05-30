@@ -1,31 +1,36 @@
 import 'package:equatable/equatable.dart';
+import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
 
 class TherapistPatientRelationshipEntity extends Equatable {
   final String id;
-  final String patientId;
-  final String therapistId;
+  final UserEntity patient;
+  final UserEntity therapist;
+  final List<UserEntity> responsibles;
   final bool active;
   final DateTime createdAt;
-  
+
   const TherapistPatientRelationshipEntity({
     this.id = '',
-    this.patientId = '',
-    this.therapistId = '',
+    required this.therapist,
+    required this.patient,
+    this.responsibles = const [],
     this.active = true,
     required this.createdAt,
   });
 
   TherapistPatientRelationshipEntity copyWith({
     String? id,
-    String? patientId,
-    String? therapistId,
+    UserEntity? patient,
+    UserEntity? therapist,
+    List<UserEntity>? responsibles,
     bool? active,
     DateTime? createdAt,
   }) {
     return TherapistPatientRelationshipEntity(
       id: id ?? this.id,
-      patientId: patientId ?? this.patientId,
-      therapistId: therapistId ?? this.therapistId,
+      patient: patient ?? this.patient,
+      therapist: therapist ?? this.therapist,
+      responsibles: responsibles ?? this.responsibles,
       active: active ?? this.active,
       createdAt: createdAt ?? this.createdAt,
     );
@@ -35,8 +40,9 @@ class TherapistPatientRelationshipEntity extends Equatable {
   List<Object> get props {
     return [
       id,
-      patientId,
-      therapistId,
+      patient,
+      therapist,
+      responsibles,
       active,
       createdAt,
     ];

@@ -3,7 +3,6 @@ import 'package:psique_eleve/src/modules/appointment/domain/constants/status.enu
 
 class TaskEntity extends Equatable {
   final String id;
-  final String title;
   final String task;
   final Status status;
   final int xp;
@@ -11,7 +10,6 @@ class TaskEntity extends Equatable {
 
   const TaskEntity({
     required this.id,
-    required this.title,
     required this.task,
     required this.status,
     required this.xp,
@@ -28,7 +26,6 @@ class TaskEntity extends Equatable {
   }) {
     return TaskEntity(
       id: id ?? this.id,
-      title: title ?? this.title,
       task: task ?? this.task,
       status: status ?? this.status,
       xp: xp ?? this.xp,
@@ -39,7 +36,6 @@ class TaskEntity extends Equatable {
   @override
   List<Object> get props => [
         id,
-        title,
         task,
         status,
         xp,

@@ -169,7 +169,7 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
     cellphone.setValue(user.cellphone.withPhoneMask);
     imageUrl.setValue(user.imageUrl);
     address.setValue(user.address);
-    linkedWith.setValue(user.therapist);
+    linkedWith.setValue(user.therapistRelationship);
   }
 
   Future<void> _getCurrentLoggedUser() {

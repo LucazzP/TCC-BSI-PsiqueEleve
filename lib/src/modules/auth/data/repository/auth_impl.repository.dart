@@ -31,10 +31,10 @@ class AuthRepositoryImpl implements AuthRepository {
             final savedAt = DateTime.fromMillisecondsSinceEpoch(localUser['saved_at']);
             final now = DateTime.now();
             if (now.difference(savedAt).inMinutes > 10) {
-              updateLocalUserWithRemote();
+              await updateLocalUserWithRemote();
             }
           }
-          return localUser;
+          return _localDataSource.getUserLogged();
         }
         return _remoteDataSource.getUserLogged();
       },

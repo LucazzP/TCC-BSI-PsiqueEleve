@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:psique_eleve/src/modules/appointment/domain/entity/appointment.entity.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
 import 'package:psique_eleve/src/presentation/styles/app_spacing.dart';
@@ -28,6 +29,9 @@ class _AppointmentsPageState extends BaseState<AppointmentsPage, AppointmentsCon
   PreferredSizeWidget? appBar(BuildContext ctx) => null;
 
   @override
+  EdgeInsets get padding => EdgeInsets.zero;
+
+  @override
   Widget child(context, constrains) {
     return Observer(builder: (context) {
       final appointments = controller.appointments.value;
@@ -40,16 +44,35 @@ class _AppointmentsPageState extends BaseState<AppointmentsPage, AppointmentsCon
         itemCount: appointments.length,
         itemBuilder: (context, index) {
           final appointment = appointments[index];
-          return ListTile(
-            title: Text(appointment.status.name),
+          return _ListTile(
+            appointment: appointment,
             onTap: () => controller.onTapAddEditAppointment(appointment),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.s24,
-              vertical: AppSpacing.s4,
-            ),
           );
         },
       );
     });
+  }
+}
+
+class _ListTile extends StatelessWidget {
+  final AppointmentEntity appointment;
+  final VoidCallback onTap;
+
+  const _ListTile({
+    Key? key,
+    required this.appointment,
+    required this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(appointment.id),
+      onTap: onTap,
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.s24,
+        vertical: AppSpacing.s4,
+      ),
+    );
   }
 }

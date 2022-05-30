@@ -3,6 +3,7 @@ import 'package:flinq/flinq.dart';
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/address_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/role_entity.dart';
+import 'package:psique_eleve/src/modules/users/domain/entities/therapist_patient_relationship.entity.dart';
 
 class UserEntity extends Equatable {
   final String id;
@@ -13,7 +14,7 @@ class UserEntity extends Equatable {
   final String imageUrl;
   final AddressEntity? address;
   final List<RoleEntity> roles;
-  final UserEntity? therapist;
+  final TherapistPatientRelationshipEntity? therapistRelationship;
   final int xp;
   // Will be stored the new temp password when create a new user
   final String password;
@@ -29,7 +30,7 @@ class UserEntity extends Equatable {
     this.password = '',
     this.roles = const [],
     this.address,
-    this.therapist,
+    this.therapistRelationship,
     this.xp = 0,
     this.createdAt,
   });
@@ -65,7 +66,7 @@ class UserEntity extends Equatable {
     AddressEntity? address,
     List<RoleEntity>? roles,
     String? password,
-    UserEntity? therapist,
+    TherapistPatientRelationshipEntity? therapistRelationship,
     DateTime? createdAt,
   }) {
     return UserEntity(
@@ -78,7 +79,7 @@ class UserEntity extends Equatable {
       address: address ?? this.address,
       roles: roles ?? this.roles,
       password: password ?? this.password,
-      therapist: therapist ?? this.therapist,
+      therapistRelationship: therapistRelationship ?? this.therapistRelationship,
       createdAt: createdAt ?? this.createdAt,
     );
   }
@@ -95,7 +96,7 @@ class UserEntity extends Equatable {
       roles,
       imageUrl,
       password,
-      therapist,
+      therapistRelationship,
     ];
   }
 }
