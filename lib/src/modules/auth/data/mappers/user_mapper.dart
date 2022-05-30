@@ -26,9 +26,9 @@ extension UserMapper on UserEntity {
     if (map.isEmpty) return null;
     var xp = 0;
     if (map.containsKey('xp')) {
-      xp = map['xp'];
+      xp = map['xp'] ?? 0;
     } else if (map['therapist'] != null && map['therapist']['xp'] != null) {
-      xp = map['therapist']['xp'];
+      xp = map['therapist']['xp'] ?? 0;
     }
     final user = UserEntity(
       id: map['id'] ?? '',
@@ -38,9 +38,10 @@ extension UserMapper on UserEntity {
       cpf: map['cpf'] ?? '',
       cellphone: map['cellphone'] ?? '',
       imageUrl: map['image_url'] ?? '',
-      address: AddressMapper.fromMap(map['address'] is List && map['address'].isNotEmpty
-          ? Map.from(map['address'][0] ?? {})
-          : {}),
+      address: AddressMapper.fromMap(
+          map['address'] is List && map['address'].isNotEmpty
+              ? Map.from(map['address'][0] ?? {})
+              : {}),
       roles: map['role_user'] is List
           ? (map['role_user'] as List)
               .map<RoleEntity>((e) => RoleMapper.fromMap(Map.from(e ?? {})))
