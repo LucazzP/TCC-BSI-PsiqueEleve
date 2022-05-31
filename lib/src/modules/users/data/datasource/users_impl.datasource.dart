@@ -1,3 +1,4 @@
+import 'package:flinq/flinq.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:psique_eleve/src/helpers/casters.dart';
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
@@ -22,24 +23,37 @@ class UsersDataSourceImpl implements UsersDataSource {
     int page = 0,
   }) async {
     final offset = page * pageSize;
-    var query = _client.from('users_view').select('''
-      *,
-      user_role:role!inner(name)
-''').in_('user_role.name', userTypes);
-
-    final shouldFilterByLinkedPatients =
-        activeUserRole == UserType.therapist && userTypes.contains(UserType.patient.name);
-    if (shouldFilterByLinkedPatients) {
-      query = query.eq('therapist_user_id', loggedUserId);
+    List<PostgrestTransformBuilder> queries = [];
+    if (userTypes.contains(UserType.therapist.name)) {
+      queries.add(
+        _client.from('user').select('''
+          *,
+          user_role:role!inner(name),
+        ''').eq('user_role:name', UserType.therapist.name),
+      );
+    }
+    if (userTypes.contains(UserType.patient.name)) {
+      final shouldFilterByLinkedPatients = activeUserRole == UserType.therapist;
+      var query = _client.from('patient_view').select('*');
+      if (shouldFilterByLinkedPatients) {
+        query = query.eq('therapist_id', loggedUserId);
+      }
+      queries.add(query);
+    }
+    if (userTypes.contains(UserType.responsible.name)) {
+      queries.add(_client.from('responsible_view').select('*'));
     }
 
-    final res = await query.range(0 + offset, pageSize + offset).execute();
+    final responses = await Future.wait(
+      queries.map((e) => e.range(0 + offset, pageSize + offset).execute()),
+    );
 
-    if (res.hasError) {
-      throw Exception(res.error);
+    final resWithError = responses.firstOrNullWhere((e) => e.hasError);
+    if (resWithError != null) {
+      throw Exception(resWithError.error);
     }
 
-    final resultList = Casters.toListMap(res.data);
+    final resultList = responses.map((e) => Casters.toListMap(e.data)).reduce((a, b) => a + b);
 
     for (final user in resultList) {
       user.remove('therapist');
