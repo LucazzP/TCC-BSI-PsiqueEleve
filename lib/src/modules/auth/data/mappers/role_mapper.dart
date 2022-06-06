@@ -19,7 +19,7 @@ extension RoleMapper on RoleEntity {
 
   static RoleEntity fromMap(Map map) {
     return RoleEntity(
-      id: map['id'],
+      id: map['id'] ?? '',
       name: map['name'] ?? '',
       type: UserType.values.firstWhere(
         (element) => element.name == map['name'],

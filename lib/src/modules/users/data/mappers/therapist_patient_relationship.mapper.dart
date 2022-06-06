@@ -7,21 +7,22 @@ extension TherapistPatientRelationshipMapper on TherapistPatientRelationshipEnti
       if (id.isNotEmpty) 'id': id,
       'patient_user': patient.toMap(onlyUserFields: onlyUserFields),
       'therapist_user': therapist.toMap(onlyUserFields: onlyUserFields),
-      'responsibles': responsibles.map((e) => e.toMap(onlyUserFields: onlyUserFields)),
       'active': active,
+      'xp': xp,
       // 'created_at': createdAt.toIso8601String(),
     };
   }
 
   static TherapistPatientRelationshipEntity? fromMap(Map<String, dynamic> map) {
-    final patient = UserMapper.fromMap(map['patient_user']);
-    final therapist = UserMapper.fromMap(map['therapist_user']);
-    if (map.isEmpty || patient == null || therapist == null) return null;
+    if (map.isEmpty) return null;
+    final patient = UserMapper.fromMap(map['patient']);
+    final therapist = UserMapper.fromMap(map['therapist']);
+    if (patient == null || therapist == null) return null;
     return TherapistPatientRelationshipEntity(
       id: map['id'] ?? '',
       patient: patient,
       therapist: therapist,
-      responsibles: (map['responsibles'] ?? []).map(UserMapper.fromMap).toList(),
+      xp: map['xp'] ?? 0,
       active: map['active'] ?? false,
       createdAt: map['created_at'] == null ? DateTime.now() : DateTime.parse(map['created_at']),
     );

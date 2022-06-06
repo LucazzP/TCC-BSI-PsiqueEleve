@@ -20,20 +20,24 @@ class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
 
   @override
   Future<Map> getAppointment(String id) async {
-    final response = await client.from(table).select('*').eq('id', id).single().execute();
-    if (response.hasError) {
-      throw Exception(response.error);
+    final res = await client.functions.invoke('get-appointment', body: {"id": id});
+
+    if (res.error != null) {
+      throw Exception(res.error);
     }
-    return Casters.toMap(response.data);
+
+    return Casters.toMap(res.data)['data'];
   }
 
   @override
   Future<List<Map>> getAppointments() async {
-    final response = await client.from(table).select('*').execute();
-    if (response.hasError) {
-      throw Exception(response.error);
+    final res = await client.functions.invoke('get-appointments');
+
+    if (res.error != null) {
+      throw Exception(res.error);
     }
-    return Casters.toListMap(response.data);
+
+    return Casters.toListMap(Casters.toMap(res.data)['data']);
   }
 
   @override

@@ -5,7 +5,7 @@ class TherapistPatientRelationshipEntity extends Equatable {
   final String id;
   final UserEntity patient;
   final UserEntity therapist;
-  final List<UserEntity> responsibles;
+  final int xp;
   final bool active;
   final DateTime createdAt;
 
@@ -13,8 +13,8 @@ class TherapistPatientRelationshipEntity extends Equatable {
     this.id = '',
     required this.therapist,
     required this.patient,
-    this.responsibles = const [],
     this.active = true,
+    this.xp = 0,
     required this.createdAt,
   });
 
@@ -22,17 +22,17 @@ class TherapistPatientRelationshipEntity extends Equatable {
     String? id,
     UserEntity? patient,
     UserEntity? therapist,
-    List<UserEntity>? responsibles,
     bool? active,
     DateTime? createdAt,
+    int? xp,
   }) {
     return TherapistPatientRelationshipEntity(
       id: id ?? this.id,
       patient: patient ?? this.patient,
       therapist: therapist ?? this.therapist,
-      responsibles: responsibles ?? this.responsibles,
       active: active ?? this.active,
       createdAt: createdAt ?? this.createdAt,
+      xp: xp ?? this.xp,
     );
   }
 
@@ -42,9 +42,9 @@ class TherapistPatientRelationshipEntity extends Equatable {
       id,
       patient,
       therapist,
-      responsibles,
       active,
       createdAt,
+      xp,
     ];
   }
 }

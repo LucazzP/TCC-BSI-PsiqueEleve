@@ -3,21 +3,21 @@ import 'package:psique_eleve/src/modules/appointment/domain/entity/appointment.e
 import 'package:psique_eleve/src/modules/users/data/mappers/therapist_patient_relationship.mapper.dart';
 
 extension AppointmentMapper on AppointmentEntity {
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toMap([bool onlyAppointmentFields = false]) => {
         'id': id,
         'date': date.toIso8601String(),
         'therapist_report': therapistReport,
         'patient_report': patientReport,
         'responsible_report': responsibleReport,
-        'therapist_patient_relationship': therapistPatientRelationship.toMap(),
         'xp': xp,
         'status': status.name,
+        if (onlyAppointmentFields) 'therapist_patient': therapistPatientRelationship.toMap(),
         // 'created_at': createdAt.toIso8601String(),
       };
 
   static AppointmentEntity? fromMap(Map<dynamic, dynamic> map) {
     final therapistPatientRelationship =
-        TherapistPatientRelationshipMapper.fromMap(map['therapist_patient_relationship']);
+        TherapistPatientRelationshipMapper.fromMap(map['therapist_patient']);
     if (map.isEmpty || therapistPatientRelationship == null) return null;
     return AppointmentEntity(
       id: map['id'] ?? '',

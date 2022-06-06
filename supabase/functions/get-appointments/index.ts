@@ -5,18 +5,10 @@
 import { serve } from "https://deno.land/std@0.131.0/http/server.ts";
 import { supabaseClient } from "../_shared/supabaseClient.ts";
 import { corsHeaders } from "../_shared/cors.ts";
-import { PostgrestError } from "https://esm.sh/v84/@supabase/supabase-js@1.35.3/dist/module/index";
-import getResponsibleUser from "./getResponsibleUser.ts";
-import getPatientUser from "./getPatientUser.ts";
-import getTherapistUser from "./getTherapistUser.ts";
-import getUser from "./getUser.ts";
 
 console.log("Hello from Functions!");
 
-serve(async (req: Request) => {
-  let data;
-  let error: PostgrestError | null = null;
-
+serve(async (req) => {
   // This is needed if you're planning to invoke your function from a browser.
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -29,36 +21,50 @@ serve(async (req: Request) => {
       req.headers.get("Authorization")!.replace("Bearer ", "")
     );
 
-    const res = await req.json();
-    const user_id: string = res.user_id;
-    const user_role: string | null = res.user_role ?? "";
+    let { data, error } = await supabaseClient.from("appointment").select(`
+        *,
+        therapist_patient(*)
+      `);
 
-    switch (user_role) {
-      case "responsible": {
-        const res = await getResponsibleUser(user_id);
-        data = res.data;
-        error = res.error;
-        break;
+    if (error != null) throw error;
+    if (data == null) throw new Error("Appointments error");
+
+    const usersId = new Set<string>();
+
+    data?.forEach(
+      (e: {
+        therapist_patient: {
+          patient_user_id: string;
+          therapist_user_id: string;
+        };
+      }) => {
+        usersId.add(e.therapist_patient.patient_user_id);
+        usersId.add(e.therapist_patient.therapist_user_id);
       }
-      case "patient": {
-        const res = await getPatientUser(user_id);
-        data = res.data;
-        error = res.error;
-        break;
+    );
+
+    const resUsers = await supabaseClient
+      .from("user")
+      .select("*")
+      .in("id", Array.from(usersId));
+
+    const users = resUsers.data;
+    error = resUsers.error;
+    console.log({ data, error });
+
+    if (users instanceof Array) {
+      for (let index = 0; index < data.length; index++) {
+        const therapist_patient = data[index].therapist_patient;
+        therapist_patient.patient = users.find(
+          (user: { id: string }) =>
+            user.id === therapist_patient.patient_user_id
+        );
+        therapist_patient.therapist = users.find(
+          (user: { id: string }) =>
+            user.id === therapist_patient.therapist_user_id
+        );
+        data[index].therapist_patient = therapist_patient;
       }
-      case "therapist": {
-        const res = await getTherapistUser(user_id);
-        data = res.data;
-        error = res.error;
-        break;
-      }
-      default:
-        {
-          const res = await getUser(user_id);
-          data = res.data;
-          error = res.error;
-        }
-        break;
     }
 
     return new Response(JSON.stringify({ data, error }), {
