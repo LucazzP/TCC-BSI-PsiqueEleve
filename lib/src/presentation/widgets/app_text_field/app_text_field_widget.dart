@@ -23,6 +23,7 @@ class AppTextFieldWidget extends StatelessWidget {
   final bool isLoading;
   final bool enabled;
   final Iterable<String> autofillHints;
+  final int maxLines;
 
   const AppTextFieldWidget({
     Key? key,
@@ -39,6 +40,7 @@ class AppTextFieldWidget extends StatelessWidget {
     this.isLoading = false,
     this.enabled = true,
     this.autofillHints = const [],
+    this.maxLines = 1,
   }) : super(key: key);
 
   @override
@@ -65,14 +67,15 @@ class AppTextFieldWidget extends StatelessWidget {
           onSubmitted: onSubmitted,
           controller: controller,
           autofillHints: autofillHints,
+          maxLines: maxLines,
           decoration: InputDecoration(
             border: const OutlineInputBorder(
               borderRadius: AppBorderRadius.tiny,
               borderSide: AppBorderSide.regular,
             ),
             errorText: errorText,
-            contentPadding: const EdgeInsets.symmetric(
-              vertical: AppSpacing.s4,
+            contentPadding: EdgeInsets.symmetric(
+              vertical: maxLines == 1 ? AppSpacing.s4 : AppSpacing.s12,
               horizontal: AppSpacing.s12,
             ),
             suffixIcon: isLoading ? const CupertinoActivityIndicator() : null,

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:psique_eleve/src/extensions/date_time.ext.dart';
 import 'package:psique_eleve/src/modules/appointment/domain/entity/appointment.entity.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
+import 'package:psique_eleve/src/presentation/styles/app_color_scheme.dart';
 import 'package:psique_eleve/src/presentation/styles/app_spacing.dart';
 
 import 'appointments_controller.dart';
@@ -30,6 +32,13 @@ class _AppointmentsPageState extends BaseState<AppointmentsPage, AppointmentsCon
 
   @override
   EdgeInsets get padding => EdgeInsets.zero;
+
+  @override
+  Widget? get floatingActionButton => FloatingActionButton(
+        onPressed: controller.onTapAddEditAppointment,
+        backgroundColor: AppColorScheme.primaryButtonBackground,
+        child: const Icon(Icons.add, color: Colors.white),
+      );
 
   @override
   Widget child(context, constrains) {
@@ -67,7 +76,8 @@ class _ListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(appointment.id),
+      title: Text(appointment.therapistPatientRelationship.patient.fullName),
+      trailing: Text(appointment.date.format),
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.s24,

@@ -21,6 +21,7 @@ class ValueState<State> = _ValueStateBase<State> with _$ValueState;
 
 abstract class _ValueStateBase<ValueType> with Store {
   final ValueType _initialValue;
+  Future<void> executeFuture = Future.value();
 
   _ValueStateBase(this._initialValue) : _value = _initialValue;
 
@@ -80,24 +81,31 @@ abstract class _ValueStateBase<ValueType> with Store {
   /// `isLoading` e caso ocorra algum erro, ele seta o error no `failure` e fica
   /// em estado de `hasFailure`.
   /// Assim como, coloca automaticamente o estado de `isLoading` para `false`.
-  Future<void> execute(Future<Either<Failure, ValueType>> Function() exec,
-      {Duration? timeout, bool shouldSetToInitialValue = true}) async {
-    setLoading(true);
-    setFailure(null);
-    if (shouldSetToInitialValue) setValue(_initialValue);
-    try {
-      final res = await exec().timeout(timeout ?? const Duration(milliseconds: 15000));
-      res.fold(
-        (error) => setFailure(error),
-        (result) => setValue(result),
-      );
-    } on TimeoutException catch (_) {
-      setFailure(kAppTimeoutFailure);
-    } catch (e) {
-      setFailure(kAppFailure);
-    } finally {
-      setLoading(false);
-    }
+  Future<void> execute(
+    Future<Either<Failure, ValueType>> Function() exec, {
+    Duration? timeout,
+    bool shouldSetToInitialValue = true,
+    bool shouldSetLoading = true,
+  }) {
+    executeFuture = () async {
+      if (shouldSetLoading) setLoading(true);
+      setFailure(null);
+      if (shouldSetToInitialValue) setValue(_initialValue);
+      try {
+        final res = await exec().timeout(timeout ?? const Duration(milliseconds: 15000));
+        res.fold(
+          (error) => setFailure(error),
+          (result) => setValue(result),
+        );
+      } on TimeoutException catch (_) {
+        setFailure(kAppTimeoutFailure);
+      } catch (e) {
+        setFailure(kAppFailure);
+      } finally {
+        setLoading(false);
+      }
+    }();
+    return executeFuture;
   }
 
   Either<Failure, ValueType> toEither() {

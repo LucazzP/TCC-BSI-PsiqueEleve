@@ -2,7 +2,7 @@ const kSplashScreenRoute = '/';
 
 const kHomeModuleRoute = '/home';
 const kHomeFeedScreenRoute = '$kHomeModuleRoute/feed';
-const kHomeAppointmentsScreenRoute = '$kHomeModuleRoute/appointments/';
+const kHomeAppointmentsScreenRoute = '$kHomeModuleRoute/home_appointments/';
 const kHomeTasksScreenRoute = '$kHomeModuleRoute/tasks/';
 const kHomeMenuScreenRoute = '$kHomeModuleRoute/menu/';
 
@@ -17,6 +17,9 @@ const kUserAddEditScreenRoute = '$kUsersModuleRoute/add';
 
 const kAddressModuleRoute = '$kUsersModuleRoute/address';
 const kAddressScreenRoute = '$kAddressModuleRoute/';
+
+const kAppointmentsModuleRoute = '$kHomeModuleRoute/appointments';
+const kAppointmentAddEditScreenRoute = '$kAppointmentsModuleRoute/add';
 
 extension RouterExtension on String {
   String get finalPath {
