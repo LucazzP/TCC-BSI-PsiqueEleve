@@ -4,7 +4,7 @@ import 'package:psique_eleve/src/modules/tasks/domain/entity/task.entity.dart';
 extension TaskMapper on TaskEntity {
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      if (id.isNotEmpty) 'id': id,
       'task': task,
       'status': status.name,
       'xp': xp,

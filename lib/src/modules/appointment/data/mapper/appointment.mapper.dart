@@ -4,7 +4,7 @@ import 'package:psique_eleve/src/modules/users/data/mappers/therapist_patient_re
 
 extension AppointmentMapper on AppointmentEntity {
   Map<String, dynamic> toMap([bool onlyAppointmentFields = false]) => {
-        'id': id,
+        if (id.isNotEmpty)'id': id,
         'date': date.toIso8601String(),
         'therapist_report': therapistReport,
         'patient_report': patientReport,
