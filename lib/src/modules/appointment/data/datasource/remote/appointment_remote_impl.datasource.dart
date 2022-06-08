@@ -10,15 +10,6 @@ class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
   const AppointmentRemoteDataSourceImpl(this.client);
 
   @override
-  Future<Map> createAppointment(Map appointment) async {
-    final response = await client.from(table).insert(appointment).execute();
-    if (response.hasError) {
-      throw Exception(response.error);
-    }
-    return Casters.toMap(response.data);
-  }
-
-  @override
   Future<Map> getAppointment(String id) async {
     final res = await client.functions.invoke('get-appointment', body: {"id": id});
 
@@ -46,10 +37,23 @@ class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
     if (id == null || id.isEmpty) {
       return createAppointment(appointment);
     }
+    appointment['therapist_patient_id'] = appointment['therapist_patient']['id'];
+    appointment.remove('therapist_patient');
     final response = await client.from(table).update(appointment).eq('id', id).execute();
     if (response.hasError) {
       throw Exception(response.error);
     }
-    return Casters.toMap(response.data);
+    return getAppointment(Casters.toMap(response.data)['id']);
+  }
+
+  @override
+  Future<Map> createAppointment(Map appointment) async {
+    appointment['therapist_patient_id'] = appointment['therapist_patient']['id'];
+    appointment.remove('therapist_patient');
+    final response = await client.from(table).insert(appointment).execute();
+    if (response.hasError) {
+      throw Exception(response.error);
+    }
+    return getAppointment(Casters.toMap(response.data)['id']);
   }
 }

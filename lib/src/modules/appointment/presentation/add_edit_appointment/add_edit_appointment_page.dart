@@ -8,6 +8,7 @@ import 'package:psique_eleve/src/modules/appointment/domain/entity/appointment.e
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
 import 'package:psique_eleve/src/presentation/helpers/ui_helper.dart';
+import 'package:psique_eleve/src/presentation/styles/app_color_scheme.dart';
 import 'package:psique_eleve/src/presentation/widgets/app_button/app_button.dart';
 import 'package:psique_eleve/src/presentation/widgets/app_snackbar/app_snackbar.dart';
 import 'package:psique_eleve/src/presentation/widgets/app_text_field/app_text_field_widget.dart';
@@ -67,12 +68,32 @@ class _AddEditAppointmentPageState
         UIHelper.verticalSpaceS12,
         Observer(builder: (_) {
           return TextButton(
-            onPressed: () => controller.selectPatient(context),
+            onPressed: controller.selectPatient,
             child: Text(
                 'Paciente: ${controller.therapistPatientRelationship.value?.patient.fullName} (toque para alterar)'),
           );
         }),
         UIHelper.verticalSpaceS12,
+        Observer(builder: (_) {
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            height: 40.0,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30.0),
+              border: Border.all(color: AppColorScheme.border),
+            ),
+            child: DropdownButton(
+              items: Status.values
+                  .map((e) => DropdownMenuItem(value: e, child: Text(e.friendlyName)))
+                  .toList(),
+              onChanged: (Status? status) => controller.status.setValue(status ?? Status.todo),
+              value: controller.status.value,
+              isExpanded: true,
+              underline: const SizedBox(),
+            ),
+          );
+        }),
+        UIHelper.verticalSpaceS24,
         Observer(builder: (_) {
           return AppTextFieldWidget(
             title: 'Relatório do terapeuta (privado)',
@@ -106,18 +127,7 @@ class _AddEditAppointmentPageState
             textCapitalization: TextCapitalization.sentences,
           );
         }),
-        UIHelper.verticalSpaceS12,
-        Observer(builder: (_) {
-          return DropdownButton(
-            items: Status.values
-                .map((e) => DropdownMenuItem(value: e, child: Text(e.friendlyName)))
-                .toList(),
-            onChanged: (Status? status) => controller.status.setValue(status ?? Status.todo),
-            value: controller.status.value,
-            isExpanded: true,
-          );
-        }),
-        UIHelper.verticalSpaceS12,
+        UIHelper.verticalSpaceS24,
         AppButton(
           onPressed: createEditUser,
           title: controller.getCreateEditValue,

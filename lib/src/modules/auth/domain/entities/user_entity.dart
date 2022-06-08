@@ -95,13 +95,13 @@ class UserEntity extends Equatable {
       email,
       cpf,
       cellphone,
-      address,
-      roles,
       imageUrl,
       password,
-      therapistRelationship,
-      therapistPatientsResponsible,
-      createdAt,UserEntity
+      // address,
+      // roles,
+      // therapistRelationship, Necessary to compare on selection
+      // therapistPatientsResponsible,
+      createdAt,
     ];
   }
 }

@@ -82,7 +82,11 @@ abstract class _UsersControllerBase extends BaseStore with Store {
   }
 
   void _selectUser(UserEntity user) {
-    selectedUsers.value.add(user);
+    if (selectedUsers.value.contains(user)) {
+      selectedUsers.setValue(selectedUsers.value.toSet()..remove(user));
+    } else {
+      selectedUsers.setValue(selectedUsers.value.toSet()..add(user));
+    }
     selectedUsers.execute(
       () async {
         final res = await _getUserUseCase.call(user.id);

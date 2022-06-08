@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 enum Status {
   todo,
   completed,
@@ -16,6 +18,18 @@ extension StatusExtension on Status {
         return 'Atrasado (não realizado)';
       case Status.completedOverdue:
         return 'Realizado com atraso';
+    }
+  }
+
+  Color get color {
+    switch (this) {
+      case Status.todo:
+        return Colors.orange;
+      case Status.completed:
+      case Status.completedOverdue:
+        return Colors.green;
+      case Status.overdue:
+        return Colors.red;
     }
   }
 }

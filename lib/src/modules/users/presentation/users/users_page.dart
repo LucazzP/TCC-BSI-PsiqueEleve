@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:psique_eleve/src/extensions/date_time.ext.dart';
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
-import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
 import 'package:psique_eleve/src/modules/users/domain/entities/therapist_patient_relationship.entity.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
@@ -11,6 +10,7 @@ import 'package:psique_eleve/src/presentation/helpers/ui_helper.dart';
 import 'package:psique_eleve/src/presentation/styles/app_color_scheme.dart';
 import 'package:psique_eleve/src/presentation/styles/app_spacing.dart';
 import 'package:psique_eleve/src/presentation/styles/app_text_theme.dart';
+import 'package:psique_eleve/src/presentation/styles/app_theme_data.dart';
 import 'package:psique_eleve/src/presentation/widgets/user_image/user_image_widget.dart';
 
 import 'users_controller.dart';
@@ -36,7 +36,7 @@ class UsersPage extends StatefulWidget {
         arguments: {
           'userType': userType,
           'isInSelectMode': true,
-          'isMultiSelect': false,
+          'isMultiSelect': multiSelect,
         },
       ).then((value) => value ?? []);
 
@@ -67,6 +67,7 @@ class _UsersPageState extends BaseState<UsersPage, UsersController> {
             FloatingActionButton(
               onPressed: controller.onTapFinishSelection,
               backgroundColor: AppColorScheme.feedbackSuccessBase,
+              heroTag: 'finish_selection',
               child: const Icon(Icons.check, color: Colors.white),
             ),
             UIHelper.verticalSpaceS16,
@@ -103,26 +104,31 @@ class _UsersPageState extends BaseState<UsersPage, UsersController> {
         itemBuilder: (context, index) {
           final user = users[index];
           final userCreatedAt = user.createdAt;
-          return ListTile(
-            title: Text(user.fullName),
-            subtitle: Text(
-              user.email,
-              style: AppTextTheme.textTheme.caption?.copyWith(
-                color: AppColorScheme.black.withOpacity(0.5),
+          return Observer(builder: (_) {
+            return ListTile(
+              title: Text(user.fullName),
+              subtitle: Text(
+                user.email,
+                style: AppTextTheme.textTheme.caption?.copyWith(
+                  color: AppColorScheme.black.withOpacity(0.5),
+                ),
               ),
-            ),
-            trailing: userCreatedAt == null ? null : Text(userCreatedAt.format),
-            leading: UserImageWidget(
-              fullName: user.fullName,
-              imageUrl: user.imageUrl,
-              radius: 20,
-            ),
-            onTap: () => controller.onTapTile(user, widget.isInSelectMode, widget.isMultiSelect),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.s24,
-              vertical: AppSpacing.s4,
-            ),
-          );
+              trailing: userCreatedAt == null ? null : Text(userCreatedAt.format),
+              leading: UserImageWidget(
+                fullName: user.fullName,
+                imageUrl: user.imageUrl,
+                radius: 20,
+              ),
+              onTap: () => controller.onTapTile(user, widget.isInSelectMode, widget.isMultiSelect),
+              selected: controller.selectedUsers.value.contains(user),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.s24,
+                vertical: AppSpacing.s4,
+              ),
+              selectedTileColor: AppThemeData.themeData.selectedRowColor,
+              selectedColor: Colors.black,
+            );
+          });
         },
       );
     });

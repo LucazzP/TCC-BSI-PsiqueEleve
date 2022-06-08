@@ -14,7 +14,7 @@ import 'package:psique_eleve/src/presentation/base/controller/base.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/form.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/value.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/value_state.store.dart';
-import 'package:psique_eleve/src/presentation/constants/validators.dart';
+
 part 'add_edit_appointment_controller.g.dart';
 
 class AddEditAppointmentController = _AddEditAppointmentControllerBase
@@ -37,8 +37,13 @@ abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
   bool get pageIsForEditing => appointmentId.isNotEmpty;
   String get getCreateEditValue => pageIsForEditing ? 'Editar' : 'Criar';
 
-  void initialize(AppointmentEntity? appointment) {
+  Future<void> initialize(AppointmentEntity? appointment) async {
     appointmentId = appointment?.id ?? '';
+    if (pageIsForEditing == false) {
+      await selectPatient();
+      if (therapistPatientRelationship.value == null) Modular.to.pop(false);
+      return;
+    }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       date.setValue(appointment?.date ?? DateTime.now());
       status.setValue(appointment?.status ?? Status.todo);
@@ -77,9 +82,10 @@ abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
     date.setValue(newDate);
   }
 
-  Future<void> selectPatient(BuildContext context) async {
+  Future<void> selectPatient() async {
     final selectedPatient = await UsersPage.navigateToSelect(UserType.patient);
-    print(selectedPatient);
+    if (selectedPatient.isEmpty) return;
+    therapistPatientRelationship.setValue(selectedPatient.first);
   }
 
   Future<bool> onTapCreateEdit() async {
@@ -105,6 +111,8 @@ abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
     );
 
     if (hasFailure) return false;
+
+    Modular.to.pop(true);
 
     return true;
   }

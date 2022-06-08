@@ -18,10 +18,12 @@ abstract class _AppointmentsControllerBase extends BaseStore with Store {
   @override
   Iterable<ValueState> get getStates => [appointments];
 
-  void getAppointments() async {
-    return appointments.execute(_getAppointmentsUseCase);
-  }
+  Future<void> getAppointments([bool shouldSetLoading = true]) =>
+      appointments.execute(_getAppointmentsUseCase,
+          shouldSetToInitialValue: false, shouldSetLoading: shouldSetLoading);
 
-  Future<void> onTapAddEditAppointment([AppointmentEntity? appointment]) =>
-      AddEditAppointmentPage.navigateTo(appointment);
+  Future<void> onTapAddEditAppointment([AppointmentEntity? appointment]) async {
+    final editted = await AddEditAppointmentPage.navigateTo(appointment);
+    if (editted == true) return getAppointments();
+  }
 }

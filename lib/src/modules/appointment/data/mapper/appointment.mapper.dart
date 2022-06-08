@@ -11,7 +11,7 @@ extension AppointmentMapper on AppointmentEntity {
         'responsible_report': responsibleReport,
         'xp': xp,
         'status': status.name,
-        if (onlyAppointmentFields) 'therapist_patient': therapistPatientRelationship.toMap(),
+        if (!onlyAppointmentFields) 'therapist_patient': therapistPatientRelationship.toMap(),
         // 'created_at': createdAt.toIso8601String(),
       };
 
