@@ -25,7 +25,7 @@ class UsersModule extends Module {
   @override
   final List<Bind> binds = [
     Bind.lazySingleton((i) => AddEditUserController(i(), i(), i(), i())),
-    Bind.lazySingleton((i) => UsersController(i(), i())),
+    Bind.lazySingleton((i) => UsersController(i(), i(), i())),
     Bind.factory((i) => GetTherapistsUseCase(i(), i(), i())),
     Bind.factory((i) => GetPatientsUseCase(i(), i(), i())),
     Bind.factory((i) => GetUserUseCase(i())),
@@ -39,7 +39,16 @@ class UsersModule extends Module {
   final List<ModularRoute> routes = [
     ChildRoute(
       Modular.initialRoute,
-      child: (_, args) => UsersPage(userType: args.data),
+      child: (_, args) {
+        final userType = args.data['userType'];
+        final isInSelectMode = args.data['isInSelectMode'] ?? false;
+        final isMultiSelect = args.data['isMultiSelect'] ?? false;
+        return UsersPage(
+          userType: userType,
+          isInSelectMode: isInSelectMode,
+          isMultiSelect: isMultiSelect,
+        );
+      },
     ),
     ChildRoute(
       kUserAddEditScreenRoute.finalPath,

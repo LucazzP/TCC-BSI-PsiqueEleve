@@ -8,7 +8,6 @@ import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/address_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/usecases/get_user_logged_usecase.dart';
-import 'package:psique_eleve/src/modules/users/domain/entities/therapist_patient_relationship.entity.dart';
 import 'package:psique_eleve/src/modules/users/domain/usecases/create_user.usecase.dart';
 import 'package:psique_eleve/src/modules/users/domain/usecases/get_user.usecase.dart';
 import 'package:psique_eleve/src/modules/users/domain/usecases/update_user.usecase.dart';
@@ -120,14 +119,14 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
       roles: const [],
     );
 
-    final linkedWithId = linkedWith.value?.id;
-    final therapistPatientRelationship = linkedWithId == null || userId.isEmpty
-        ? null
-        : TherapistPatientRelationshipEntity(
-            patientId: userId,
-            therapistId: linkedWithId,
-            createdAt: DateTime.now(),
-          );
+    // final linkedWithId = linkedWith.value?.id;
+    // final therapistPatientRelationship = linkedWithId == null || userId.isEmpty
+    //     ? null
+    //     : TherapistPatientRelationshipEntity(
+    //         patientId: userId,
+    //         therapistId: linkedWithId,
+    //         createdAt: DateTime.now(),
+    //       );
 
     await newUser.execute(
       () => pageIsForEditing
@@ -135,7 +134,7 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
               user: user,
               userTypes: [userType],
               isProfilePage: isProfilePage,
-              therapistPatientRelationship: therapistPatientRelationship,
+              // therapistPatientRelationship: therapistPatientRelationship,
             ))
           : _createUserUseCase(CreateUserParams(user: user, userTypes: [userType])),
     );
@@ -169,7 +168,7 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
     cellphone.setValue(user.cellphone.withPhoneMask);
     imageUrl.setValue(user.imageUrl);
     address.setValue(user.address);
-    linkedWith.setValue(user.therapist);
+    // linkedWith.setValue(user.therapistRelationship);
   }
 
   Future<void> _getCurrentLoggedUser() {

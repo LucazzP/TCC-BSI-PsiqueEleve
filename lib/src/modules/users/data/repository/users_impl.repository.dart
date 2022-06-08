@@ -8,10 +8,9 @@ import 'package:psique_eleve/src/modules/auth/data/mappers/user_mapper.dart';
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/role_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
-import 'package:psique_eleve/src/modules/users/data/mappers/therapist_patient_relationship.mapper.dart';
-import 'package:psique_eleve/src/modules/users/domain/entities/therapist_patient_relationship.entity.dart';
-import '../datasource/users.datasource.dart';
+
 import '../../domain/repository/users.repository.dart';
+import '../datasource/users.datasource.dart';
 
 class UsersRepositoryImpl implements UsersRepository {
   final UsersDataSource _dataSource;
@@ -50,22 +49,28 @@ class UsersRepositoryImpl implements UsersRepository {
   }
 
   @override
-  Future<Either<Failure, UserEntity>> getUser(String userId) {
+  Future<Either<Failure, UserEntity>> getUser(String userId, {String userRole = ''}) {
     return callEither<UserEntity, Map>(
-      () => _dataSource.getUser(userId),
+      () => _dataSource.getUser(userId, userRole: userRole),
       processResponse: (res) async => res.toEntityEither(UserMapper.fromMap),
     );
   }
 
   @override
-  Future<Either<Failure, UserEntity>> updateUser(UserEntity user, List<RoleEntity> roles,
-      UserType activeUserRole, TherapistPatientRelationshipEntity? therapistPatientRelationship) {
+  Future<Either<Failure, UserEntity>> updateUser(
+    UserEntity user,
+    List<RoleEntity> roles,
+    UserType activeUserRole, {
+    String therapistIdLinked = '',
+    List<String> responsiblesIdLinked = const [],
+  }) {
     return callEither<UserEntity, Map>(
       () => _dataSource.updateUser(
         user.toMap(onlyUserFields: true)..remove('created_at'),
         roles.map((e) => e.toMap()).toList(),
         activeUserRole,
-        therapistPatientRelationship?.toMap() ?? {},
+        therapistIdLinked: therapistIdLinked,
+        responsiblesIdLinked: responsiblesIdLinked,
       ),
       processResponse: (res) async => res.toEntityEither(UserMapper.fromMap),
     );

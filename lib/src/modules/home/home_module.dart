@@ -50,5 +50,9 @@ class HomeModule extends Module {
       module: UsersModule(),
       // transition: TransitionType.rightToLeftWithFade,
     ),
+    ModuleRoute(
+      kAppointmentsModuleRoute.finalPath,
+      module: AppointmentModule(),
+    ),
   ];
 }

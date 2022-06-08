@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:psique_eleve/src/modules/appointment/domain/constants/status.enum.dart';
+import 'package:psique_eleve/src/modules/users/domain/entities/therapist_patient_relationship.entity.dart';
 
 class AppointmentEntity extends Equatable {
   final String id;
@@ -9,6 +10,7 @@ class AppointmentEntity extends Equatable {
   final String responsibleReport;
   final int xp;
   final Status status;
+  final TherapistPatientRelationshipEntity therapistPatientRelationship;
   final DateTime createdAt;
 
   const AppointmentEntity({
@@ -17,6 +19,7 @@ class AppointmentEntity extends Equatable {
     required this.therapistReport,
     required this.patientReport,
     required this.responsibleReport,
+    required this.therapistPatientRelationship,
     required this.xp,
     required this.status,
     required this.createdAt,
@@ -31,6 +34,7 @@ class AppointmentEntity extends Equatable {
     int? xp,
     Status? status,
     DateTime? createdAt,
+    TherapistPatientRelationshipEntity? therapistPatientRelationship,
   }) {
     return AppointmentEntity(
       id: id ?? this.id,
@@ -41,6 +45,8 @@ class AppointmentEntity extends Equatable {
       xp: xp ?? this.xp,
       status: status ?? this.status,
       createdAt: createdAt ?? this.createdAt,
+      therapistPatientRelationship:
+          therapistPatientRelationship ?? this.therapistPatientRelationship,
     );
   }
 
@@ -51,6 +57,7 @@ class AppointmentEntity extends Equatable {
         therapistReport,
         patientReport,
         responsibleReport,
+        therapistPatientRelationship,
         xp,
         status,
         createdAt,

@@ -7,20 +7,21 @@ import 'package:psique_eleve/src/modules/auth/domain/entities/address_entity.dar
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/repository/auth.repository.dart';
 import 'package:psique_eleve/src/modules/auth/domain/usecases/get_active_user_role.usecase.dart';
-import 'package:psique_eleve/src/modules/users/domain/entities/therapist_patient_relationship.entity.dart';
 import 'package:psique_eleve/src/modules/users/domain/repository/users.repository.dart';
 
 class UpdateUserParams {
   final UserEntity user;
   final List<UserType> userTypes;
   final bool isProfilePage;
-  final TherapistPatientRelationshipEntity? therapistPatientRelationship;
+  final String therapistIdLinked;
+  final List<String> responsiblesIdLinked;
 
   const UpdateUserParams({
     required this.user,
     required this.userTypes,
     required this.isProfilePage,
-    this.therapistPatientRelationship,
+    this.therapistIdLinked = '',
+    this.responsiblesIdLinked = const [],
   });
 }
 
@@ -30,7 +31,12 @@ class UpdateUserUseCase implements BaseUseCase<UserEntity, UpdateUserParams> {
   final AuthRepository _authRepository;
   final GetActiveUserRoleUseCase _getActiveUserRoleUseCase;
 
-  const UpdateUserUseCase(this._repo, this._updateAddressUseCase, this._authRepository, this._getActiveUserRoleUseCase,);
+  const UpdateUserUseCase(
+    this._repo,
+    this._updateAddressUseCase,
+    this._authRepository,
+    this._getActiveUserRoleUseCase,
+  );
 
   @override
   Future<Either<Failure, UserEntity>> call(UpdateUserParams params) async {
@@ -43,7 +49,8 @@ class UpdateUserUseCase implements BaseUseCase<UserEntity, UpdateUserParams> {
         _user,
         roles,
         (await _getActiveUserRoleUseCase()).type,
-        params.therapistPatientRelationship,
+        responsiblesIdLinked: params.responsiblesIdLinked,
+        therapistIdLinked: params.therapistIdLinked
       );
       Either<Failure, AddressEntity> _addressResult = const Right(AddressEntity());
 

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:psique_eleve/src/extensions/date_time.ext.dart';
+import 'package:psique_eleve/src/modules/appointment/domain/constants/status.enum.dart';
+import 'package:psique_eleve/src/modules/appointment/domain/entity/appointment.entity.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
+import 'package:psique_eleve/src/presentation/styles/app_color_scheme.dart';
 import 'package:psique_eleve/src/presentation/styles/app_spacing.dart';
 
 import 'appointments_controller.dart';
@@ -28,6 +32,16 @@ class _AppointmentsPageState extends BaseState<AppointmentsPage, AppointmentsCon
   PreferredSizeWidget? appBar(BuildContext ctx) => null;
 
   @override
+  EdgeInsets get padding => EdgeInsets.zero;
+
+  @override
+  Widget? get floatingActionButton => FloatingActionButton(
+        onPressed: controller.onTapAddEditAppointment,
+        backgroundColor: AppColorScheme.primaryButtonBackground,
+        child: const Icon(Icons.add, color: Colors.white),
+      );
+
+  @override
   Widget child(context, constrains) {
     return Observer(builder: (context) {
       final appointments = controller.appointments.value;
@@ -36,20 +50,45 @@ class _AppointmentsPageState extends BaseState<AppointmentsPage, AppointmentsCon
           child: Text('Não há nenhuma consulta marcada.'),
         );
       }
-      return ListView.builder(
-        itemCount: appointments.length,
-        itemBuilder: (context, index) {
-          final appointment = appointments[index];
-          return ListTile(
-            title: Text(appointment.status.name),
-            onTap: () => controller.onTapAddEditAppointment(appointment),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.s24,
-              vertical: AppSpacing.s4,
-            ),
-          );
-        },
+      return RefreshIndicator(
+        onRefresh: () => controller.getAppointments(false),
+        child: ListView.builder(
+          itemCount: appointments.length,
+          itemBuilder: (context, index) {
+            final appointment = appointments[index];
+            return _ListTile(
+              appointment: appointment,
+              onTap: () => controller.onTapAddEditAppointment(appointment),
+            );
+          },
+        ),
       );
     });
+  }
+}
+
+class _ListTile extends StatelessWidget {
+  final AppointmentEntity appointment;
+  final VoidCallback onTap;
+
+  const _ListTile({
+    Key? key,
+    required this.appointment,
+    required this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(appointment.therapistPatientRelationship.patient.fullName),
+      trailing: Text(appointment.date.format),
+      onTap: onTap,
+      subtitle: Text(appointment.status.friendlyName),
+      textColor: appointment.status.color,
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.s24,
+        vertical: AppSpacing.s4,
+      ),
+    );
   }
 }

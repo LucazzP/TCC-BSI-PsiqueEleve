@@ -1,4 +1,5 @@
 import 'package:psique_eleve/src/presentation/base/controller/form.store.dart';
+import 'package:flinq/flinq.dart';
 
 extension IterableExtension<T> on Iterable<T?> {
   Iterable<T> whereNotNull() sync* {
@@ -22,5 +23,15 @@ extension IterableFormExtension on Iterable<FormStore> {
       item.setError(error);
     }
     return !hasError;
+  }
+}
+
+extension IterableMapExtension on List<Map> {
+  List<Map> removeEqualIds() {
+    final ids = map((e) => e['id']).toSet();
+    return ids
+        .map((id) => firstOrNullWhere((element) => element['id'] == id))
+        .whereNotNull()
+        .toList();
   }
 }

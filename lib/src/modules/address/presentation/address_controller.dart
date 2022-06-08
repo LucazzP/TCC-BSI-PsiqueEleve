@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:psique_eleve/src/extensions/string.ext.dart';
@@ -43,13 +44,15 @@ abstract class _AddressControllerBase extends BaseStore with Store {
   void initialize(AddressEntity? address) {
     id = address?.id ?? '';
     if (address == null) return;
-    street.setValue(address.street);
-    number.setValue(address.number);
-    complement.setValue(address.complement);
-    district.setValue(address.district);
-    city.setValue(address.city);
-    state.setValue(address.state);
-    zipCode.setValue(address.zipCode.withZipCodeMask);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      street.setValue(address.street);
+      number.setValue(address.number);
+      complement.setValue(address.complement);
+      district.setValue(address.district);
+      city.setValue(address.city);
+      state.setValue(address.state);
+      zipCode.setValue(address.zipCode.withZipCodeMask);
+    });
   }
 
   Future<void> onZipCodeChanged() async {

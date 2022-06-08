@@ -7,13 +7,14 @@ abstract class UsersDataSource {
     required String loggedUserId,
     int page = 0,
   });
-  Future<Map> getUser(String userId);
+  Future<Map> getUser(String userId, {String userRole = ''});
   Future<Map> updateUser(
     Map user,
     List<Map> roles,
-    UserType activeUserRole,
-    Map therapistPatientRelationship,
-  );
+    UserType activeUserRole, {
+    String therapistIdLinked = '',
+    List<String> responsiblesIdLinked = const [],
+  });
   Future<Map> createUser(Map user, List<Map> roles, UserType activeUserRole);
   Future<List<Map>> getRoles(List<String> names);
 }

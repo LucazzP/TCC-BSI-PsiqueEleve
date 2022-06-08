@@ -1,0 +1,24 @@
+
+   
+{
+  "folders": [
+    {
+      "name": "flutter",
+      "path": "./"
+    },
+    {
+      "name": "supabase",
+      "path": "supabase"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "node_modules/": true,
+      "app/": true,
+      "supabase/functions/": true
+    },
+    "deno.enable": true,
+    "deno.lint": true,
+    "deno.unstable": true
+  }
+}

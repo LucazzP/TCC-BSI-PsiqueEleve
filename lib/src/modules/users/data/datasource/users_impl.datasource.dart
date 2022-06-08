@@ -1,4 +1,6 @@
+import 'package:flinq/flinq.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:psique_eleve/src/extensions/iterable.ext.dart';
 import 'package:psique_eleve/src/helpers/casters.dart';
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:random_password_generator/random_password_generator.dart';
@@ -22,65 +24,58 @@ class UsersDataSourceImpl implements UsersDataSource {
     int page = 0,
   }) async {
     final offset = page * pageSize;
-    var query = _client.from('users_view').select('''
-      *,
-      user_role:role!inner(name)
-''').in_('user_role.name', userTypes);
-
-    final shouldFilterByLinkedPatients =
-        activeUserRole == UserType.therapist && userTypes.contains(UserType.patient.name);
-    if (shouldFilterByLinkedPatients) {
-      query = query.eq('therapist_user_id', loggedUserId);
+    List<PostgrestTransformBuilder> queries = [];
+    if (userTypes.contains(UserType.therapist.name)) {
+      queries.add(
+        _client.from('user').select('''
+          *,
+          roles_user:role!inner(name)
+        ''').eq('roles_user.name', UserType.therapist.name),
+      );
+    }
+    if (userTypes.contains(UserType.patient.name)) {
+      final shouldFilterByLinkedPatients = activeUserRole == UserType.therapist;
+      var query = _client.from('patient_view').select('*');
+      if (shouldFilterByLinkedPatients) {
+        query = query.eq('therapist_id', loggedUserId);
+      }
+      queries.add(query);
+    }
+    if (userTypes.contains(UserType.responsible.name)) {
+      queries.add(_client.from('responsible_view').select('*'));
     }
 
-    final res = await query.range(0 + offset, pageSize + offset).execute();
+    final responses = await Future.wait(
+      queries.map((e) => e.range(0 + offset, pageSize + offset).execute()),
+    );
 
-    if (res.hasError) {
-      throw Exception(res.error);
+    final resWithError = responses.firstOrNullWhere((e) => e.hasError);
+    if (resWithError != null) {
+      throw Exception(resWithError.error);
     }
 
-    final resultList = Casters.toListMap(res.data);
+    final resultList = responses.map((e) => Casters.toListMap(e.data)).reduce((a, b) => a + b);
 
     for (final user in resultList) {
       user.remove('therapist');
       user.remove('user_role');
     }
 
-    return resultList;
+    return resultList.removeEqualIds();
   }
 
   @override
-  Future<Map> getUser(String userId) async {
-    final res = await _client.from('user').select('''
-      *,
-      user_role:role!inner(name),
-      address(*),
-      role_user:role(*),
-      therapist:patient_user_id(*)
-''').eq('id', userId).single().execute();
+  Future<Map> getUser(String userId, {String userRole = ''}) async {
+    final res = await _client.functions.invoke('get-user', body: {
+      "user_id": userId,
+      "user_role": userRole,
+    });
 
-    if (res.hasError) {
+    if (res.error != null) {
       throw Exception(res.error);
     }
 
-    final user = Casters.toMap(res.data);
-
-    final therapistsLink = Casters.toListMap(user['therapist']);
-    therapistsLink.removeWhere((element) => element['active'] == false);
-    final therapistId =
-        therapistsLink.isEmpty ? '' : therapistsLink[0]['therapist_user_id'] as String?;
-
-    if (therapistId?.isNotEmpty == true) {
-      final therapist = await _client.from('user').select('*').eq('id', therapistId).execute();
-
-      if (therapist.hasError) {
-        throw Exception(therapist.error);
-      }
-
-      user['therapist'] = Casters.toMap(therapist.data);
-    } else {
-      user.remove('therapist');
-    }
+    final user = Casters.toMap(res.data)['data'];
 
     return user;
   }
@@ -153,7 +148,12 @@ class UsersDataSourceImpl implements UsersDataSource {
 
   @override
   Future<Map> updateUser(
-      Map user, List<Map> roles, UserType activeUserRole, Map therapistPatientRelationship) async {
+    Map user,
+    List<Map> roles,
+    UserType activeUserRole, {
+    String therapistIdLinked = '',
+    List<String> responsiblesIdLinked = const [],
+  }) async {
     final id = user['id'] as String?;
     if (id == null || id.isEmpty) {
       return createUser(user, roles, activeUserRole);
@@ -163,13 +163,13 @@ class UsersDataSourceImpl implements UsersDataSource {
 
     await Future.wait([
       _createUpdateUserRoles(rolesId, id),
-      if (therapistPatientRelationship.isNotEmpty)
-        _createUpdateTherapistPatientRelation(
-          id: therapistPatientRelationship['id'],
-          therapistUserId: therapistPatientRelationship['therapist_user_id'],
-          patientUserId: therapistPatientRelationship['patient_user_id'],
-          active: therapistPatientRelationship['active'],
-        ),
+      // if (therapistPatientRelationship.isNotEmpty)
+      //   _createUpdateTherapistPatientRelation(
+      //     id: therapistPatientRelationship['id'],
+      //     therapistUserId: therapistPatientRelationship['therapist_user_id'],
+      //     patientUserId: therapistPatientRelationship['patient_user_id'],
+      //     active: therapistPatientRelationship['active'],
+      //   ),
       _client.from('user').update(user).eq('id', id).execute().then((value) {
         res = value;
         return value;

@@ -3,6 +3,7 @@ import 'package:flinq/flinq.dart';
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/address_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/role_entity.dart';
+import 'package:psique_eleve/src/modules/users/domain/entities/therapist_patient_relationship.entity.dart';
 
 class UserEntity extends Equatable {
   final String id;
@@ -13,8 +14,8 @@ class UserEntity extends Equatable {
   final String imageUrl;
   final AddressEntity? address;
   final List<RoleEntity> roles;
-  final UserEntity? therapist;
-  final int xp;
+  final TherapistPatientRelationshipEntity? therapistRelationship;
+  final List<TherapistPatientRelationshipEntity> therapistPatientsResponsible;
   // Will be stored the new temp password when create a new user
   final String password;
   final DateTime? createdAt;
@@ -29,9 +30,9 @@ class UserEntity extends Equatable {
     this.password = '',
     this.roles = const [],
     this.address,
-    this.therapist,
-    this.xp = 0,
+    this.therapistRelationship,
     this.createdAt,
+    this.therapistPatientsResponsible = const [],
   });
 
   RoleEntity get role {
@@ -65,7 +66,8 @@ class UserEntity extends Equatable {
     AddressEntity? address,
     List<RoleEntity>? roles,
     String? password,
-    UserEntity? therapist,
+    TherapistPatientRelationshipEntity? therapistRelationship,
+    List<TherapistPatientRelationshipEntity>? therapistPatientsResponsible,
     DateTime? createdAt,
   }) {
     return UserEntity(
@@ -78,7 +80,9 @@ class UserEntity extends Equatable {
       address: address ?? this.address,
       roles: roles ?? this.roles,
       password: password ?? this.password,
-      therapist: therapist ?? this.therapist,
+      therapistRelationship: therapistRelationship ?? this.therapistRelationship,
+      therapistPatientsResponsible:
+          therapistPatientsResponsible ?? this.therapistPatientsResponsible,
       createdAt: createdAt ?? this.createdAt,
     );
   }
@@ -91,11 +95,13 @@ class UserEntity extends Equatable {
       email,
       cpf,
       cellphone,
-      address,
-      roles,
       imageUrl,
       password,
-      therapist,
+      // address,
+      // roles,
+      // therapistRelationship, Necessary to compare on selection
+      // therapistPatientsResponsible,
+      createdAt,
     ];
   }
 }
