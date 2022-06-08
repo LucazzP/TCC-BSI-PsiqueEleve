@@ -100,9 +100,9 @@ class _AddEditAppointmentPageState
             controller: controller.therapistReport.controller,
             errorText: controller.therapistReport.error,
             textInputAction: TextInputAction.newline,
-            keyboardType: TextInputType.name,
+            keyboardType: TextInputType.multiline,
             maxLines: 5,
-            textCapitalization: TextCapitalization.words,
+            textCapitalization: TextCapitalization.sentences,
           );
         }),
         UIHelper.verticalSpaceS12,
@@ -112,6 +112,7 @@ class _AddEditAppointmentPageState
             controller: controller.patientReport.controller,
             errorText: controller.patientReport.error,
             textInputAction: TextInputAction.newline,
+            keyboardType: TextInputType.multiline,
             maxLines: 5,
             textCapitalization: TextCapitalization.sentences,
           );
@@ -123,6 +124,7 @@ class _AddEditAppointmentPageState
             controller: controller.responsibleReport.controller,
             errorText: controller.responsibleReport.error,
             textInputAction: TextInputAction.newline,
+            keyboardType: TextInputType.multiline,
             maxLines: 5,
             textCapitalization: TextCapitalization.sentences,
           );

@@ -26,6 +26,15 @@ abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
 
   _AddEditAppointmentControllerBase(this._createAppointmentUseCase, this._updateAppointmentUseCase);
 
+  final date = ValueStore<DateTime>(DateTime.now());
+  final therapistReport = FormStore((_) => null);
+  final patientReport = FormStore((_) => null);
+  final responsibleReport = FormStore((_) => null);
+  final status = ValueStore<Status>(Status.todo);
+  final therapistPatientRelationship = ValueStore<TherapistPatientRelationshipEntity?>(null);
+
+  final newAppointment = ValueState<AppointmentEntity?>(null);
+
   @override
   Iterable<ValueState> get getStates => [newAppointment];
 
@@ -36,6 +45,9 @@ abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
 
   bool get pageIsForEditing => appointmentId.isNotEmpty;
   String get getCreateEditValue => pageIsForEditing ? 'Editar' : 'Criar';
+
+  @computed
+  String get title => '$getCreateEditValue agendamento';
 
   Future<void> initialize(AppointmentEntity? appointment) async {
     appointmentId = appointment?.id ?? '';
@@ -54,20 +66,8 @@ abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
     });
   }
 
-  @computed
-  String get title => '$getCreateEditValue agendamento';
-
   String get getSuccessMessage =>
       pageIsForEditing ? 'Usuário editado com sucesso!' : 'Usuário criado com sucesso!';
-
-  final date = ValueStore<DateTime>(DateTime.now());
-  final therapistReport = FormStore((_) => null);
-  final patientReport = FormStore((_) => null);
-  final responsibleReport = FormStore((_) => null);
-  final status = ValueStore<Status>(Status.todo);
-  final therapistPatientRelationship = ValueStore<TherapistPatientRelationshipEntity?>(null);
-
-  final newAppointment = ValueState<AppointmentEntity?>(null);
 
   Future<void> selectDate(BuildContext context) async {
     final newDate = await showDatePicker(
