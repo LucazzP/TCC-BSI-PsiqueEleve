@@ -24,14 +24,16 @@ abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
   final CreateAppointmentUseCase _createAppointmentUseCase;
   final UpdateAppointmentUseCase _updateAppointmentUseCase;
 
-  _AddEditAppointmentControllerBase(this._createAppointmentUseCase, this._updateAppointmentUseCase);
+  _AddEditAppointmentControllerBase(
+      this._createAppointmentUseCase, this._updateAppointmentUseCase);
 
   final date = ValueStore<DateTime>(DateTime.now());
   final therapistReport = FormStore((_) => null);
   final patientReport = FormStore((_) => null);
   final responsibleReport = FormStore((_) => null);
   final status = ValueStore<Status>(Status.todo);
-  final therapistPatientRelationship = ValueStore<TherapistPatientRelationshipEntity?>(null);
+  final therapistPatientRelationship =
+      ValueStore<TherapistPatientRelationshipEntity?>(null);
 
   final newAppointment = ValueState<AppointmentEntity?>(null);
 
@@ -39,7 +41,8 @@ abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
   Iterable<ValueState> get getStates => [newAppointment];
 
   @override
-  List<FormStore> get getForms => [therapistReport, patientReport, responsibleReport];
+  List<FormStore> get getForms =>
+      [therapistReport, patientReport, responsibleReport];
 
   late final String appointmentId;
 
@@ -59,22 +62,25 @@ abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       date.setValue(appointment?.date ?? DateTime.now());
       status.setValue(appointment?.status ?? Status.todo);
-      therapistPatientRelationship.setValue(appointment?.therapistPatientRelationship);
+      therapistPatientRelationship
+          .setValue(appointment?.therapistPatientRelationship);
       therapistReport.setValue(appointment?.therapistReport ?? '');
       patientReport.setValue(appointment?.patientReport ?? '');
       responsibleReport.setValue(appointment?.responsibleReport ?? '');
     });
   }
 
-  String get getSuccessMessage =>
-      pageIsForEditing ? 'Usuário editado com sucesso!' : 'Usuário criado com sucesso!';
+  String get getSuccessMessage => pageIsForEditing
+      ? 'Usuário editado com sucesso!'
+      : 'Usuário criado com sucesso!';
 
   Future<void> selectDate(BuildContext context) async {
     final newDate = await showDatePicker(
       context: context,
       initialDate: date.value,
-      firstDate: DateTime.fromMillisecondsSinceEpoch(
-          min(DateTime.now().millisecondsSinceEpoch, date.value.millisecondsSinceEpoch)),
+      firstDate: DateTime.fromMillisecondsSinceEpoch(min(
+          DateTime.now().millisecondsSinceEpoch,
+          date.value.millisecondsSinceEpoch)),
       lastDate: DateTime(2100),
     );
 
@@ -90,7 +96,8 @@ abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
 
   Future<bool> onTapCreateEdit() async {
     final _therapistPatientRelationship = therapistPatientRelationship.value;
-    if (validateForms() == false || _therapistPatientRelationship == null) return false;
+    if (validateForms() == false || _therapistPatientRelationship == null)
+      return false;
 
     final appointment = AppointmentEntity(
       id: appointmentId,

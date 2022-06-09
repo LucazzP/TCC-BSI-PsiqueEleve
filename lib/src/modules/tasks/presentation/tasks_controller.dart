@@ -1,5 +1,6 @@
 import 'package:psique_eleve/src/modules/tasks/domain/entity/task.entity.dart';
 import 'package:psique_eleve/src/modules/tasks/domain/usecases/get_tasks.usecase.dart';
+import 'package:psique_eleve/src/modules/tasks/presentation/add_edit_task/add_edit_task_page.dart';
 import 'package:psique_eleve/src/presentation/base/controller/base.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/value_state.store.dart';
 import 'package:mobx/mobx.dart';
@@ -22,5 +23,8 @@ abstract class _TasksControllerBase extends BaseStore with Store {
     return tasks.execute(_getTasksUseCase);
   }
 
-  void onTapAddEditTask([TaskEntity? appointment]) {}
+  Future<void> onTapAddEditTask([TaskEntity? task]) async {
+    final editted = await AddEditTaskPage.navigateTo(task);
+    if (editted == true) return getTasks();
+  }
 }

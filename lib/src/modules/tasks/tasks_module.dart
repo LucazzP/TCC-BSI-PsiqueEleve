@@ -1,5 +1,8 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:psique_eleve/src/modules/tasks/presentation/add_edit_task/add_edit_task_controller.dart';
+import 'package:psique_eleve/src/modules/tasks/presentation/add_edit_task/add_edit_task_page.dart';
 
+import '../../presentation/constants/routes.dart';
 import 'data/datasource/remote/tasks_remote.datasource.dart';
 import 'data/datasource/remote/tasks_remote_impl.datasource.dart';
 import 'data/repository/tasks_impl.repository.dart';
@@ -15,6 +18,7 @@ class TasksModule extends Module {
   @override
   final List<Bind> binds = [
     Bind.lazySingleton((i) => TasksController(i())),
+    Bind.lazySingleton((i) => AddEditTaskController(i(), i())),
     Bind.factory((i) => UpdateTaskUseCase(i())),
     Bind.factory((i) => CreateTaskUseCase(i())),
     Bind.factory((i) => GetTaskUseCase(i())),
@@ -28,6 +32,10 @@ class TasksModule extends Module {
     ChildRoute(
       Modular.initialRoute,
       child: (_, args) => const TasksPage(),
+    ),
+    ChildRoute(
+      kTaskAddEditScreenRoute.finalPath,
+      child: (_, args) => AddEditTaskPage(task: args.data),
     ),
   ];
 }
