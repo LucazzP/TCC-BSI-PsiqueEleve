@@ -35,6 +35,16 @@ User: email@email.com -> Responsável
 Pass: vj9xd76r
 
 
+User: terapeutaS2@gmail.com -> Terapeuta
+Pass: a466e2k4
+
+User: pacienteS2@gmail.com -> Paciente
+Pass: 9dbvktr6
+
+User: paciente@sem.vinculo -> Paciente
+Pass: 54lrce8x
+
+
 novocampouser: user_mapper.dart / user_entity.dart / add_edit_user_controller.dart / add_edit_user_page.dart
 novocampotask: task.mapper.dart / task.entity.dart / add_edit_task_controller.dart / add_edit_task_page.dart
 novocampoaddres: address_mapper.dart / address_entity.dart / address_controller.dart / address_page.dart
