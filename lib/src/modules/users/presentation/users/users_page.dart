@@ -82,7 +82,7 @@ class _UsersPageState extends BaseState<UsersPage, UsersController> {
 
   @override
   void initState() {
-    controller.initialize(widget.userType);
+    controller.initialize(widget.userType, widget.isInSelectMode, widget.isMultiSelect);
     controller.getUsers();
     super.initState();
   }
@@ -119,7 +119,7 @@ class _UsersPageState extends BaseState<UsersPage, UsersController> {
                 imageUrl: user.imageUrl,
                 radius: 20,
               ),
-              onTap: () => controller.onTapTile(user, widget.isInSelectMode, widget.isMultiSelect),
+              onTap: () => controller.onTapTile(user),
               selected: controller.selectedUsers.value.contains(user),
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: AppSpacing.s24,
