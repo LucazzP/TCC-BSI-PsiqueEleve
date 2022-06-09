@@ -22,6 +22,8 @@ const kCredentialsFailure = CredentialsFailure();
 const kConnectionFailure = ConnectionFailure();
 const kExpiredSession = ExpiredSessionFailure();
 const kUserNotFoundResetPasswordFailure = UserNotFoundResetPasswordFailure();
+const kAlreadyUsedHourAppointmentFailure = AlreadyUsedHourAppointmentFailure();
+const kHourOnPastAppointmentFailure = HourOnPastAppointmentFailure();
 
 class ExpiredSessionFailure extends Failure {
   const ExpiredSessionFailure()
@@ -83,5 +85,22 @@ class UserNotFoundResetPasswordFailure extends Failure {
       : super(
           title: 'Erro ao resetar senha',
           message: 'Não foi possível encontrar o usuário, tente novamente com outro e-mail.',
+        );
+}
+
+class AlreadyUsedHourAppointmentFailure extends Failure {
+  const AlreadyUsedHourAppointmentFailure()
+      : super(
+          title: 'Erro ao agendar',
+          message:
+              'Esse horário já foi utilizado, tente outro horário com pelo menos 30 minutos de diferença.',
+        );
+}
+
+class HourOnPastAppointmentFailure extends Failure {
+  const HourOnPastAppointmentFailure()
+      : super(
+          title: 'Erro ao agendar',
+          message: 'Não é possível criar agendamentos em um horário que já passou.',
         );
 }

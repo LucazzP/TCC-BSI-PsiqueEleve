@@ -31,13 +31,21 @@ mixin _$AddEditAppointmentController
       (_$isOnlyViewComputed ??= Computed<bool>(() => super.isOnlyView,
               name: '_AddEditAppointmentControllerBase.isOnlyView'))
           .value;
+  Computed<bool>? _$shouldShowDeleteButtonComputed;
+
+  @override
+  bool get shouldShowDeleteButton => (_$shouldShowDeleteButtonComputed ??=
+          Computed<bool>(() => super.shouldShowDeleteButton,
+              name: '_AddEditAppointmentControllerBase.shouldShowDeleteButton'))
+      .value;
 
   @override
   String toString() {
     return '''
 title: ${title},
 shouldShowGoToTasksButton: ${shouldShowGoToTasksButton},
-isOnlyView: ${isOnlyView}
+isOnlyView: ${isOnlyView},
+shouldShowDeleteButton: ${shouldShowDeleteButton}
     ''';
   }
 }

@@ -40,6 +40,9 @@ Either<Failure, Result> _mapError<Result>(dynamic e, Failure Function(dynamic er
       return const Left(kExpiredSession);
     }
   }
+  if (e is Failure) {
+    return Left(e);
+  }
   if (onError != null) {
     return Left(onError(e));
   }

@@ -3,9 +3,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:psique_eleve/src/extensions/date_time.ext.dart';
 import 'package:psique_eleve/src/modules/appointment/domain/constants/status.enum.dart';
 import 'package:psique_eleve/src/modules/appointment/domain/entity/appointment.entity.dart';
 import 'package:psique_eleve/src/modules/appointment/domain/usecases/create_appointment.usecase.dart';
+import 'package:psique_eleve/src/modules/appointment/domain/usecases/delete_appointment.usecase.dart';
 import 'package:psique_eleve/src/modules/appointment/domain/usecases/update_appointment.usecase.dart';
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/role_entity.dart';
@@ -26,15 +28,17 @@ class AddEditAppointmentController = _AddEditAppointmentControllerBase
 abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
   final CreateAppointmentUseCase _createAppointmentUseCase;
   final UpdateAppointmentUseCase _updateAppointmentUseCase;
+  final DeleteAppointmentUseCase _deleteAppointmentUseCase;
   final GetActiveUserRoleUseCase _getActiveUserRoleUseCase;
 
   _AddEditAppointmentControllerBase(
     this._createAppointmentUseCase,
     this._updateAppointmentUseCase,
     this._getActiveUserRoleUseCase,
+    this._deleteAppointmentUseCase,
   );
 
-  final date = ValueStore<DateTime>(DateTime.now());
+  final date = ValueStore<DateTime>(DateTime.now().next30Minutes());
   final therapistReport = FormStore((_) => null);
   final patientReport = FormStore((_) => null);
   final responsibleReport = FormStore((_) => null);
@@ -67,6 +71,9 @@ abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
       selectedUserRole.value?.canManageAppointments == false &&
       selectedUserRole.value?.canManageTasks == false;
 
+  @computed
+  bool get shouldShowDeleteButton => pageIsForEditing && !isOnlyView && status.value == Status.todo;
+
   Future<void> initialize(AppointmentEntity? appointment) async {
     appointmentId = appointment?.id ?? '';
     getActiveUserRole().ignore();
@@ -76,7 +83,7 @@ abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
       return;
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      date.setValue(appointment?.date ?? DateTime.now());
+      date.setValue(appointment?.date ?? DateTime.now().next30Minutes());
       status.setValue(appointment?.status ?? Status.todo);
       therapistPatientRelationship.setValue(appointment?.therapistPatientRelationship);
       therapistReport.setValue(appointment?.therapistReport ?? '');
@@ -115,25 +122,13 @@ abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
   }
 
   Future<bool> onTapCreateEdit() async {
-    final _therapistPatientRelationship = therapistPatientRelationship.value;
-    if (validateForms() == false || _therapistPatientRelationship == null) return false;
-
-    final appointment = AppointmentEntity(
-      id: appointmentId,
-      date: date.value,
-      therapistReport: therapistReport.value,
-      patientReport: patientReport.value,
-      responsibleReport: responsibleReport.value,
-      therapistPatientRelationship: _therapistPatientRelationship,
-      xp: 5,
-      status: status.value,
-      createdAt: DateTime.now(),
-    );
+    final _appointment = appointment;
+    if (validateForms() == false || _appointment == null) return false;
 
     await newAppointment.execute(
       () => pageIsForEditing
-          ? _updateAppointmentUseCase(appointment)
-          : _createAppointmentUseCase(appointment),
+          ? _updateAppointmentUseCase(_appointment)
+          : _createAppointmentUseCase(_appointment),
     );
 
     if (hasFailure) return false;
@@ -150,4 +145,51 @@ abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
   }
 
   Future<void> getActiveUserRole() => selectedUserRole.execute(_getActiveUserRoleUseCase.asEither);
+
+  void onTapDelete(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Excluir consulta'),
+        content: const Text('Tem certeza que deseja excluir esta consulta?'),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Cancelar'),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          TextButton(
+            child: const Text('Excluir'),
+            onPressed: () async {
+              Navigator.of(context).pop();
+              final _appointment = appointment;
+              if (_appointment == null) return;
+              await newAppointment.execute(
+                () => _deleteAppointmentUseCase
+                    .call(_appointment)
+                    .then((value) => value.map((r) => null)),
+              );
+              if (hasFailure) return;
+              Modular.to.pop(true);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  AppointmentEntity? get appointment {
+    final _therapistPatientRelationship = therapistPatientRelationship.value;
+    if (_therapistPatientRelationship == null) return null;
+    return AppointmentEntity(
+      id: appointmentId,
+      date: date.value,
+      therapistReport: therapistReport.value,
+      patientReport: patientReport.value,
+      responsibleReport: responsibleReport.value,
+      therapistPatientRelationship: _therapistPatientRelationship,
+      xp: 5,
+      status: status.value,
+      createdAt: DateTime.now(),
+    );
+  }
 }

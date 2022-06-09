@@ -46,4 +46,12 @@ class AppointmentRepositoryImpl implements AppointmentRepository {
       processResponse: (res) async => res.toEntityEither(AppointmentMapper.fromMap),
     );
   }
+
+  @override
+  Future<Either<Failure, Unit>> deleteAppointment(AppointmentEntity appointment) {
+    return callEither<Unit, Map>(
+      () => _dataSource.deleteAppointment(appointment.toMap()),
+      processResponse: (res) async => const Right(unit),
+    );
+  }
 }

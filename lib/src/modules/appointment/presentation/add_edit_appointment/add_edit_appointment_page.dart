@@ -39,6 +39,16 @@ class _AddEditAppointmentPageState
         title: Observer(builder: (_) {
           return Text(controller.title);
         }),
+        actions: <Widget>[
+          Observer(builder: (_) {
+            return controller.shouldShowDeleteButton
+                ? IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () => controller.onTapDelete(context),
+                  )
+                : const SizedBox();
+          }),
+        ],
       );
 
   @override
