@@ -49,18 +49,17 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
 
   @override
   Widget? get bottomNavigationBar => Observer(
-        builder: (context) => BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.calendar_today_rounded), label: 'Consultas'),
-            BottomNavigationBarItem(icon: Icon(Icons.task_alt_rounded), label: 'Tarefas'),
-            BottomNavigationBarItem(icon: Icon(Icons.menu_rounded), label: 'Menu'),
-          ],
-          unselectedItemColor: AppColorScheme.primarySwatch[400],
-          selectedItemColor: AppColorScheme.primaryDefault,
-          onTap: controller.onTapChangePage,
-          currentIndex: controller.activePage.value,
-        ),
+        builder: (context) {
+          final items = controller.getNavBarItems;
+          if (items.length == 1) return const SizedBox.shrink();
+          return BottomNavigationBar(
+            items: items,
+            unselectedItemColor: AppColorScheme.primarySwatch[400],
+            selectedItemColor: AppColorScheme.primaryDefault,
+            onTap: controller.onTapChangePage,
+            currentIndex: controller.activePage.value,
+          );
+        },
       );
 
   @override

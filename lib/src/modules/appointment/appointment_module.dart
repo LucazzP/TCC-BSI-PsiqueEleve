@@ -17,7 +17,7 @@ import 'presentation/add_edit_appointment/add_edit_appointment_controller.dart';
 class AppointmentModule extends Module {
   @override
   final List<Bind> binds = [
-    Bind.lazySingleton((i) => AppointmentsController(i())),
+    Bind.lazySingleton((i) => AppointmentsController(i(), i())),
     Bind.lazySingleton((i) => AddEditAppointmentController(i(), i())),
     Bind.factory((i) => UpdateAppointmentUseCase(i())),
     Bind.factory((i) => CreateAppointmentUseCase(i())),

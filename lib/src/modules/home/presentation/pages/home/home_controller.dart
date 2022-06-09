@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
@@ -36,7 +37,7 @@ abstract class _HomeControllerBase extends BaseStore with Store {
 
   static const _titles = [
     'Home',
-    'Agendamentos',
+    'Consultas',
     'Tarefas',
     'Menu',
   ];
@@ -47,17 +48,16 @@ abstract class _HomeControllerBase extends BaseStore with Store {
 
   void initialize() {
     final index = max(0, _screenRoutes.indexOf(Modular.to.navigateHistory.first.name));
-    activePage.setValue(index);
-    getUserLogged();
+    onTapChangePage(index);
     getUserLogged();
     getActiveUserRole();
   }
 
   @computed
-  bool get shouldShowDropdownUserRole => selectedUserRole.value != null && userRoles.isNotEmpty;
+  bool get shouldShowDropdownUserRole => selectedUserRole.value != null && userRoles.length > 1;
 
   @computed
-  String get titlePage => _titles[activePage.value];
+  String get titlePage => getNavBarItems[activePage.value].label ?? _titles[activePage.value];
 
   @computed
   List<UserType> get userRoles {
@@ -69,12 +69,39 @@ abstract class _HomeControllerBase extends BaseStore with Store {
     return _user.roles.map((e) => e.type).toList();
   }
 
+  @computed
+  List<BottomNavigationBarItem> get getNavBarItems {
+    final items = [
+      BottomNavigationBarItem(icon: const Icon(Icons.home_rounded), label: _titles[0]),
+      BottomNavigationBarItem(icon: const Icon(Icons.calendar_today_rounded), label: _titles[1]),
+      BottomNavigationBarItem(icon: const Icon(Icons.task_alt_rounded), label: _titles[2]),
+      BottomNavigationBarItem(icon: const Icon(Icons.menu_rounded), label: _titles[3]),
+    ];
+    final role = selectedUserRole.value;
+    if (role == null) return items;
+    switch (role) {
+      case UserType.admin:
+        items.removeRange(0, 3);
+        break;
+      case UserType.therapist:
+        items.removeAt(2);
+        break;
+      case UserType.patient:
+      case UserType.responsible:
+        break;
+    }
+    return items;
+  }
+
   @override
-  Iterable<ValueState> get getStates => [user];
+  Iterable<ValueState> get getStates => [user, selectedUserRole];
 
   void onTapChangePage(int index) {
     activePage.setValue(index);
-    Modular.to.navigate(_screenRoutes[index]);
+    final label = getNavBarItems[index].label ?? '';
+    final routeIndex = _titles.indexOf(label);
+    if (routeIndex == -1) return;
+    Modular.to.navigate(_screenRoutes[routeIndex]);
   }
 
   Future<void> getUserLogged() async {
@@ -83,7 +110,9 @@ abstract class _HomeControllerBase extends BaseStore with Store {
 
   Future<void> getActiveUserRole() async {
     final selectedRole = await _getActiveUserRoleUseCase();
-    return selectedUserRole.setValue(selectedRole.type);
+    selectedUserRole.setValue(selectedRole.type);
+    final index = max(0, _screenRoutes.indexOf(Modular.to.navigateHistory.first.name));
+    onTapChangePage(index);
   }
 
   void onChangedUserRole(UserType? userType) {
