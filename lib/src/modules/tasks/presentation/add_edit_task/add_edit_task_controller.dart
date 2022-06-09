@@ -7,9 +7,6 @@ import 'package:psique_eleve/src/modules/appointment/domain/constants/status.enu
 import 'package:psique_eleve/src/modules/tasks/domain/entity/task.entity.dart';
 import 'package:psique_eleve/src/modules/tasks/domain/usecases/create_task.usecase.dart';
 import 'package:psique_eleve/src/modules/tasks/domain/usecases/update_task.usecase.dart';
-import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
-import 'package:psique_eleve/src/modules/users/domain/entities/therapist_patient_relationship.entity.dart';
-import 'package:psique_eleve/src/modules/users/presentation/users/users_page.dart';
 import 'package:psique_eleve/src/presentation/base/controller/base.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/form.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/value.store.dart';
@@ -18,8 +15,7 @@ import 'package:psique_eleve/src/presentation/constants/validators.dart';
 
 part 'add_edit_task_controller.g.dart';
 
-class AddEditTaskController = _AddEditTaskControllerBase
-    with _$AddEditTaskController;
+class AddEditTaskController = _AddEditTaskControllerBase with _$AddEditTaskController;
 
 abstract class _AddEditTaskControllerBase extends BaseStore with Store {
   final CreateTaskUseCase _createTaskUseCase;
@@ -45,9 +41,8 @@ abstract class _AddEditTaskControllerBase extends BaseStore with Store {
   bool get pageIsForEditing => taskId.isNotEmpty;
   String get getCreateEditValue => pageIsForEditing ? 'Editar' : 'Criar';
 
-  String get getSuccessMessage => pageIsForEditing
-      ? 'Usuário editado com sucesso!'
-      : 'Usuário criado com sucesso!';
+  String get getSuccessMessage =>
+      pageIsForEditing ? 'Usuário editado com sucesso!' : 'Usuário criado com sucesso!';
 
   @computed
   String get title => '$getCreateEditValue tarefa';
@@ -66,9 +61,8 @@ abstract class _AddEditTaskControllerBase extends BaseStore with Store {
     final newDate = await showDatePicker(
       context: context,
       initialDate: date.value,
-      firstDate: DateTime.fromMillisecondsSinceEpoch(min(
-          DateTime.now().millisecondsSinceEpoch,
-          date.value.millisecondsSinceEpoch)),
+      firstDate: DateTime.fromMillisecondsSinceEpoch(
+          min(DateTime.now().millisecondsSinceEpoch, date.value.millisecondsSinceEpoch)),
       lastDate: DateTime(2100),
     );
 
@@ -88,9 +82,7 @@ abstract class _AddEditTaskControllerBase extends BaseStore with Store {
     );
 
     await newTask.execute(
-      () => pageIsForEditing
-          ? _updateTaskUseCase(task)
-          : _createTaskUseCase(task),
+      () => pageIsForEditing ? _updateTaskUseCase(task) : _createTaskUseCase(task),
     );
 
     if (hasFailure) return false;

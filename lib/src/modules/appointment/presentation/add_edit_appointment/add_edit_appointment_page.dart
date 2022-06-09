@@ -5,9 +5,7 @@ import 'package:psique_eleve/src/core/constants.dart';
 import 'package:psique_eleve/src/extensions/date_time.ext.dart';
 import 'package:psique_eleve/src/modules/appointment/domain/constants/status.enum.dart';
 import 'package:psique_eleve/src/modules/appointment/domain/entity/appointment.entity.dart';
-import 'package:psique_eleve/src/modules/tasks/domain/entity/task.entity.dart';
 import 'package:psique_eleve/src/modules/tasks/presentation/tasks_page.dart';
-
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
 import 'package:psique_eleve/src/presentation/helpers/ui_helper.dart';
@@ -21,8 +19,7 @@ import 'add_edit_appointment_controller.dart';
 class AddEditAppointmentPage extends StatefulWidget {
   final AppointmentEntity? appointment;
 
-  static Future<bool?> navigateTo(AppointmentEntity? appointment) =>
-      Modular.to.pushNamed(
+  static Future<bool?> navigateTo(AppointmentEntity? appointment) => Modular.to.pushNamed(
         kAppointmentAddEditScreenRoute,
         arguments: appointment,
       );
@@ -66,8 +63,7 @@ class _AddEditAppointmentPageState
         Observer(builder: (_) {
           return TextButton(
             onPressed: () => controller.selectDate(context),
-            child: Text(
-                'Data agendada: ${controller.date.value.format} (toque para alterar)'),
+            child: Text('Data agendada: ${controller.date.value.format} (toque para alterar)'),
           );
         }),
         UIHelper.verticalSpaceS12,
@@ -89,11 +85,9 @@ class _AddEditAppointmentPageState
             ),
             child: DropdownButton(
               items: Status.values
-                  .map((e) =>
-                      DropdownMenuItem(value: e, child: Text(e.friendlyName)))
+                  .map((e) => DropdownMenuItem(value: e, child: Text(e.friendlyName)))
                   .toList(),
-              onChanged: (Status? status) =>
-                  controller.status.setValue(status ?? Status.todo),
+              onChanged: (Status? status) => controller.status.setValue(status ?? Status.todo),
               value: controller.status.value,
               isExpanded: true,
               underline: const SizedBox(),
