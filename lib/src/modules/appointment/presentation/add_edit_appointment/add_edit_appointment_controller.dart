@@ -8,6 +8,9 @@ import 'package:psique_eleve/src/modules/appointment/domain/entity/appointment.e
 import 'package:psique_eleve/src/modules/appointment/domain/usecases/create_appointment.usecase.dart';
 import 'package:psique_eleve/src/modules/appointment/domain/usecases/update_appointment.usecase.dart';
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
+import 'package:psique_eleve/src/modules/auth/domain/entities/role_entity.dart';
+import 'package:psique_eleve/src/modules/auth/domain/usecases/get_active_user_role.usecase.dart';
+import 'package:psique_eleve/src/modules/tasks/presentation/tasks_page.dart';
 import 'package:psique_eleve/src/modules/users/domain/entities/therapist_patient_relationship.entity.dart';
 import 'package:psique_eleve/src/modules/users/presentation/users/users_page.dart';
 import 'package:psique_eleve/src/presentation/base/controller/base.store.dart';
@@ -23,8 +26,13 @@ class AddEditAppointmentController = _AddEditAppointmentControllerBase
 abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
   final CreateAppointmentUseCase _createAppointmentUseCase;
   final UpdateAppointmentUseCase _updateAppointmentUseCase;
+  final GetActiveUserRoleUseCase _getActiveUserRoleUseCase;
 
-  _AddEditAppointmentControllerBase(this._createAppointmentUseCase, this._updateAppointmentUseCase);
+  _AddEditAppointmentControllerBase(
+    this._createAppointmentUseCase,
+    this._updateAppointmentUseCase,
+    this._getActiveUserRoleUseCase,
+  );
 
   final date = ValueStore<DateTime>(DateTime.now());
   final therapistReport = FormStore((_) => null);
@@ -34,9 +42,10 @@ abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
   final therapistPatientRelationship = ValueStore<TherapistPatientRelationshipEntity?>(null);
 
   final newAppointment = ValueState<AppointmentEntity?>(null);
+  final selectedUserRole = ValueState<RoleEntity?>(null);
 
   @override
-  Iterable<ValueState> get getStates => [newAppointment];
+  Iterable<ValueState> get getStates => [newAppointment, selectedUserRole];
 
   @override
   List<FormStore> get getForms => [therapistReport, patientReport, responsibleReport];
@@ -47,10 +56,20 @@ abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
   String get getCreateEditValue => pageIsForEditing ? 'Editar' : 'Criar';
 
   @computed
-  String get title => '$getCreateEditValue agendamento';
+  String get title => isOnlyView ? 'Agendamento' : '$getCreateEditValue agendamento';
+
+  @computed
+  bool get shouldShowGoToTasksButton =>
+      therapistPatientRelationship.value != null && selectedUserRole.value?.canManageTasks == true;
+
+  @computed
+  bool get isOnlyView =>
+      selectedUserRole.value?.canManageAppointments == false &&
+      selectedUserRole.value?.canManageTasks == false;
 
   Future<void> initialize(AppointmentEntity? appointment) async {
     appointmentId = appointment?.id ?? '';
+    getActiveUserRole().ignore();
     if (pageIsForEditing == false) {
       await selectPatient();
       if (therapistPatientRelationship.value == null) Modular.to.pop(false);
@@ -77,9 +96,16 @@ abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
           min(DateTime.now().millisecondsSinceEpoch, date.value.millisecondsSinceEpoch)),
       lastDate: DateTime(2100),
     );
-
     if (newDate == null) return;
-    date.setValue(newDate);
+
+    await Future.delayed(const Duration(milliseconds: 200));
+    final time = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(date.value),
+    );
+    if (time == null) return;
+
+    date.setValue(DateTime(newDate.year, newDate.month, newDate.day, time.hour, time.minute));
   }
 
   Future<void> selectPatient() async {
@@ -116,4 +142,12 @@ abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
 
     return true;
   }
+
+  void onTapGoToTasks() {
+    final _therapistPatientRelationship = therapistPatientRelationship.value;
+    if (_therapistPatientRelationship == null) return;
+    TasksPage.navigateToNewPage(_therapistPatientRelationship);
+  }
+
+  Future<void> getActiveUserRole() => selectedUserRole.execute(_getActiveUserRoleUseCase.asEither);
 }

@@ -18,7 +18,7 @@ class AppointmentModule extends Module {
   @override
   final List<Bind> binds = [
     Bind.lazySingleton((i) => AppointmentsController(i(), i())),
-    Bind.lazySingleton((i) => AddEditAppointmentController(i(), i())),
+    Bind.lazySingleton((i) => AddEditAppointmentController(i(), i(), i())),
     Bind.factory((i) => UpdateAppointmentUseCase(i())),
     Bind.factory((i) => CreateAppointmentUseCase(i())),
     Bind.factory((i) => GetAppointmentUseCase(i())),

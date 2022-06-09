@@ -16,11 +16,28 @@ mixin _$AddEditAppointmentController
   String get title => (_$titleComputed ??= Computed<String>(() => super.title,
           name: '_AddEditAppointmentControllerBase.title'))
       .value;
+  Computed<bool>? _$shouldShowGoToTasksButtonComputed;
+
+  @override
+  bool get shouldShowGoToTasksButton => (_$shouldShowGoToTasksButtonComputed ??=
+          Computed<bool>(() => super.shouldShowGoToTasksButton,
+              name:
+                  '_AddEditAppointmentControllerBase.shouldShowGoToTasksButton'))
+      .value;
+  Computed<bool>? _$isOnlyViewComputed;
+
+  @override
+  bool get isOnlyView =>
+      (_$isOnlyViewComputed ??= Computed<bool>(() => super.isOnlyView,
+              name: '_AddEditAppointmentControllerBase.isOnlyView'))
+          .value;
 
   @override
   String toString() {
     return '''
-title: ${title}
+title: ${title},
+shouldShowGoToTasksButton: ${shouldShowGoToTasksButton},
+isOnlyView: ${isOnlyView}
     ''';
   }
 }

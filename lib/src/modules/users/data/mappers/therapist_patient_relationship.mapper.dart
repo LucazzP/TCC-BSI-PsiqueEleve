@@ -13,7 +13,7 @@ extension TherapistPatientRelationshipMapper on TherapistPatientRelationshipEnti
     };
   }
 
-  static TherapistPatientRelationshipEntity? fromMap(Map<String, dynamic> map) {
+  static TherapistPatientRelationshipEntity? fromMap(Map map) {
     if (map.isEmpty) return null;
     final patient = UserMapper.fromMap(map['patient']);
     final therapist = UserMapper.fromMap(map['therapist']);

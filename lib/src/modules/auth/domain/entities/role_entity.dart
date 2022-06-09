@@ -28,6 +28,10 @@ class RoleEntity extends Equatable {
     this.canManageRewards = false,
   });
 
+  bool get shouldShowTherapistReport => type == UserType.therapist;
+  bool get shouldShowPatientReport => [UserType.therapist, UserType.patient].contains(type);
+  bool get shouldShowResponsibleReport => [UserType.therapist, UserType.responsible].contains(type);
+
   RoleEntity copyWith({
     String? id,
     String? name,

@@ -10,30 +10,26 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
   const TasksRemoteDataSourceImpl(this.client);
 
   @override
-  Future<Map> createTask(Map task) async {
-    final response = await client.from(table).insert(task).execute();
-    if (response.hasError) {
-      throw Exception(response.error);
-    }
-    return Casters.toMap(response.data);
-  }
-
-  @override
   Future<Map> getTask(String id) async {
-    final response = await client.from(table).select('*').eq('id', id).single().execute();
-    if (response.hasError) {
-      throw Exception(response.error);
+    final res = await client.functions.invoke('get-task', body: {"id": id});
+
+    if (res.error != null) {
+      throw Exception(res.error);
     }
-    return Casters.toMap(response.data);
+
+    return Casters.toMap(res.data)['data'];
   }
 
   @override
-  Future<List<Map>> getTasks() async {
-    final response = await client.from(table).select('*').execute();
-    if (response.hasError) {
-      throw Exception(response.error);
+  Future<List<Map>> getTasks(String therapistPatientId) async {
+    final res = await client.functions.invoke('get-tasks',
+        body: therapistPatientId.isEmpty ? null : {"therapist_patient_id": therapistPatientId});
+
+    if (res.error != null) {
+      throw Exception(res.error);
     }
-    return Casters.toListMap(response.data);
+
+    return Casters.toListMap(Casters.toMap(res.data)['data']);
   }
 
   @override
@@ -42,10 +38,23 @@ class TasksRemoteDataSourceImpl implements TasksRemoteDataSource {
     if (id == null || id.isEmpty) {
       return createTask(task);
     }
+    task['therapist_patient_id'] = task['therapist_patient']['id'];
+    task.remove('therapist_patient');
     final response = await client.from(table).update(task).eq('id', id).execute();
     if (response.hasError) {
       throw Exception(response.error);
     }
-    return Casters.toMap(response.data);
+    return getTask(Casters.toMap(response.data)['id']);
+  }
+
+  @override
+  Future<Map> createTask(Map task) async {
+    task['therapist_patient_id'] = task['therapist_patient']['id'];
+    task.remove('therapist_patient');
+    final response = await client.from(table).insert(task).execute();
+    if (response.hasError) {
+      throw Exception(response.error);
+    }
+    return getTask(Casters.toMap(response.data)['id']);
   }
 }

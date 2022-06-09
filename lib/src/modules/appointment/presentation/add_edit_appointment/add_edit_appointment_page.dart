@@ -5,7 +5,6 @@ import 'package:psique_eleve/src/core/constants.dart';
 import 'package:psique_eleve/src/extensions/date_time.ext.dart';
 import 'package:psique_eleve/src/modules/appointment/domain/constants/status.enum.dart';
 import 'package:psique_eleve/src/modules/appointment/domain/entity/appointment.entity.dart';
-import 'package:psique_eleve/src/modules/tasks/presentation/tasks_page.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
 import 'package:psique_eleve/src/presentation/helpers/ui_helper.dart';
@@ -62,16 +61,27 @@ class _AddEditAppointmentPageState
       children: [
         Observer(builder: (_) {
           return TextButton(
-            onPressed: () => controller.selectDate(context),
-            child: Text('Data agendada: ${controller.date.value.format} (toque para alterar)'),
+            onPressed: controller.isOnlyView ? null : () => controller.selectDate(context),
+            child: Text(
+              'Data agendada: ${controller.date.value.formatWithHour}${controller.isOnlyView ? '' : ' (toque para alterar)'}',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: controller.isOnlyView ? AppColorScheme.bodyText : null,
+              ),
+            ),
           );
         }),
         UIHelper.verticalSpaceS12,
         Observer(builder: (_) {
           return TextButton(
-            onPressed: controller.selectPatient,
+            onPressed: controller.isOnlyView ? null : controller.selectPatient,
             child: Text(
-                'Paciente: ${controller.therapistPatientRelationship.value?.patient.fullName} (toque para alterar)'),
+              'Paciente: ${controller.therapistPatientRelationship.value?.patient.fullName}${controller.isOnlyView ? '' : ' (toque para alterar)'}',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: controller.isOnlyView ? AppColorScheme.bodyText : null,
+              ),
+            ),
           );
         }),
         UIHelper.verticalSpaceS12,
@@ -84,10 +94,17 @@ class _AddEditAppointmentPageState
               border: Border.all(color: AppColorScheme.border),
             ),
             child: DropdownButton(
-              items: Status.values
-                  .map((e) => DropdownMenuItem(value: e, child: Text(e.friendlyName)))
+              items: (controller.isOnlyView ? [controller.status.value] : Status.values)
+                  .map((e) => DropdownMenuItem(
+                      value: e,
+                      child: Text(
+                        e.friendlyName,
+                        style: TextStyle(color: e.color),
+                      )))
                   .toList(),
-              onChanged: (Status? status) => controller.status.setValue(status ?? Status.todo),
+              onChanged: controller.isOnlyView
+                  ? null
+                  : (Status? status) => controller.status.setValue(status ?? Status.todo),
               value: controller.status.value,
               isExpanded: true,
               underline: const SizedBox(),
@@ -96,52 +113,90 @@ class _AddEditAppointmentPageState
         }),
         UIHelper.verticalSpaceS24,
         Observer(builder: (_) {
-          return AppTextFieldWidget(
-            title: 'Relatório do terapeuta (privado)',
-            controller: controller.therapistReport.controller,
-            errorText: controller.therapistReport.error,
-            textInputAction: TextInputAction.newline,
-            keyboardType: TextInputType.multiline,
-            maxLines: 5,
-            textCapitalization: TextCapitalization.sentences,
-          );
+          return controller.selectedUserRole.value?.shouldShowTherapistReport == true
+              ? Column(
+                  children: [
+                    AppTextFieldWidget(
+                      enabled: !controller.isOnlyView,
+                      title: 'Relatório do terapeuta (privado)',
+                      controller: controller.therapistReport.controller,
+                      errorText: controller.therapistReport.error,
+                      textInputAction: TextInputAction.newline,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 5,
+                      textCapitalization: TextCapitalization.sentences,
+                    ),
+                    UIHelper.verticalSpaceS12,
+                  ],
+                )
+              : const SizedBox();
         }),
-        UIHelper.verticalSpaceS12,
         Observer(builder: (_) {
-          return AppTextFieldWidget(
-            title: 'Relatório para o paciente',
-            controller: controller.patientReport.controller,
-            errorText: controller.patientReport.error,
-            textInputAction: TextInputAction.newline,
-            keyboardType: TextInputType.multiline,
-            maxLines: 5,
-            textCapitalization: TextCapitalization.sentences,
-          );
+          return controller.selectedUserRole.value?.shouldShowPatientReport == true
+              ? Column(
+                  children: [
+                    AppTextFieldWidget(
+                      enabled: !controller.isOnlyView,
+                      title: 'Relatório para o paciente',
+                      controller: controller.patientReport.controller,
+                      errorText: controller.patientReport.error,
+                      textInputAction: TextInputAction.newline,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 5,
+                      textCapitalization: TextCapitalization.sentences,
+                    ),
+                    UIHelper.verticalSpaceS12,
+                  ],
+                )
+              : const SizedBox();
         }),
-        UIHelper.verticalSpaceS12,
         Observer(builder: (_) {
-          return AppTextFieldWidget(
-            title: 'Relatório para o responsável',
-            controller: controller.responsibleReport.controller,
-            errorText: controller.responsibleReport.error,
-            textInputAction: TextInputAction.newline,
-            keyboardType: TextInputType.multiline,
-            maxLines: 5,
-            textCapitalization: TextCapitalization.sentences,
-          );
+          return controller.selectedUserRole.value?.shouldShowResponsibleReport == true
+              ? Column(
+                  children: [
+                    AppTextFieldWidget(
+                      enabled: !controller.isOnlyView,
+                      title: 'Relatório para o responsável',
+                      controller: controller.responsibleReport.controller,
+                      errorText: controller.responsibleReport.error,
+                      textInputAction: TextInputAction.newline,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 5,
+                      textCapitalization: TextCapitalization.sentences,
+                    ),
+                    UIHelper.verticalSpaceS12,
+                  ],
+                )
+              : const SizedBox();
         }),
-        UIHelper.verticalSpaceS24,
-        AppButton(
-          onPressed: createEditUser,
-          title: controller.getCreateEditValue,
-          style: AppButtonStyle.filled,
-        ),
-        UIHelper.verticalSpaceS24,
-        AppButton(
-          onPressed: () => TasksPage.navigateToNewPage(),
-          title: 'Gerenciar tarefas',
-          style: AppButtonStyle.filled,
-        ),
+        Observer(builder: (_) {
+          return controller.isOnlyView
+              ? const SizedBox()
+              : Column(
+                  children: [
+                    UIHelper.verticalSpaceS24,
+                    AppButton(
+                      onPressed: createEditUser,
+                      title: controller.getCreateEditValue,
+                      style: AppButtonStyle.filled,
+                    ),
+                  ],
+                );
+        }),
+        Observer(builder: (_) {
+          return controller.shouldShowGoToTasksButton
+              ? Column(
+                  children: [
+                    UIHelper.verticalSpaceS24,
+                    AppButton(
+                      onPressed: controller.onTapGoToTasks,
+                      title: 'Gerenciar tarefas',
+                      style: AppButtonStyle.filled,
+                    ),
+                  ],
+                )
+              : const SizedBox();
+        }),
         UIHelper.verticalSpaceS32,
       ],
     );

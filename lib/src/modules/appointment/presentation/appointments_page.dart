@@ -85,9 +85,9 @@ class _ListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(appointment.therapistPatientRelationship.patient.fullName),
-      trailing: Text(appointment.date.format),
-      onTap: onTap,
+      trailing: Text(appointment.date.formatWithHour),
       subtitle: Text(appointment.status.friendlyName),
+      onTap: onTap,
       textColor: appointment.status.color,
       contentPadding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.s24,

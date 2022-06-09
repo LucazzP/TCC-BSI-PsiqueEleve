@@ -7,6 +7,7 @@ import 'package:psique_eleve/src/modules/appointment/domain/constants/status.enu
 import 'package:psique_eleve/src/modules/tasks/domain/entity/task.entity.dart';
 import 'package:psique_eleve/src/modules/tasks/domain/usecases/create_task.usecase.dart';
 import 'package:psique_eleve/src/modules/tasks/domain/usecases/update_task.usecase.dart';
+import 'package:psique_eleve/src/modules/users/domain/entities/therapist_patient_relationship.entity.dart';
 import 'package:psique_eleve/src/presentation/base/controller/base.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/form.store.dart';
 import 'package:psique_eleve/src/presentation/base/controller/value.store.dart';
@@ -23,10 +24,11 @@ abstract class _AddEditTaskControllerBase extends BaseStore with Store {
 
   _AddEditTaskControllerBase(this._createTaskUseCase, this._updateTaskUseCase);
 
-  final date = ValueStore<DateTime>(DateTime.now());
+  late TherapistPatientRelationshipEntity therapistPatientRelationship;
 
   final taskTitle = FormStore(Validators.minLenght(3));
   final status = ValueStore<Status>(Status.todo);
+  final date = ValueStore<DateTime>(DateTime.now());
 
   final newTask = ValueState<TaskEntity?>(null);
 
@@ -42,16 +44,17 @@ abstract class _AddEditTaskControllerBase extends BaseStore with Store {
   String get getCreateEditValue => pageIsForEditing ? 'Editar' : 'Criar';
 
   String get getSuccessMessage =>
-      pageIsForEditing ? 'Usuário editado com sucesso!' : 'Usuário criado com sucesso!';
+      pageIsForEditing ? 'Tarefa editada com sucesso!' : 'Tarefa criada com sucesso!';
 
   @computed
   String get title => '$getCreateEditValue tarefa';
 
-  Future<void> initialize(TaskEntity? task) async {
+  Future<void> initialize(TaskEntity? task, TherapistPatientRelationshipEntity therapistPatientRelationship) async {
     taskId = task?.id ?? '';
+    this.therapistPatientRelationship = therapistPatientRelationship;
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      //date.setValue(task?. ?? DateTime.now());
+      date.setValue(task?.date ?? DateTime.now());
       status.setValue(task?.status ?? Status.todo);
       taskTitle.setValue(task?.task ?? "");
     });
@@ -65,9 +68,9 @@ abstract class _AddEditTaskControllerBase extends BaseStore with Store {
           min(DateTime.now().millisecondsSinceEpoch, date.value.millisecondsSinceEpoch)),
       lastDate: DateTime(2100),
     );
-
     if (newDate == null) return;
-    date.setValue(newDate);
+
+    date.setValue(DateTime(newDate.year, newDate.month, newDate.day, 23, 59));
   }
 
   Future<bool> onTapCreateEdit() async {
@@ -76,8 +79,10 @@ abstract class _AddEditTaskControllerBase extends BaseStore with Store {
     final task = TaskEntity(
       id: taskId,
       task: taskTitle.value,
+      date: date.value,
       xp: 5,
       status: status.value,
+      therapistPatientRelationship: therapistPatientRelationship,
       createdAt: DateTime.now(),
     );
 

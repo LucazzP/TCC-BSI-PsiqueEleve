@@ -6,6 +6,7 @@ import 'package:psique_eleve/src/extensions/date_time.ext.dart';
 import 'package:psique_eleve/src/modules/appointment/domain/constants/status.enum.dart';
 
 import 'package:psique_eleve/src/modules/tasks/domain/entity/task.entity.dart';
+import 'package:psique_eleve/src/modules/users/domain/entities/therapist_patient_relationship.entity.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
 import 'package:psique_eleve/src/presentation/helpers/ui_helper.dart';
@@ -18,15 +19,24 @@ import 'add_edit_task_controller.dart';
 
 class AddEditTaskPage extends StatefulWidget {
   final TaskEntity? task;
+  final TherapistPatientRelationshipEntity therapistPatientRelationship;
 
-  static Future<bool?> navigateTo(TaskEntity? task) => Modular.to.pushNamed(
+  static Future<bool?> navigateTo(
+    TaskEntity? task,
+    TherapistPatientRelationshipEntity therapistPatientRelationship,
+  ) =>
+      Modular.to.pushNamed(
         kTaskAddEditScreenRoute,
-        arguments: task,
+        arguments: {
+          'task': task,
+          'therapistPatientRelationship': therapistPatientRelationship,
+        },
       );
 
   const AddEditTaskPage({
     Key? key,
     required this.task,
+    required this.therapistPatientRelationship,
   }) : super(key: key);
 
   @override
@@ -43,7 +53,7 @@ class _AddEditTaskPageState extends BaseState<AddEditTaskPage, AddEditTaskContro
 
   @override
   void initState() {
-    controller.initialize(widget.task);
+    controller.initialize(widget.task, widget.therapistPatientRelationship);
     super.initState();
   }
 
@@ -62,7 +72,7 @@ class _AddEditTaskPageState extends BaseState<AddEditTaskPage, AddEditTaskContro
         Observer(builder: (_) {
           return TextButton(
             onPressed: () => controller.selectDate(context),
-            child: Text('Data agendada: ${controller.date.value.format} (toque para alterar)'),
+            child: Text('Data: ${controller.date.value.formatWithHour} (toque para alterar)'),
           );
         }),
         UIHelper.verticalSpaceS12,

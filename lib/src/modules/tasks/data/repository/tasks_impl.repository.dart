@@ -30,9 +30,9 @@ class TasksRepositoryImpl implements TasksRepository {
   }
 
   @override
-  Future<Either<Failure, List<TaskEntity>>> getTasks() {
+  Future<Either<Failure, List<TaskEntity>>> getTasks([String therapistPatientId = '']) {
     return callEither<List<TaskEntity>, List<Map>>(
-      () => _dataSource.getTasks(),
+      () => _dataSource.getTasks(therapistPatientId),
       processResponse: (res) async => Right(res.map(TaskMapper.fromMap).whereNotNull().toList()),
     );
   }

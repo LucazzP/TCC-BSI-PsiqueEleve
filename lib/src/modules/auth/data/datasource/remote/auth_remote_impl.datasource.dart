@@ -9,27 +9,26 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'auth_remote.datasource.dart';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final SupabaseClient api;
+  final SupabaseClient _client;
   final FlutterSecureStorage secureStorage;
 
-  const AuthRemoteDataSourceImpl(this.api, this.secureStorage);
+  const AuthRemoteDataSourceImpl(this._client, this.secureStorage);
 
   @override
   Future<Map> getUserLogged() async {
-    final user = api.auth.currentUser;
-    if (user == null) return {};
-    final res = await api.from('user').select('''
-    *,
-    address(*),
-    roles_user:role(*),
-    therapist:therapist_patient!patient_user_id(*)
-  ''').eq('id', user.id).single().execute();
-    if (res.hasError) {
+    final userId = _client.auth.currentUser?.id;
+    if (userId == null) return {};
+    final res = await _client.functions.invoke('get-user', body: {
+      "user_id": userId,
+    });
+
+    if (res.error != null) {
       throw Exception(res.error);
     }
-    final data = Casters.toMap(res.data);
-    data['therapist'] = Casters.toMap(data['therapist']);
-    return data;
+
+    final user = Casters.toMap(res.data)['data'];
+
+    return user;
   }
 
   @override
@@ -39,7 +38,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       secureStorage.write(key: 'password', value: password),
     ]);
 
-    final userResult = await api.auth.signIn(
+    final userResult = await _client.auth.signIn(
       email: email,
       password: password,
       options: AuthOptions(
@@ -63,28 +62,28 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<Unit> logout() async {
-    final res = await api.auth.signOut();
+    final res = await _client.auth.signOut();
     if (res.error != null) throw Exception(res.error?.message);
     return unit;
   }
 
   @override
   Future<Unit> recoverPassword(String email) async {
-    final res = await api.auth.api.resetPasswordForEmail(email);
+    final res = await _client.auth.api.resetPasswordForEmail(email);
     if (res.error != null) throw Exception(res.error?.message);
     return unit;
   }
 
   @override
   Future<Unit> changePassword(String password) async {
-    final res = await api.auth.update(UserAttributes(password: password));
+    final res = await _client.auth.update(UserAttributes(password: password));
     if (res.error != null) throw Exception(res.error?.message);
     return unit;
   }
 
   @override
   Future<List<Map>> getRoles() async {
-    final res = await api.from('role').select('*').execute();
+    final res = await _client.from('role').select('*').execute();
     if (res.hasError) {
       throw Exception(res.error);
     }

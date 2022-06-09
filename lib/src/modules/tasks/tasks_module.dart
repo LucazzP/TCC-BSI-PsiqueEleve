@@ -17,7 +17,7 @@ import 'presentation/tasks_page.dart';
 class TasksModule extends Module {
   @override
   final List<Bind> binds = [
-    Bind.lazySingleton((i) => TasksController(i())),
+    Bind.lazySingleton((i) => TasksController(i(), i(), i(), i())),
     Bind.lazySingleton((i) => AddEditTaskController(i(), i())),
     Bind.factory((i) => UpdateTaskUseCase(i())),
     Bind.factory((i) => CreateTaskUseCase(i())),
@@ -31,11 +31,19 @@ class TasksModule extends Module {
   final List<ModularRoute> routes = [
     ChildRoute(
       Modular.initialRoute,
-      child: (_, args) => const TasksPage(),
+      child: (_, args) => TasksPage(therapistPatientRelationship: args.data),
     ),
     ChildRoute(
       kTaskAddEditScreenRoute.finalPath,
-      child: (_, args) => AddEditTaskPage(task: args.data),
+      child: (_, args) {
+        final task = args.data['task'];
+        final therapistPatientRelationship = args.data['therapistPatientRelationship'];
+
+        return AddEditTaskPage(
+          task: task,
+          therapistPatientRelationship: therapistPatientRelationship,
+        );
+      },
     ),
   ];
 }
