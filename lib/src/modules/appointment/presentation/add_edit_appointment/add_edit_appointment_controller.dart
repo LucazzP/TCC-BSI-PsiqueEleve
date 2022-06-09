@@ -67,7 +67,7 @@ abstract class _AddEditAppointmentControllerBase extends BaseStore with Store {
   }
 
   String get getSuccessMessage =>
-      pageIsForEditing ? 'Usuário editado com sucesso!' : 'Usuário criado com sucesso!';
+      pageIsForEditing ? 'Consulta editada com sucesso!' : 'Consulta criada com sucesso!';
 
   Future<void> selectDate(BuildContext context) async {
     final newDate = await showDatePicker(

@@ -24,7 +24,7 @@ class AppointmentsPage extends StatefulWidget {
 class _AppointmentsPageState extends BaseState<AppointmentsPage, AppointmentsController> {
   @override
   void initState() {
-    controller.getAppointments();
+    controller.init();
     super.initState();
   }
 
@@ -35,10 +35,14 @@ class _AppointmentsPageState extends BaseState<AppointmentsPage, AppointmentsCon
   EdgeInsets get padding => EdgeInsets.zero;
 
   @override
-  Widget? get floatingActionButton => FloatingActionButton(
-        onPressed: controller.onTapAddEditAppointment,
-        backgroundColor: AppColorScheme.primaryButtonBackground,
-        child: const Icon(Icons.add, color: Colors.white),
+  Widget? get floatingActionButton => Observer(
+        builder: (context) => controller.shouldShowCreateButton
+            ? FloatingActionButton(
+                onPressed: controller.onTapAddEditAppointment,
+                backgroundColor: AppColorScheme.primaryButtonBackground,
+                child: const Icon(Icons.add, color: Colors.white),
+              )
+            : const SizedBox(),
       );
 
   @override

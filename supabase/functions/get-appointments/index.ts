@@ -17,14 +17,25 @@ serve(async (req) => {
   try {
     // Set the Auth context of the user that called the function.
     // This way your row-level-security (RLS) policies are applied.
-    supabaseClient.auth.setAuth(
-      req.headers.get("Authorization")!.replace("Bearer ", "")
-    );
+    const jwt = req.headers.get("Authorization")!.replace("Bearer ", "");
+    supabaseClient.auth.setAuth(jwt);
 
-    let { data, error } = await supabaseClient.from("appointment").select(`
+    const userId = await supabaseClient.auth.api
+      .getUser(jwt)
+      ?.then((user) => user.data?.id);
+
+    let { data, error } = await supabaseClient
+      .from("appointment")
+      .select(
+        `
         *,
         therapist_patient(*)
-      `);
+      `
+      )
+      .or(`patient_user_id.eq.${userId},therapist_user_id.eq.${userId}`, {
+        foreignTable: "therapist_patient",
+      })
+      .order("date", { ascending: false });
 
     if (error != null) throw error;
     if (data == null) throw new Error("Appointments error");

@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flinq/flinq.dart';
+import 'package:psique_eleve/src/core/failures.dart';
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/role_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
@@ -37,4 +38,6 @@ class GetActiveUserRoleUseCase {
     if (selectedRoleEntity != null) return selectedRoleEntity;
     return _userFirstRole;
   }
+
+  Future<Either<Failure, RoleEntity>> asEither() async => Right(await call());
 }

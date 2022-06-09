@@ -31,13 +31,22 @@ mixin _$HomeController on _HomeControllerBase, Store {
       (_$userRolesComputed ??= Computed<List<UserType>>(() => super.userRoles,
               name: '_HomeControllerBase.userRoles'))
           .value;
+  Computed<List<BottomNavigationBarItem>>? _$getNavBarItemsComputed;
+
+  @override
+  List<BottomNavigationBarItem> get getNavBarItems =>
+      (_$getNavBarItemsComputed ??= Computed<List<BottomNavigationBarItem>>(
+              () => super.getNavBarItems,
+              name: '_HomeControllerBase.getNavBarItems'))
+          .value;
 
   @override
   String toString() {
     return '''
 shouldShowDropdownUserRole: ${shouldShowDropdownUserRole},
 titlePage: ${titlePage},
-userRoles: ${userRoles}
+userRoles: ${userRoles},
+getNavBarItems: ${getNavBarItems}
     ''';
   }
 }
