@@ -27,8 +27,7 @@ abstract class _ValueStoreBase<ValueType> with Store {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is ValueStore<ValueType> &&
-        other._value == _value;
+    return other is ValueStore<ValueType> && other._value == _value;
   }
 
   @override

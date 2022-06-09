@@ -54,5 +54,9 @@ class HomeModule extends Module {
       kAppointmentsModuleRoute.finalPath,
       module: AppointmentModule(),
     ),
+    ModuleRoute(
+      kTasksModuleRoute.finalPath,
+      module: TasksModule(),
+    ),
   ];
 }

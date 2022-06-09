@@ -3,12 +3,15 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
+import 'package:psique_eleve/src/presentation/styles/app_color_scheme.dart';
 import 'package:psique_eleve/src/presentation/styles/app_spacing.dart';
 
 import 'tasks_controller.dart';
 
 class TasksPage extends StatefulWidget {
   static Future<void> navigateTo() => Modular.to.pushNamed(kHomeTasksScreenRoute);
+  static Future<void> navigateToNewPage() => Modular.to.pushNamed(kTasksScreenRoute);
+
   static Future<void> replaceTo() => Modular.to.pushReplacementNamed(kHomeTasksScreenRoute);
 
   const TasksPage({Key? key}) : super(key: key);
@@ -29,6 +32,13 @@ class _TasksPageState extends BaseState<TasksPage, TasksController> {
 
   @override
   PreferredSizeWidget? appBar(BuildContext ctx) => null;
+
+  @override
+  Widget? get floatingActionButton => FloatingActionButton(
+        onPressed: controller.onTapAddEditTask,
+        backgroundColor: AppColorScheme.primaryButtonBackground,
+        child: const Icon(Icons.add, color: Colors.white),
+      );
 
   @override
   Widget child(context, constrains) {

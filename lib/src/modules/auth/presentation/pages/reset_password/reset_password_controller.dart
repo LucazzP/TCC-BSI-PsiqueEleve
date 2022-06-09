@@ -25,7 +25,7 @@ abstract class _ResetPasswordControllerBase extends BaseStore with Store {
 
   @override
   Iterable<ValueState> get getStates => [resetPassState];
-  
+
   @override
   List<FormStore> get getForms => [password, confirmPassword];
 

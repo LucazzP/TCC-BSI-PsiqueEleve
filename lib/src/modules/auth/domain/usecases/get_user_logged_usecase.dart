@@ -11,7 +11,7 @@ class GetUserLoggedUseCase implements BaseUseCase<UserEntity?, bool> {
 
   @override
   Future<Either<Failure, UserEntity?>> call([bool refreshed = false]) async {
-    if(refreshed) await _repo.updateLocalUserWithRemote();
+    if (refreshed) await _repo.updateLocalUserWithRemote();
     return _repo.getUserLogged();
   }
 }

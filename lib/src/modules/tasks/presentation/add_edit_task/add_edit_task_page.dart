@@ -4,8 +4,8 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:psique_eleve/src/core/constants.dart';
 import 'package:psique_eleve/src/extensions/date_time.ext.dart';
 import 'package:psique_eleve/src/modules/appointment/domain/constants/status.enum.dart';
-import 'package:psique_eleve/src/modules/appointment/domain/entity/appointment.entity.dart';
-import 'package:psique_eleve/src/modules/tasks/presentation/tasks_page.dart';
+
+import 'package:psique_eleve/src/modules/tasks/domain/entity/task.entity.dart';
 import 'package:psique_eleve/src/presentation/base/pages/base.page.dart';
 import 'package:psique_eleve/src/presentation/constants/routes.dart';
 import 'package:psique_eleve/src/presentation/helpers/ui_helper.dart';
@@ -14,27 +14,26 @@ import 'package:psique_eleve/src/presentation/widgets/app_button/app_button.dart
 import 'package:psique_eleve/src/presentation/widgets/app_snackbar/app_snackbar.dart';
 import 'package:psique_eleve/src/presentation/widgets/app_text_field/app_text_field_widget.dart';
 
-import 'add_edit_appointment_controller.dart';
+import 'add_edit_task_controller.dart';
 
-class AddEditAppointmentPage extends StatefulWidget {
-  final AppointmentEntity? appointment;
+class AddEditTaskPage extends StatefulWidget {
+  final TaskEntity? task;
 
-  static Future<bool?> navigateTo(AppointmentEntity? appointment) => Modular.to.pushNamed(
-        kAppointmentAddEditScreenRoute,
-        arguments: appointment,
+  static Future<bool?> navigateTo(TaskEntity? task) => Modular.to.pushNamed(
+        kTaskAddEditScreenRoute,
+        arguments: task,
       );
 
-  const AddEditAppointmentPage({
+  const AddEditTaskPage({
     Key? key,
-    required this.appointment,
+    required this.task,
   }) : super(key: key);
 
   @override
-  _AddEditAppointmentPageState createState() => _AddEditAppointmentPageState();
+  _AddEditTaskPageState createState() => _AddEditTaskPageState();
 }
 
-class _AddEditAppointmentPageState
-    extends BaseState<AddEditAppointmentPage, AddEditAppointmentController> {
+class _AddEditTaskPageState extends BaseState<AddEditTaskPage, AddEditTaskController> {
   @override
   PreferredSizeWidget? appBar(BuildContext ctx) => AppBar(
         title: Observer(builder: (_) {
@@ -44,7 +43,7 @@ class _AddEditAppointmentPageState
 
   @override
   void initState() {
-    controller.initialize(widget.appointment);
+    controller.initialize(widget.task);
     super.initState();
   }
 
@@ -64,14 +63,6 @@ class _AddEditAppointmentPageState
           return TextButton(
             onPressed: () => controller.selectDate(context),
             child: Text('Data agendada: ${controller.date.value.format} (toque para alterar)'),
-          );
-        }),
-        UIHelper.verticalSpaceS12,
-        Observer(builder: (_) {
-          return TextButton(
-            onPressed: controller.selectPatient,
-            child: Text(
-                'Paciente: ${controller.therapistPatientRelationship.value?.patient.fullName} (toque para alterar)'),
           );
         }),
         UIHelper.verticalSpaceS12,
@@ -97,33 +88,9 @@ class _AddEditAppointmentPageState
         UIHelper.verticalSpaceS24,
         Observer(builder: (_) {
           return AppTextFieldWidget(
-            title: 'Relatório do terapeuta (privado)',
-            controller: controller.therapistReport.controller,
-            errorText: controller.therapistReport.error,
-            textInputAction: TextInputAction.newline,
-            keyboardType: TextInputType.multiline,
-            maxLines: 5,
-            textCapitalization: TextCapitalization.sentences,
-          );
-        }),
-        UIHelper.verticalSpaceS12,
-        Observer(builder: (_) {
-          return AppTextFieldWidget(
-            title: 'Relatório para o paciente',
-            controller: controller.patientReport.controller,
-            errorText: controller.patientReport.error,
-            textInputAction: TextInputAction.newline,
-            keyboardType: TextInputType.multiline,
-            maxLines: 5,
-            textCapitalization: TextCapitalization.sentences,
-          );
-        }),
-        UIHelper.verticalSpaceS12,
-        Observer(builder: (_) {
-          return AppTextFieldWidget(
-            title: 'Relatório para o responsável',
-            controller: controller.responsibleReport.controller,
-            errorText: controller.responsibleReport.error,
+            title: 'Tarefa',
+            controller: controller.taskTitle.controller,
+            errorText: controller.taskTitle.error,
             textInputAction: TextInputAction.newline,
             keyboardType: TextInputType.multiline,
             maxLines: 5,
@@ -134,12 +101,6 @@ class _AddEditAppointmentPageState
         AppButton(
           onPressed: createEditUser,
           title: controller.getCreateEditValue,
-          style: AppButtonStyle.filled,
-        ),
-        UIHelper.verticalSpaceS24,
-        AppButton(
-          onPressed: () => TasksPage.navigateToNewPage(),
-          title: 'Gerenciar tarefas',
           style: AppButtonStyle.filled,
         ),
         UIHelper.verticalSpaceS32,
