@@ -37,3 +37,4 @@ Pass: vj9xd76r
 
 novocampouser: user_mapper.dart / user_entity.dart / add_edit_user_controller.dart / add_edit_user_page.dart
 novocampotask: task.mapper.dart / task.entity.dart / add_edit_task_controller.dart / add_edit_task_page.dart
+novocampoaddres: address_mapper.dart / address_entity.dart / address_controller.dart / address_page.dart
