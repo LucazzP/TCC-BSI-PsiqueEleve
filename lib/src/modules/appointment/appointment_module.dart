@@ -1,6 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:psique_eleve/src/modules/appointment/data/repository/appointment_impl.repository.dart';
 import 'package:psique_eleve/src/modules/appointment/domain/repository/appointment.repository.dart';
+import 'package:psique_eleve/src/modules/appointment/domain/usecases/delete_appointment.usecase.dart';
 import 'package:psique_eleve/src/modules/appointment/presentation/add_edit_appointment/add_edit_appointment_page.dart';
 import 'package:psique_eleve/src/modules/appointment/presentation/appointments_controller.dart';
 import 'package:psique_eleve/src/modules/appointment/presentation/appointments_page.dart';
@@ -18,8 +19,9 @@ class AppointmentModule extends Module {
   @override
   final List<Bind> binds = [
     Bind.lazySingleton((i) => AppointmentsController(i(), i())),
-    Bind.lazySingleton((i) => AddEditAppointmentController(i(), i(), i())),
+    Bind.lazySingleton((i) => AddEditAppointmentController(i(), i(), i(), i())),
     Bind.factory((i) => UpdateAppointmentUseCase(i())),
+    Bind.factory((i) => DeleteAppointmentUseCase(i())),
     Bind.factory((i) => CreateAppointmentUseCase(i())),
     Bind.factory((i) => GetAppointmentUseCase(i())),
     Bind.factory((i) => GetAppointmentsUseCase(i())),

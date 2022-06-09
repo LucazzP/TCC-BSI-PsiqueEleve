@@ -150,9 +150,9 @@ class UsersDataSourceImpl implements UsersDataSource {
   Future<Map> updateUser(
     Map user,
     List<Map> roles,
-    UserType activeUserRole, {
-    String therapistIdLinked = '',
-    List<String> responsiblesIdLinked = const [],
+    UserType activeUserRole,
+    Map therapistPatientRelationship, {
+    List<Map> responsiblesRelationship = const [],
   }) async {
     final id = user['id'] as String?;
     if (id == null || id.isEmpty) {
@@ -163,13 +163,13 @@ class UsersDataSourceImpl implements UsersDataSource {
 
     await Future.wait([
       _createUpdateUserRoles(rolesId, id),
-      // if (therapistPatientRelationship.isNotEmpty)
-      //   _createUpdateTherapistPatientRelation(
-      //     id: therapistPatientRelationship['id'],
-      //     therapistUserId: therapistPatientRelationship['therapist_user_id'],
-      //     patientUserId: therapistPatientRelationship['patient_user_id'],
-      //     active: therapistPatientRelationship['active'],
-      //   ),
+      if (therapistPatientRelationship.isNotEmpty)
+        _createUpdateTherapistPatientRelation(
+          id: therapistPatientRelationship['id'],
+          therapistUserId: therapistPatientRelationship['therapist_user_id'],
+          patientUserId: therapistPatientRelationship['patient_user_id'],
+          active: therapistPatientRelationship['active'],
+        ),
       _client.from('user').update(user).eq('id', id).execute().then((value) {
         res = value;
         return value;

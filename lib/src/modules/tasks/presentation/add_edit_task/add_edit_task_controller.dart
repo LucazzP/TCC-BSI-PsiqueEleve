@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:psique_eleve/src/extensions/date_time.ext.dart';
 import 'package:psique_eleve/src/modules/appointment/domain/constants/status.enum.dart';
 import 'package:psique_eleve/src/modules/tasks/domain/entity/task.entity.dart';
 import 'package:psique_eleve/src/modules/tasks/domain/usecases/create_task.usecase.dart';
@@ -28,7 +29,7 @@ abstract class _AddEditTaskControllerBase extends BaseStore with Store {
 
   final taskTitle = FormStore(Validators.minLenght(3));
   final status = ValueStore<Status>(Status.todo);
-  final date = ValueStore<DateTime>(DateTime.now());
+  final date = ValueStore<DateTime>(DateTime.now().next30Minutes());
 
   final newTask = ValueState<TaskEntity?>(null);
 
@@ -49,12 +50,13 @@ abstract class _AddEditTaskControllerBase extends BaseStore with Store {
   @computed
   String get title => '$getCreateEditValue tarefa';
 
-  Future<void> initialize(TaskEntity? task, TherapistPatientRelationshipEntity therapistPatientRelationship) async {
+  Future<void> initialize(
+      TaskEntity? task, TherapistPatientRelationshipEntity therapistPatientRelationship) async {
     taskId = task?.id ?? '';
     this.therapistPatientRelationship = therapistPatientRelationship;
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      date.setValue(task?.date ?? DateTime.now());
+      date.setValue(task?.date ?? DateTime.now().next30Minutes());
       status.setValue(task?.status ?? Status.todo);
       taskTitle.setValue(task?.task ?? "");
     });

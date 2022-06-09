@@ -70,24 +70,22 @@ class _TasksPageState extends BaseState<TasksPage, TasksController> {
         itemCount: tasks.length,
         itemBuilder: (context, index) {
           final task = tasks[index];
-          return Observer(builder: (_) {
-            return ListTile(
-              title: Text(task.task),
-              trailing: Text(task.date.format),
-              subtitle: Text(task.status.friendlyName),
-              leading: Checkbox(
-                onChanged: (value) => controller.onTapCheckbox(task),
-                value: controller.isTaskChecked(task),
-                visualDensity: VisualDensity.compact,
-              ),
-              onTap: () => controller.onTapAddEditTask(task),
-              textColor: task.status.color,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.s24,
-                vertical: AppSpacing.s4,
-              ),
-            );
-          });
+          return ListTile(
+            title: Text(task.task),
+            trailing: Text(task.date.format),
+            subtitle: Text(task.status.friendlyName),
+            leading: Checkbox(
+              onChanged: (value) => controller.onTapCheckbox(task),
+              value: controller.isTaskChecked(task),
+              visualDensity: VisualDensity.compact,
+            ),
+            onTap: () => controller.onTapAddEditTask(task),
+            textColor: task.status.color,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.s24,
+              vertical: AppSpacing.s4,
+            ),
+          );
         },
       );
     });

@@ -3,6 +3,7 @@ import 'package:psique_eleve/src/core/failures.dart';
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/role_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
+import 'package:psique_eleve/src/modules/users/domain/entities/therapist_patient_relationship.entity.dart';
 
 abstract class UsersRepository {
   Future<Either<Failure, List<UserEntity>>> getUsers({
@@ -15,9 +16,9 @@ abstract class UsersRepository {
   Future<Either<Failure, UserEntity>> updateUser(
     UserEntity user,
     List<RoleEntity> roles,
-    UserType activeUserRole, {
-    String therapistIdLinked = '',
-    List<String> responsiblesIdLinked = const [],
+    UserType activeUserRole,
+    TherapistPatientRelationshipEntity therapistPatientRelationship, {
+    List<TherapistPatientRelationshipEntity> responsiblesRelationship = const [],
   });
   Future<Either<Failure, UserEntity>> createUser(
     UserEntity user,

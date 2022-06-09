@@ -4,6 +4,7 @@ import 'package:psique_eleve/src/modules/appointment/domain/entity/appointment.e
 
 abstract class AppointmentRepository {
   Future<Either<Failure, AppointmentEntity>> createAppointment(AppointmentEntity appointment);
+  Future<Either<Failure, Unit>> deleteAppointment(AppointmentEntity appointment);
   Future<Either<Failure, AppointmentEntity>> getAppointment(String id);
   Future<Either<Failure, List<AppointmentEntity>>> getAppointments();
   Future<Either<Failure, AppointmentEntity>> updateAppointment(AppointmentEntity appointment);

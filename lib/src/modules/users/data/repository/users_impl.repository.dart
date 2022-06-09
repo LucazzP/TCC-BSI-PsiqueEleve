@@ -8,6 +8,8 @@ import 'package:psique_eleve/src/modules/auth/data/mappers/user_mapper.dart';
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/role_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
+import 'package:psique_eleve/src/modules/users/data/mappers/therapist_patient_relationship.mapper.dart';
+import 'package:psique_eleve/src/modules/users/domain/entities/therapist_patient_relationship.entity.dart';
 
 import '../../domain/repository/users.repository.dart';
 import '../datasource/users.datasource.dart';
@@ -60,17 +62,18 @@ class UsersRepositoryImpl implements UsersRepository {
   Future<Either<Failure, UserEntity>> updateUser(
     UserEntity user,
     List<RoleEntity> roles,
-    UserType activeUserRole, {
-    String therapistIdLinked = '',
-    List<String> responsiblesIdLinked = const [],
+    UserType activeUserRole,
+    TherapistPatientRelationshipEntity therapistPatientRelationship, {
+    List<TherapistPatientRelationshipEntity> responsiblesRelationship = const [],
   }) {
     return callEither<UserEntity, Map>(
       () => _dataSource.updateUser(
         user.toMap(onlyUserFields: true)..remove('created_at'),
         roles.map((e) => e.toMap()).toList(),
         activeUserRole,
-        therapistIdLinked: therapistIdLinked,
-        responsiblesIdLinked: responsiblesIdLinked,
+        therapistPatientRelationship.toMap(onlyUserFields: true),
+        responsiblesRelationship:
+            responsiblesRelationship.map((e) => e.toMap(onlyUserFields: true)).toList(),
       ),
       processResponse: (res) async => res.toEntityEither(UserMapper.fromMap),
     );
