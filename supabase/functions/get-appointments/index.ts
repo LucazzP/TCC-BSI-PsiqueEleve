@@ -29,7 +29,7 @@ serve(async (req) => {
       .select(
         `
         *,
-        therapist_patient(*)
+        therapist_patient!inner(*)
       `
       )
       .or(`patient_user_id.eq.${userId},therapist_user_id.eq.${userId}`, {

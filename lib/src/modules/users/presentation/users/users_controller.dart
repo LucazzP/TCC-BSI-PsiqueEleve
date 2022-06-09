@@ -27,12 +27,16 @@ abstract class _UsersControllerBase extends BaseStore with Store {
   final title = ValueStore('');
   final emptyMessage = ValueStore('');
   final selectedUsers = ValueState<Set<UserEntity>>({});
+  late final bool isInSelectMode;
+  late final bool isMultiSelect;
 
   @override
   Iterable<ValueState> get getStates => [users, selectedUsers];
 
-  void initialize(UserType userType) {
+  void initialize(UserType userType, bool isInSelectMode, bool isMultiSelect) {
     this.userType = userType;
+    this.isInSelectMode = isInSelectMode;
+    this.isMultiSelect = isMultiSelect;
     _setStrings();
   }
 
@@ -43,7 +47,12 @@ abstract class _UsersControllerBase extends BaseStore with Store {
         return users.execute(() => _getTherapistsUseCase.call(page));
       case UserType.patient:
       case UserType.responsible:
-        return users.execute(() => _getPatientsUseCase.call(page));
+        return users.execute(
+          () => _getPatientsUseCase.call(GetPatientsParams(
+            page: page,
+            callOnlyPatients: isInSelectMode,
+          )),
+        );
     }
   }
 
@@ -70,7 +79,7 @@ abstract class _UsersControllerBase extends BaseStore with Store {
     }
   }
 
-  void onTapTile(UserEntity user, bool isInSelectMode, bool isMultiSelect) {
+  void onTapTile(UserEntity user) {
     if (isInSelectMode) {
       _selectUser(user);
       if (!isMultiSelect) {
