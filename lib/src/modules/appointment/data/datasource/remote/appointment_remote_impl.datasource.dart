@@ -90,6 +90,7 @@ class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
         return kAlreadyUsedHourAppointmentFailure;
       }
     }
+    return null;
   }
 
   @override

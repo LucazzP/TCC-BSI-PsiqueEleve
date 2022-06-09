@@ -6,7 +6,9 @@ extension TherapistPatientRelationshipMapper on TherapistPatientRelationshipEnti
     return {
       if (id.isNotEmpty) 'id': id,
       'patient_user': patient.toMap(onlyUserFields: onlyUserFields),
+      'patient_user_id': patient.id,
       'therapist_user': therapist.toMap(onlyUserFields: onlyUserFields),
+      'therapist_user_id': therapist.id,
       'active': active,
       'xp': xp,
       // 'created_at': createdAt.toIso8601String(),

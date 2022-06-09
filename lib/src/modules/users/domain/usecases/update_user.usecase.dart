@@ -7,21 +7,22 @@ import 'package:psique_eleve/src/modules/auth/domain/entities/address_entity.dar
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/repository/auth.repository.dart';
 import 'package:psique_eleve/src/modules/auth/domain/usecases/get_active_user_role.usecase.dart';
+import 'package:psique_eleve/src/modules/users/domain/entities/therapist_patient_relationship.entity.dart';
 import 'package:psique_eleve/src/modules/users/domain/repository/users.repository.dart';
 
 class UpdateUserParams {
   final UserEntity user;
   final List<UserType> userTypes;
   final bool isProfilePage;
-  final String therapistIdLinked;
-  final List<String> responsiblesIdLinked;
+  final TherapistPatientRelationshipEntity therapistPatientRelationship;
+  final List<TherapistPatientRelationshipEntity> responsiblesRelationship;
 
   const UpdateUserParams({
     required this.user,
     required this.userTypes,
     required this.isProfilePage,
-    this.therapistIdLinked = '',
-    this.responsiblesIdLinked = const [],
+    required this.therapistPatientRelationship,
+    this.responsiblesRelationship = const [],
   });
 }
 
@@ -46,9 +47,12 @@ class UpdateUserUseCase implements BaseUseCase<UserEntity, UpdateUserParams> {
 
     return _roles.fold((l) => Left(l), (roles) async {
       final _userResult = await _repo.updateUser(
-          _user, roles, (await _getActiveUserRoleUseCase()).type,
-          responsiblesIdLinked: params.responsiblesIdLinked,
-          therapistIdLinked: params.therapistIdLinked);
+        _user,
+        roles,
+        (await _getActiveUserRoleUseCase()).type,
+        params.therapistPatientRelationship,
+        responsiblesRelationship: params.responsiblesRelationship,
+      );
       Either<Failure, AddressEntity> _addressResult = const Right(AddressEntity());
 
       return _userResult.fold((l) => Left(l), (user) async {

@@ -11,9 +11,9 @@ abstract class UsersDataSource {
   Future<Map> updateUser(
     Map user,
     List<Map> roles,
-    UserType activeUserRole, {
-    String therapistIdLinked = '',
-    List<String> responsiblesIdLinked = const [],
+    UserType activeUserRole,
+    Map therapistPatientRelationship, {
+    List<Map> responsiblesRelationship = const [],
   });
   Future<Map> createUser(Map user, List<Map> roles, UserType activeUserRole);
   Future<List<Map>> getRoles(List<String> names);

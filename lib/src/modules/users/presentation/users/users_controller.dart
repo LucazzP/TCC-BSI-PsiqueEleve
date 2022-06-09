@@ -50,7 +50,7 @@ abstract class _UsersControllerBase extends BaseStore with Store {
         return users.execute(
           () => _getPatientsUseCase.call(GetPatientsParams(
             page: page,
-            callOnlyPatients: isInSelectMode,
+            callOnlyPatients: true,
           )),
         );
     }

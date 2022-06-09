@@ -1,13 +1,16 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:psique_eleve/src/core/failures.dart';
 import 'package:psique_eleve/src/extensions/string.ext.dart';
 import 'package:psique_eleve/src/modules/address/presentation/address_page.dart';
 import 'package:psique_eleve/src/modules/auth/domain/constants/user_type.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/address_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/entities/user_entity.dart';
 import 'package:psique_eleve/src/modules/auth/domain/usecases/get_user_logged_usecase.dart';
+import 'package:psique_eleve/src/modules/users/domain/entities/therapist_patient_relationship.entity.dart';
 import 'package:psique_eleve/src/modules/users/domain/usecases/create_user.usecase.dart';
 import 'package:psique_eleve/src/modules/users/domain/usecases/get_user.usecase.dart';
 import 'package:psique_eleve/src/modules/users/domain/usecases/update_user.usecase.dart';
@@ -46,7 +49,7 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
   final imageUrl = ValueStore<String>('');
   final address = ValueStore<AddressEntity?>(null);
 
-  final linkedWith = ValueStore<UserEntity?>(null);
+  final linkedWith = ValueStore<TherapistPatientRelationshipEntity?>(null);
 
   final newUser = ValueState<UserEntity?>(null);
   final currentLoggedUser = ValueState<UserEntity?>(null);
@@ -98,45 +101,35 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
   String get getLinkedPatientText {
     if (linkedWith.value == null) return '';
     var text = 'Vinculado ';
-    if (linkedWith.value?.id == currentLoggedUser.value?.id) {
+    if (linkedWith.value?.therapist.id == currentLoggedUser.value?.id) {
       text += 'com você';
     } else {
-      text += 'com ${linkedWith.value?.fullName}';
+      text += 'com ${linkedWith.value?.therapist.fullName}';
     }
     return text;
   }
 
   Future<bool> onTapCreateEdit(BuildContext context) async {
     if (validateForms() == false) return false;
-    final user = UserEntity(
-      id: userId,
-      fullName: fullName.value,
-      email: email.value,
-      cpf: cpf.value.removeAllMasks,
-      cellphone: cellphone.value.removeAllMasks,
-      imageUrl: imageUrl.value,
-      address: address.value,
-      roles: const [],
-    );
 
-    // final linkedWithId = linkedWith.value?.id;
-    // final therapistPatientRelationship = linkedWithId == null || userId.isEmpty
-    //     ? null
-    //     : TherapistPatientRelationshipEntity(
-    //         patientId: userId,
-    //         therapistId: linkedWithId,
-    //         createdAt: DateTime.now(),
-    //       );
+    final therapistPatientRelationship = linkedWith.value;
 
     await newUser.execute(
-      () => pageIsForEditing
-          ? _updateUserUseCase(UpdateUserParams(
+      () async {
+        if (pageIsForEditing) {
+          if (therapistPatientRelationship == null) {
+            return const Left(kAppFailure);
+          } else {
+            return _updateUserUseCase(UpdateUserParams(
               user: user,
               userTypes: [userType],
               isProfilePage: isProfilePage,
-              // therapistPatientRelationship: therapistPatientRelationship,
-            ))
-          : _createUserUseCase(CreateUserParams(user: user, userTypes: [userType])),
+              therapistPatientRelationship: therapistPatientRelationship,
+            ));
+          }
+        }
+        return _createUserUseCase(CreateUserParams(user: user, userTypes: [userType]));
+      },
     );
 
     if (hasFailure) return false;
@@ -155,8 +148,12 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
     if (newAddress != null) address.setValue(newAddress);
   }
 
-  Future<void> onTapLinkPatient() async {
-    linkedWith.setValue(currentLoggedUser.value);
+  void onTapLinkPatient() {
+    linkedWith.setValue(TherapistPatientRelationshipEntity(
+      therapist: currentLoggedUser.value as UserEntity,
+      patient: user,
+      createdAt: DateTime.now(),
+    ));
   }
 
   void _setFieldValues() {
@@ -168,7 +165,7 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
     cellphone.setValue(user.cellphone.withPhoneMask);
     imageUrl.setValue(user.imageUrl);
     address.setValue(user.address);
-    // linkedWith.setValue(user.therapistRelationship);
+    linkedWith.setValue(user.therapistRelationship);
   }
 
   Future<void> _getCurrentLoggedUser() {
@@ -181,4 +178,15 @@ abstract class _AddEditUserControllerBase extends BaseStore with Store {
       _setFieldValues();
     }
   }
+
+  UserEntity get user => UserEntity(
+        id: userId,
+        fullName: fullName.value,
+        email: email.value,
+        cpf: cpf.value.removeAllMasks,
+        cellphone: cellphone.value.removeAllMasks,
+        imageUrl: imageUrl.value,
+        address: address.value,
+        roles: const [],
+      );
 }
