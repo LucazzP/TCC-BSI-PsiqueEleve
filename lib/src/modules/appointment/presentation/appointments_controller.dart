@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
 import 'package:psique_eleve/src/modules/appointment/domain/entity/appointment.entity.dart';
 import 'package:psique_eleve/src/modules/appointment/domain/usecases/get_appointments.usecase.dart';

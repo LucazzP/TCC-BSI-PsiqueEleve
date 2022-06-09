@@ -12,47 +12,42 @@ mixin _$ValueState<ValueType> on _ValueStateBase<ValueType>, Store {
   Computed<ValueType>? _$valueComputed;
 
   @override
-  ValueType get value => (_$valueComputed ??=
-          Computed<ValueType>(() => super.value, name: '_ValueStateBase.value'))
-      .value;
+  ValueType get value =>
+      (_$valueComputed ??= Computed<ValueType>(() => super.value, name: '_ValueStateBase.value'))
+          .value;
   Computed<Failure?>? _$failureComputed;
 
   @override
-  Failure? get failure =>
-      (_$failureComputed ??= Computed<Failure?>(() => super.failure,
-              name: '_ValueStateBase.failure'))
-          .value;
+  Failure? get failure => (_$failureComputed ??=
+          Computed<Failure?>(() => super.failure, name: '_ValueStateBase.failure'))
+      .value;
   Computed<bool>? _$isLoadingComputed;
 
   @override
-  bool get isLoading =>
-      (_$isLoadingComputed ??= Computed<bool>(() => super.isLoading,
-              name: '_ValueStateBase.isLoading'))
-          .value;
+  bool get isLoading => (_$isLoadingComputed ??=
+          Computed<bool>(() => super.isLoading, name: '_ValueStateBase.isLoading'))
+      .value;
   Computed<bool>? _$hasFailureComputed;
 
   @override
-  bool get hasFailure =>
-      (_$hasFailureComputed ??= Computed<bool>(() => super.hasFailure,
-              name: '_ValueStateBase.hasFailure'))
-          .value;
+  bool get hasFailure => (_$hasFailureComputed ??=
+          Computed<bool>(() => super.hasFailure, name: '_ValueStateBase.hasFailure'))
+      .value;
   Computed<bool>? _$isSuccessWithValueComputed;
 
   @override
-  bool get isSuccessWithValue => (_$isSuccessWithValueComputed ??=
-          Computed<bool>(() => super.isSuccessWithValue,
+  bool get isSuccessWithValue =>
+      (_$isSuccessWithValueComputed ??= Computed<bool>(() => super.isSuccessWithValue,
               name: '_ValueStateBase.isSuccessWithValue'))
-      .value;
+          .value;
   Computed<bool>? _$isSuccessComputed;
 
   @override
-  bool get isSuccess =>
-      (_$isSuccessComputed ??= Computed<bool>(() => super.isSuccess,
-              name: '_ValueStateBase.isSuccess'))
-          .value;
+  bool get isSuccess => (_$isSuccessComputed ??=
+          Computed<bool>(() => super.isSuccess, name: '_ValueStateBase.isSuccess'))
+      .value;
 
-  late final _$_valueAtom =
-      Atom(name: '_ValueStateBase._value', context: context);
+  late final _$_valueAtom = Atom(name: '_ValueStateBase._value', context: context);
 
   @override
   ValueType get _value {
@@ -67,8 +62,7 @@ mixin _$ValueState<ValueType> on _ValueStateBase<ValueType>, Store {
     });
   }
 
-  late final _$_failureAtom =
-      Atom(name: '_ValueStateBase._failure', context: context);
+  late final _$_failureAtom = Atom(name: '_ValueStateBase._failure', context: context);
 
   @override
   Failure? get _failure {
@@ -83,8 +77,7 @@ mixin _$ValueState<ValueType> on _ValueStateBase<ValueType>, Store {
     });
   }
 
-  late final _$_isLoadingAtom =
-      Atom(name: '_ValueStateBase._isLoading', context: context);
+  late final _$_isLoadingAtom = Atom(name: '_ValueStateBase._isLoading', context: context);
 
   @override
   bool get _isLoading {
@@ -104,8 +97,8 @@ mixin _$ValueState<ValueType> on _ValueStateBase<ValueType>, Store {
 
   @override
   void setValue(ValueType value) {
-    final _$actionInfo = _$_ValueStateBaseActionController.startAction(
-        name: '_ValueStateBase.setValue');
+    final _$actionInfo =
+        _$_ValueStateBaseActionController.startAction(name: '_ValueStateBase.setValue');
     try {
       return super.setValue(value);
     } finally {
@@ -115,8 +108,8 @@ mixin _$ValueState<ValueType> on _ValueStateBase<ValueType>, Store {
 
   @override
   void setFailure(Failure? error) {
-    final _$actionInfo = _$_ValueStateBaseActionController.startAction(
-        name: '_ValueStateBase.setFailure');
+    final _$actionInfo =
+        _$_ValueStateBaseActionController.startAction(name: '_ValueStateBase.setFailure');
     try {
       return super.setFailure(error);
     } finally {
@@ -126,8 +119,8 @@ mixin _$ValueState<ValueType> on _ValueStateBase<ValueType>, Store {
 
   @override
   void setLoading(bool isLoading) {
-    final _$actionInfo = _$_ValueStateBaseActionController.startAction(
-        name: '_ValueStateBase.setLoading');
+    final _$actionInfo =
+        _$_ValueStateBaseActionController.startAction(name: '_ValueStateBase.setLoading');
     try {
       return super.setLoading(isLoading);
     } finally {

@@ -46,12 +46,9 @@ class UpdateUserUseCase implements BaseUseCase<UserEntity, UpdateUserParams> {
 
     return _roles.fold((l) => Left(l), (roles) async {
       final _userResult = await _repo.updateUser(
-        _user,
-        roles,
-        (await _getActiveUserRoleUseCase()).type,
-        responsiblesIdLinked: params.responsiblesIdLinked,
-        therapistIdLinked: params.therapistIdLinked
-      );
+          _user, roles, (await _getActiveUserRoleUseCase()).type,
+          responsiblesIdLinked: params.responsiblesIdLinked,
+          therapistIdLinked: params.therapistIdLinked);
       Either<Failure, AddressEntity> _addressResult = const Right(AddressEntity());
 
       return _userResult.fold((l) => Left(l), (user) async {

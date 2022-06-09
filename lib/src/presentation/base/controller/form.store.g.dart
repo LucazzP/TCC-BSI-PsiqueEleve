@@ -44,8 +44,8 @@ mixin _$FormStore on _FormStoreBase, Store {
 
   @override
   void setValue(String value) {
-    final _$actionInfo = _$_FormStoreBaseActionController.startAction(
-        name: '_FormStoreBase.setValue');
+    final _$actionInfo =
+        _$_FormStoreBaseActionController.startAction(name: '_FormStoreBase.setValue');
     try {
       return super.setValue(value);
     } finally {
@@ -55,8 +55,8 @@ mixin _$FormStore on _FormStoreBase, Store {
 
   @override
   void setError(String? error) {
-    final _$actionInfo = _$_FormStoreBaseActionController.startAction(
-        name: '_FormStoreBase.setError');
+    final _$actionInfo =
+        _$_FormStoreBaseActionController.startAction(name: '_FormStoreBase.setError');
     try {
       return super.setError(error);
     } finally {

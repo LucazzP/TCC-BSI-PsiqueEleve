@@ -7,8 +7,7 @@ class _SampleModifiedBasePage extends StatefulWidget {
   _SampleModifiedBasePageState createState() => _SampleModifiedBasePageState();
 }
 
-class _SampleModifiedBasePageState
-    extends BaseState<_SampleModifiedBasePage, ControllerTest> {
+class _SampleModifiedBasePageState extends BaseState<_SampleModifiedBasePage, ControllerTest> {
   int callsAutoRun = 0;
   int callsReaction = 0;
   int callsWhenRun = 0;

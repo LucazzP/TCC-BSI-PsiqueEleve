@@ -21,6 +21,6 @@ class _SampleBasePageState extends BaseState<_SampleBasePage, ControllerTest> {
 class SampleBaseModule extends Module {
   @override
   List<Bind<Object>> get binds => [
-    Bind.factory((i) => ControllerTest()),
-  ];
+        Bind.factory((i) => ControllerTest()),
+      ];
 }

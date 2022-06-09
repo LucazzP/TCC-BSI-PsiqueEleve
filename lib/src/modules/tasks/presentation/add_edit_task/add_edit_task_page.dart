@@ -33,8 +33,7 @@ class AddEditTaskPage extends StatefulWidget {
   _AddEditTaskPageState createState() => _AddEditTaskPageState();
 }
 
-class _AddEditTaskPageState
-    extends BaseState<AddEditTaskPage, AddEditTaskController> {
+class _AddEditTaskPageState extends BaseState<AddEditTaskPage, AddEditTaskController> {
   @override
   PreferredSizeWidget? appBar(BuildContext ctx) => AppBar(
         title: Observer(builder: (_) {
@@ -63,8 +62,7 @@ class _AddEditTaskPageState
         Observer(builder: (_) {
           return TextButton(
             onPressed: () => controller.selectDate(context),
-            child: Text(
-                'Data agendada: ${controller.date.value.format} (toque para alterar)'),
+            child: Text('Data agendada: ${controller.date.value.format} (toque para alterar)'),
           );
         }),
         UIHelper.verticalSpaceS12,
@@ -78,11 +76,9 @@ class _AddEditTaskPageState
             ),
             child: DropdownButton(
               items: Status.values
-                  .map((e) =>
-                      DropdownMenuItem(value: e, child: Text(e.friendlyName)))
+                  .map((e) => DropdownMenuItem(value: e, child: Text(e.friendlyName)))
                   .toList(),
-              onChanged: (Status? status) =>
-                  controller.status.setValue(status ?? Status.todo),
+              onChanged: (Status? status) => controller.status.setValue(status ?? Status.todo),
               value: controller.status.value,
               isExpanded: true,
               underline: const SizedBox(),
