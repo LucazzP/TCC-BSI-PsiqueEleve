@@ -43,6 +43,16 @@ Pass: 9dbvktr6
 
 User: paciente@sem.vinculo -> Paciente
 Pass: 54lrce8x
+    
+User: novo@paciente.com
+Pass: c7czce0v
+
+User: terapeuta@s2.com
+Pass: vfla83fp
+
+User: paciente@s2p.com
+Pass: m9emnh4e
+
 
 
 novocampouser: user_mapper.dart / user_entity.dart / add_edit_user_controller.dart / add_edit_user_page.dart

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:psique_eleve/src/core/constants.dart';
@@ -105,6 +106,18 @@ class _AddEditTaskPageState extends BaseState<AddEditTaskPage, AddEditTaskContro
             keyboardType: TextInputType.multiline,
             maxLines: 5,
             textCapitalization: TextCapitalization.sentences,
+          );
+        }),
+        UIHelper.verticalSpaceS24,
+        Observer(builder: (_) {
+          return AppTextFieldWidget(
+            title: 'XP a receber',
+            controller: controller.xp.controller,
+            errorText: controller.xp.error,
+            textInputAction: TextInputAction.done,
+            keyboardType: TextInputType.number,
+            onSubmitted: (_) => createEditUser(),
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           );
         }),
         UIHelper.verticalSpaceS24,

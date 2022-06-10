@@ -28,6 +28,7 @@ abstract class _AddEditTaskControllerBase extends BaseStore with Store {
   late TherapistPatientRelationshipEntity therapistPatientRelationship;
 
   final taskTitle = FormStore(Validators.minLenght(3));
+  final xp = FormStore(Validators.minLenght(1));
   final status = ValueStore<Status>(Status.todo);
   final date = ValueStore<DateTime>(DateTime.now().next30Minutes());
 
@@ -37,7 +38,7 @@ abstract class _AddEditTaskControllerBase extends BaseStore with Store {
   Iterable<ValueState> get getStates => [newTask];
 
   @override
-  List<FormStore> get getForms => [taskTitle];
+  List<FormStore> get getForms => [taskTitle, xp];
 
   late final String taskId;
 
@@ -59,6 +60,7 @@ abstract class _AddEditTaskControllerBase extends BaseStore with Store {
       date.setValue(task?.date ?? DateTime.now().next30Minutes());
       status.setValue(task?.status ?? Status.todo);
       taskTitle.setValue(task?.task ?? "");
+      xp.setValue(task?.xp.toString() ?? "5");
     });
   }
 
@@ -82,7 +84,7 @@ abstract class _AddEditTaskControllerBase extends BaseStore with Store {
       id: taskId,
       task: taskTitle.value,
       date: date.value,
-      xp: 5,
+      xp: int.parse(xp.value),
       status: status.value,
       therapistPatientRelationship: therapistPatientRelationship,
       createdAt: DateTime.now(),
